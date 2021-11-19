@@ -27,8 +27,6 @@ const twilio = {
 
 //const client = require('twilio')(accountSid, authToken);
 
-
-
 //creates new user
 const createUser = (name, email, password) => {
   password = bcrypt.hashSync(password, 10);
@@ -42,32 +40,18 @@ const createUser = (name, email, password) => {
 const getTimestamp = (minutes) => {
   let months = ['Jan', 'Feb', 'Mar', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     now = new Date(Date.now() + minutes * 60 * 1000),
-    formatted = now.getFullYear() + ' ' + months[now.getMonth() - 1] + ' ' + now.getDate() + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
+    formatted = now.getFullYear() + ' ' + months[now.getMonth() - 1] + ' ' + now.getDate() + ' ' +
+      now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') +
+      ':' + now.getSeconds().toString().padStart(2, '0');
   return formatted;
 };
 
 
-
-//find user in a database by email
-const getOrderById = (id, ordersdB) => {
-
-  if (ordersdB[id]) {
-
-    return ordersdB[id];
-  }
-
-  return false;
-};
-
-
-
-
-
 module.exports = (router, db) => {
 
-  router.get("/orders/test", (req, res) => {
+  router.get("/sites", (req, res) => {
 
-    db.query(`SELECT * FROM orders ;`)
+    db.query(`SELECT * FROM categories ;`)
       .then(data => {
         const orders = data.rows;
 
@@ -78,7 +62,7 @@ module.exports = (router, db) => {
         templateVars = varInit(true, 200, user, orders);
         // return orders
         // res.send(orders)
-        res.render('xorders', templateVars);
+        res.json(templateVars);
 
       })
       .catch(err => {
@@ -90,33 +74,7 @@ module.exports = (router, db) => {
   });
 
 
-  router.get("/orders/fetch", (req, res) => {
-
-    db.query(`SELECT * FROM orders ;`)
-      .then(data => {
-        const orders = data.rows;
-
-
-        const userId = req.session.user_id;
-        user = admins[userId];
-
-        templateVars = varInit(true, 200, user, orders);
-        // return orders
-        res.send(orders);
-        //  res.render('orders', templateVars);
-
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-
-
-
-  router.post("/orders/complete", (req, res) => {
+  router.post("/sites/complete", (req, res) => {
 
 
     order = req.body;
@@ -160,7 +118,7 @@ module.exports = (router, db) => {
       });
   });
 
-  router.post("/orders/update", (req, res) => {
+  router.post("/sites/update", (req, res) => {
 
 
     order = req.body;
@@ -202,7 +160,7 @@ module.exports = (router, db) => {
       });
   });
 
-  router.post("/orders/new", (req, res) => {
+  router.post("/sites/new", (req, res) => {
 
 
     order = req.body;
@@ -326,7 +284,7 @@ module.exports = (router, db) => {
       });
   });
 
-  router.get("/orders/active", (req, res) => {
+  router.get("/sites/active", (req, res) => {
 
     db.query(`SELECT * FROM orders where completed = false
     Order by order_time desc; `)
@@ -339,7 +297,7 @@ module.exports = (router, db) => {
         templateVars = varInit(true, 200, user, { orders, active: true });
         // return orders
         //res.send(orders);
-        res.render('orders', templateVars);
+        res.json(templateVars);
 
       })
       .catch(err => {
@@ -350,7 +308,7 @@ module.exports = (router, db) => {
   });
 
 
-  router.get("/orders/history", (req, res) => {
+  router.get("/sites/history", (req, res) => {
 
     db.query(`SELECT * FROM orders where completed = true`)
       .then(data => {
@@ -362,7 +320,7 @@ module.exports = (router, db) => {
         templateVars = varInit(true, 200, user, { orders, active: false });
         // return orders
         //res.send(orders)
-        res.render('orders', templateVars);
+        res.json(templateVars);
 
       })
       .catch(err => {
@@ -378,13 +336,13 @@ module.exports = (router, db) => {
     const userId = req.session.user_id;
     console.log('viewsjs router:', userId);
     if (userId && admins[userId]) {
-      res.redirect('/orders/active');
+      res.redirect('/sites/active');
       return;
     }
     //initialize template variable,
     //if we are here we are not logged in
     const templateVars = varInit(false, null, null, null);
-    res.send({ templateVars, twilio });
+    res.render('login', templateVars);
   });
 
 
@@ -397,14 +355,13 @@ module.exports = (router, db) => {
     const user = getUserByEmail(email, admins);
     console.log('user:', user);
 
-    console.log('000000000000000000000000000000000000000');
     //authenticate if matching user found
     const authStatus = authenticateUser(email, password, user);
 
     //authentication success - redirect to orders
     if (user && authStatus.num === 200) {
       req.session.user_id = user.id;
-      console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', user.id);
+      console.log(`------------[user.id]--------------`, user.id);
       const templateVars = varInit(true, authStatus.num, user, null);
       res.redirect('/me');
       return;
@@ -422,8 +379,7 @@ module.exports = (router, db) => {
     //clears cookie and redirect to login page
     req.session = null;
     const templateVars = varInit(false, 200, null, null);
-    res.render('landing', templateVars);
-    return;
+    res.redirect('login')
   });
 
 
@@ -434,36 +390,11 @@ module.exports = (router, db) => {
       res.send({ message: "not logged in" });
       return;
     }
-    res.send(admins[userId].name);
+    const user = admins[userId]
+    const logged = true
+    res.json({ emoji: "🤗", logged, user: user.name, admins, twilio });
 
-    return;
-    db.getUserWithId(userId)
-      .then(user => {
-        if (!user) {
-          res.send({ error: "no user with that id" });
-          return;
-        }
-
-        res.send({ user: { name: user.name, email: user.email, id: userId } });
-      })
-      .catch(e => res.send(e));
   });
-
-  router.post('/login', (req, res) => {
-    const user = req.body;
-    user.password = bcrypt.hashSync(user.password, 12);
-    db.addUser(user)
-      .then(user => {
-        if (!user) {
-          res.send({ error: "error" });
-          return;
-        }
-        req.session.userId = user.id;
-        res.send("🤗");
-      })
-      .catch(e => res.send(e));
-  });
-
 
 
 

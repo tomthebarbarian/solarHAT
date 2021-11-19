@@ -60,13 +60,13 @@ app.use(express.static("public"));
 
 
 // Separated Routes for each Resource
-const clientRoutes = require("./routes/client");
-const adminRoutes = require("./routes/admin");
+const clientRoutes = require("./routes/clientRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api/client", clientRoutes(router, db));
+app.use("/api", clientRoutes(router, db));
 app.use('/', adminRoutes(router, db));
 
 

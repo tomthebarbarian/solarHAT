@@ -12,6 +12,7 @@ const { varInit,
 
 
 module.exports = (router, db) => {
+
   router.get("/m", (req, res) => {
 
     const id = 1;
@@ -35,14 +36,14 @@ module.exports = (router, db) => {
         return db.query(strquery)
           .then(foodItem => {
             const obj = Object.assign({}, { categories }, { foodItem: foodItem.rows })
-           //res.send(obj)
+            //res.send(obj)
             return obj;
           });
       })
       .then(data => {
         const templateVars = varInit(false, 200, 'customer', data);
         // res.send(data);
-         res.render('cart', templateVars);
+        res.json(templateVars);
       }
 
 
@@ -54,12 +55,10 @@ module.exports = (router, db) => {
       });
   });
 
-
-
   router.get("/m/:id", (req, res) => {
 
     const id = req.params.id;
-    console.log('=================================',id)
+    console.log('=================================', id)
     let query = `SELECT id, name from categories;`;
 
     console.log(query);
@@ -86,7 +85,7 @@ module.exports = (router, db) => {
       .then(data => {
         const templateVars = varInit(false, 200, 'customer', data);
         //res.send(data);
-         res.render('cart', templateVars);
+        res.json(templateVars);
       }
 
 
@@ -97,8 +96,6 @@ module.exports = (router, db) => {
           .json({ error: err.message });
       });
   });
-
-
 
   const getCategoryItems = function (id) {
     const strQuery = `SELECT * FROM items
@@ -114,18 +111,13 @@ module.exports = (router, db) => {
   };
   exports.getCategoryItems = getCategoryItems;
 
-
-
-
-  router.get("/cart", (req, res) => {
-    res.render('menu');
-    return;
-    let query = `SELECT * FROM orders`;
+  router.get("/items", (req, res) => {
+    let query = `SELECT * FROM items`;
     console.log(query);
     db.query(query)
       .then(data => {
-        const orders = data.rows;
-        res.json({ orders });
+        const items = data.rows;
+        res.json({ items });
       })
       .catch(err => {
         res
@@ -135,27 +127,7 @@ module.exports = (router, db) => {
   });
 
 
-  router.get("/checkout", (req, res) => {
-
-    const templateVars = varInit(false, 200, 'customer', null);
-
-    res.render('checkout',templateVars);
-    return;
-    let query = `SELECT * FROM orders`;
-    console.log(query);
-    db.query(query)
-      .then(data => {
-        const orders = data.rows;
-        res.json({ orders });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-  router.get("/api/m/test", (req, res) => {
+  router.get("/test", (req, res) => {
 
     const id = 1;
     let query = `SELECT id, name from categories;`;
@@ -178,14 +150,13 @@ module.exports = (router, db) => {
         return db.query(strquery)
           .then(foodItem => {
             const obj = Object.assign({}, { categories }, { foodItem: foodItem.rows })
-           //res.send(obj)
+            //res.send(obj)
             return obj;
           });
       })
       .then(data => {
         const templateVars = varInit(false, 200, 'customer', data);
-        res.send(data);
-        //  res.render('cart', templateVars);
+        res.json(templateVars);
       }
 
 
@@ -196,47 +167,6 @@ module.exports = (router, db) => {
           .json({ error: err.message });
       });
   });
-
-
-  // all test endpoint go here
-
-
-  router.post("/api/mays", (req, res) => {
-    //once a user checks out
-    //takes to a form this would the endpoint for PLACE ORDER
-
-    //parse the body of the cart
-    cart = req.body;
-
-    // cat = {
-    //   qty: 2
-    //   item.id: 10
-    //   category_id:
-
-    // }
-
-    //  5 would come from the front end on a POST
-    const id = 5;
-    let query = `SELECT * FROM categories where id  = $1`;
-    console.log(query);
-
-
-    db.query(query, [id])
-      .then(data => {
-        const categories = data.rows;
-        res.send({ categories });
-        return;
-        res.render('cart', { categories });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-
-
 
   return router;
 };

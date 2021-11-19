@@ -4,9 +4,9 @@
 -- INSERT INTO owners (name, email, password)
 --     VALUES ('Devin Sanders', 'tristanjacobs@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.');
 
-INSERT INTO users (name,phone)VALUES ('mary','647-322-5656');
-INSERT INTO users (name,phone)VALUES ('ali',4169232121);
-INSERT INTO users (name,phone)VALUES ('rose',416233211);
+INSERT INTO customers (name,phone)VALUES ('mary','647-322-5656');
+INSERT INTO customers (name,phone)VALUES ('ali',4169232121);
+INSERT INTO customers (name,phone)VALUES ('rose',416233211);
 INSERT INTO categories (name) VALUES ('appetizer');
 INSERT INTO categories (name) VALUES ('soup');
 INSERT INTO categories (name) VALUES ('salad');
