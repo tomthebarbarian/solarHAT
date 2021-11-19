@@ -12,7 +12,7 @@ const { varInit,
 
 
 //login users
-const usersdB = require('../lib/admin');
+const admins = require('../lib/adminUsers');
 
 //generate order uuid
 const { v4: uuidv4 } = require('uuid');
@@ -20,8 +20,11 @@ const { v4: uuidv4 } = require('uuid');
 // Download the helper library from https://www.twilio.com/docs/node/install
 // Find your Account SID and Auth Token at twilio.com/console
 // and set the environment variables. See http://twil.io/secure
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilio = {
+  account_sid: process.env.TWILIO_ACCOUNT_SID,
+  auth_token: process.env.TWILIO_AUTH_TOKEN
+}
+
 //const client = require('twilio')(accountSid, authToken);
 
 
@@ -70,7 +73,7 @@ module.exports = (router, db) => {
 
 
         const userId = req.session.user_id;
-        user = usersdB[userId];
+        user = admins[userId];
 
         templateVars = varInit(true, 200, user, orders);
         // return orders
@@ -95,7 +98,7 @@ module.exports = (router, db) => {
 
 
         const userId = req.session.user_id;
-        user = usersdB[userId];
+        user = admins[userId];
 
         templateVars = varInit(true, 200, user, orders);
         // return orders
@@ -144,7 +147,7 @@ module.exports = (router, db) => {
 
         console.log(order);
         const userId = req.session.user_id;
-        user = usersdB[userId];
+        user = admins[userId];
 
         templateVars = varInit(true, 200, user, order);
         res.send(order);
@@ -156,8 +159,6 @@ module.exports = (router, db) => {
           .json({ error: err.message });
       });
   });
-
-
 
   router.post("/orders/update", (req, res) => {
 
@@ -200,8 +201,6 @@ module.exports = (router, db) => {
           .json({ error: err.message });
       });
   });
-
-
 
   router.post("/orders/new", (req, res) => {
 
@@ -246,7 +245,7 @@ module.exports = (router, db) => {
           }
         }
 
-        orderInfo += 'Note:'+cart.note;
+        orderInfo += 'Note:' + cart.note;
 
         // orderInfo = {};
         // for (const item in cart) {
@@ -334,7 +333,7 @@ module.exports = (router, db) => {
       .then(data => {
         const orders = data.rows;
         const userId = req.session.user_id;
-        user = usersdB[userId];
+        user = admins[userId];
 
 
         templateVars = varInit(true, 200, user, { orders, active: true });
@@ -358,7 +357,7 @@ module.exports = (router, db) => {
         const orders = data.rows;
 
         const userId = req.session.user_id;
-        user = usersdB[userId];
+        user = admins[userId];
 
         templateVars = varInit(true, 200, user, { orders, active: false });
         // return orders
@@ -374,55 +373,19 @@ module.exports = (router, db) => {
   });
 
 
-  router.get("/api/o/test", (req, res) => {
-    db.query(`SELECT * FROM orders; `)
-      .then(data => {
-        const orders = data.rows;
-        res.render('locals', { orders });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-
   router.get("/login", (req, res) => {
     //check if we are already logged in
     const userId = req.session.user_id;
     console.log('viewsjs router:', userId);
-    if (userId && usersdB[userId]) {
+    if (userId && admins[userId]) {
       res.redirect('/orders/active');
       return;
     }
     //initialize template variable,
     //if we are here we are not logged in
     const templateVars = varInit(false, null, null, null);
-    res.render('login', templateVars);
+    res.send({ templateVars, twilio });
   });
-
-
-  router.get("/orders", (req, res) => {
-    const userId = req.session.user_id;
-    console.log('///////////////////////////////////////');
-    const user = usersdB[userId];
-
-
-    //check if user is logged in, and redirect to login if not
-    if (!user) {
-      const templateVars = varInit(false, 403, null, null);
-      res.render("login", templateVars);
-      return;
-    }
-
-    //initalize template variable before passing to ejs view
-    const templateVars = varInit(true, 200, user, null);
-    res.render("orders", templateVars);
-  });
-
-
-
 
 
 
@@ -431,7 +394,7 @@ module.exports = (router, db) => {
     const email = req.body.username;
     const password = req.body.password;
 
-    const user = getUserByEmail(email, usersdB);
+    const user = getUserByEmail(email, admins);
     console.log('user:', user);
 
     console.log('000000000000000000000000000000000000000');
@@ -443,7 +406,7 @@ module.exports = (router, db) => {
       req.session.user_id = user.id;
       console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', user.id);
       const templateVars = varInit(true, authStatus.num, user, null);
-      res.redirect('/orders/active');
+      res.redirect('/me');
       return;
     };
 
@@ -471,7 +434,7 @@ module.exports = (router, db) => {
       res.send({ message: "not logged in" });
       return;
     }
-    res.send(usersdB[userId].name);
+    res.send(admins[userId].name);
 
     return;
     db.getUserWithId(userId)
@@ -486,7 +449,7 @@ module.exports = (router, db) => {
       .catch(e => res.send(e));
   });
 
-  router.post('/', (req, res) => {
+  router.post('/login', (req, res) => {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password, 12);
     db.addUser(user)
@@ -504,65 +467,6 @@ module.exports = (router, db) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  router.get('/properties', (req, res) => {
-    db.getAllProperties(req.query, 20)
-      .then(properties => res.send({ properties }))
-      .catch(e => {
-        console.error(e);
-        res.send(e);
-      });
-  });
-
-  router.get('/reservations', (req, res) => {
-    const userId = req.session.userId;
-    if (!userId) {
-      res.error("💩");
-      return;
-    }
-    db.getAllReservations(userId)
-      .then(reservations => res.send({ reservations }))
-      .catch(e => {
-        console.error(e);
-        res.send(e);
-      });
-  });
-
-  router.post('/properties', (req, res) => {
-    const userId = req.session.userId;
-    db.addProperty({ ...req.body, owner_id: userId })
-      .then(property => {
-        res.send(property);
-      })
-      .catch(e => {
-        console.error(e);
-        res.send(e);
-      });
-  });
 
   return router;
 };;

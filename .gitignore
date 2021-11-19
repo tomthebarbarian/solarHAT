@@ -1,4 +1,10 @@
 
 setup.md
-*.xjs
-
+node_modules/
+.env
+*.log
+*.sqlite3
+.DS_Store
+cookiefile
+*.jsx
+views/

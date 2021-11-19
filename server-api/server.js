@@ -7,8 +7,14 @@ const { varInit,
 // load .env data into process.env
 require("dotenv").config();
 
+
+const { data } = require('./db_test/data')
+
 // Web server config
+// if for whatever reason 8000 is taken by another process
+// change PORT in .env file
 const PORT = process.env.PORT || 8000;
+
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 
@@ -54,44 +60,23 @@ app.use(express.static("public"));
 
 
 // Separated Routes for each Resource
-// Note: Feel free to replace the example routes below with your own
-const clientRoutes = require("./routes/menu");
+const clientRoutes = require("./routes/client");
 const adminRoutes = require("./routes/admin");
 
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-
-// DO NOT use usersRoutes - not needed for now
-// app.use("/api/users", usersRoutes(router, db));
-
-//ordersRoutes => customer_view (Mays)
-//menu categories / food items /  cart and order form
-//I suppose we could render a single page for SPA behaviour
-//not sure how to go about the html
-app.use("/api/m", clientRoutes(router, db));
-
-//adminRoutes => owner_view (Hasan)
-//login , active orders , orders history
-//my thinking is to render different pages
-//I suppose we could render a single page for SPA behaviour
-//not sure how to go about the html
+app.use("/api/client", clientRoutes(router, db));
 app.use('/', adminRoutes(router, db));
 
 
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
+// normally routes will go in route files defined above
+// this is for quick testing and prototyping
 app.get("/", (req, res) => {
-  //initialize template variable,
-  //if we are here we are not logged in
-
-  const team = {
-    1: { id: 1, name: 'AJ', phone: '613.555.5555' },
-    2: { id: 2, name: 'Tom', phone: '613.555.5555' },
-    3: { id: 3, name: 'Hasan', phone: '613.555.5555' }
-  }
-  res.json(team)
+  //dummy data for now
+  //need to integrate mongo dB
+  const vars = varInit(false, null, null, null)
+  res.render('login', vars)
 });
 
 

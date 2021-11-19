@@ -15,3 +15,7 @@
 
 ## Possible Stretch:
 
+- total installation 
+    - active 
+    - in progress
+    - pending 

@@ -1,24 +1,23 @@
-
 //default admin_user
 const usersdB =
 {
   "0": {
     id: "0",
     name: 'AJ',
-    email: "aj@foodtruck.com",
+    email: "aj@smartnvm.com",
     password: "aj",
   },
   "1": {
     id: "1",
-    name: 'Mays',
-    email: "mays@foodtruck.com",
-    password: "mays",
+    name: 'hamza',
+    email: "hamza@hamza.com",
+    password: "hamza",
   },
   "2": {
     id: "2",
-    name: 'Hasan',
-    email: "hasan@foodtruck.com",
-    password: "hasan",
+    name: 'tom',
+    email: "tom@tom.com",
+    password: "tom",
   },
 };
 
