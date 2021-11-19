@@ -8,7 +8,7 @@ const { varInit,
 require("dotenv").config();
 
 // Web server config
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 
@@ -86,14 +86,14 @@ app.get("/", (req, res) => {
   //initialize template variable,
   //if we are here we are not logged in
 
-  const templateVars = varInit(false, null, null, null);
-  res.render("landing", templateVars);
+  const team = {
+    1: { id: 1, name: 'AJ', phone: '613.555.5555' },
+    2: { id: 2, name: 'Tom', phone: '613.555.5555' },
+    3: { id: 3, name: 'Hasan', phone: '613.555.5555' }
+  }
+  res.json(team)
 });
 
-// Temporary route to test out owner order details
-app.get("/orders/active", (req, res) => {
-  res.render(("orders"));
-});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
