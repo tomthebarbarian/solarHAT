@@ -9,23 +9,37 @@ require("dotenv").config();
 const axios = require('axios')
 const got = require('got');
 
+const {MongoClient} = require('mongodb')
+
 const { data } = require('./db_test/data')
 
 // Web server config
 // if for whatever reason 8000 is taken by another process
 // change PORT in .env file
 const PORT = process.env.PORT || 8000;
-
+const dbo = require('./db/conn')
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 
+// const {dbConn, connectToServer} = require("./db/conn");
+
+
 const app = express();
 const router = express.Router();
+
+
+// mongoDB database client/connection setup
+
+
+
+
+
 
 const morgan = require("morgan");
 
 //dependency
 const session = require("cookie-session");
+
 
 app.use(session({
   name: 'session', keys: ['test'],
@@ -34,18 +48,15 @@ app.use(session({
 
 
 
-// PG database client/connection setup
-const { Pool } = require("pg");
-const dbParams = require("./lib/db.js");
-const db = new Pool(dbParams);
-db.connect();
+//  database client/connection setup
+
+
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan("dev"));
 
-app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
@@ -62,13 +73,13 @@ app.use(express.static("public"));
 
 // Separated Routes for each Resource
 const clientRoutes = require("./routes/clientRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api", clientRoutes(router, db));
-app.use('/', adminRoutes(router, db));
+// app.use("/api", clientRoutes(router, db));
+app.use('/', userRoutes(router, dbo));
 
 
 // normally routes will go in route files defined above
@@ -138,8 +149,15 @@ app.get("/fetch", (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
-});
+  dbo.connectToServer(function (err) {
+    if (err) console.error(err);
+
+  });
+  console.log(`Port running on ${PORT}`)
+})
+
+
+
 
 
 
