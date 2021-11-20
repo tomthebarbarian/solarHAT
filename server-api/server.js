@@ -6,7 +6,8 @@ const { varInit,
 
 // load .env data into process.env
 require("dotenv").config();
-
+const axios = require('axios')
+const got = require('got');
 
 const { data } = require('./db_test/data')
 
@@ -78,6 +79,62 @@ app.get("/", (req, res) => {
   const vars = varInit(false, null, null, null)
   res.render('login', vars)
 });
+
+
+//api call to fetch data and returns a promise
+const fetchData = () => {
+
+  // https://apps.solargis.com/api/data/lta?loc=-78.486328,45.089036
+  const lat = 50.513427
+  const lon = -107.06277
+  return Promise
+    .all([
+      axios.get(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
+    ])
+    .then(result => {
+      console.log('--------[promise]---------', result[0]);
+      return result[0];
+    })
+    .catch(error => console.log(`Error: ${error}`));
+};
+
+
+
+// const getSolarForLatLon = () => {
+//   const lat = -78.486328
+//   const lon = 45.089036
+//   return axios.get(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
+//     .then((result) => {
+//       console.log('--------[promise]---------', result);
+//       return result
+//     })
+// }
+
+
+app.get("/fetch", (req, res) => {
+  fetchData()
+    .then(result => {
+      console.log('-----------[axios call]---------', result.data)
+
+      // const vars = varInit(false, null, null, data)
+      res.json(result.data)
+
+    })
+    .catch(err => console.log(err.message))
+
+
+  return
+  const lat = -78.486328
+  const lon = 45.089036
+  got(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
+    .then(response => {
+      console.log(JSON.parse(response.body));
+      res.send(JSON.parse(response.body))
+    }).catch(error => {
+      console.log(error);
+    });
+
+})
 
 
 app.listen(PORT, () => {
