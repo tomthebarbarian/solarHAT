@@ -62,7 +62,7 @@ Clients = {
 users = {
   id: int,
   name: str,
-  accesslevel: str,
+  accesslevel/type: str,
   usermame: str,
   password: str,
 } 
