@@ -48,12 +48,12 @@ const getTimestamp = (minutes) => {
 
 module.exports = (router, db) => {
 
-  router.get("/sites", (req, res) => {
+  router.get("/api/users", (req, res) => {
 
     let db_connect = dbo.getDb("solar_flares");
     db_connect
-      .collection("sites")
-      .find({})
+      .collection("users")
+      .find()
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
