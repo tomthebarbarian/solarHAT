@@ -2,7 +2,7 @@ import React from "react";
 import {Navigation} from 'react-minimal-side-navigation';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import {BrowserRouter as Router, Route, useHistory} from 'react-router-dom'
-import Map from './map'
+
 
 
 const SideBar = props => {
