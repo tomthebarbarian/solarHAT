@@ -11,7 +11,8 @@ import axios from 'axios'
 const Map = (props) => {
   const [state, setState] = useState(
     {
-      map: {}
+      map: {},
+      sites: [],
     }
   )
   const setMap = (map) => {
@@ -19,14 +20,20 @@ const Map = (props) => {
       return ({ ...prev, map })
     })
   }
+  
+  const setSites = (sites) => {
+    return setState(prev => {
+      return ({ ...prev, sites })
+    })
+  }
 
   // const mapRef = React.useRef(null);
   useEffect(() => {
     Promise.all([
-      axios.get('http://localhost:8080/api/sites'),
-      axios.get('http://localhost:8080/api/model')]
+      axios.get('/api/sites')]
     ).then(res => {
-      console.log(res)
+      console.log('this is axios sites', res[0].data)
+      setSites(res[0].data)
     })
 
     setMap(
@@ -94,7 +101,7 @@ const Map = (props) => {
   }
 
   useEffect(()=> {
-    console.log(state.map)
+    console.log('This is state sites', state.sites)
     if (state.map.getRenderer) {
       L.marker([45.521020, -73.614750])
         .bindPopup('A marker').addTo(state.map)
@@ -102,7 +109,13 @@ const Map = (props) => {
         .bindPopup('Center Marker').addTo(state.map)
       state.map.on('click', onMapClick)
     }
-  }, [state.map])
+    if (state.sites.length > 0) {
+      for (let elem of state.sites){
+        L.marker([elem.coord[0],
+        elem.coord[1]]).bindPopup(elem.name).addTo(state.map)
+      }
+    }
+  }, [state.map, state.sites])
 
   return (
     <div 
