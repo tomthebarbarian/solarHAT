@@ -21,7 +21,7 @@ import L from "leaflet"
   useEffect(() => {
     setMap(L.map('map', 
       {
-      center: [51.505, -0.09],
+      center: [45.489934, -73.566805],
       zoom: 13,
       layers: [ L.tileLayer(
         'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', 
