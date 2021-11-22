@@ -6,49 +6,25 @@ const { varInit,
 
 // load .env data into process.env
 require("dotenv").config();
-const axios = require('axios')
-const got = require('got');
 
-const {MongoClient} = require('mongodb')
-
-const { data } = require('./db_test/data')
-
-// Web server config
 // if for whatever reason 8000 is taken by another process
 // change PORT in .env file
 const PORT = process.env.PORT || 8000;
-const dbo = require('./db/conn')
-const sassMiddleware = require("./lib/sass-middleware");
+
 const express = require("express");
-
-// const {dbConn, connectToServer} = require("./db/conn");
-
-
 const app = express();
 const router = express.Router();
 
 
-// mongoDB database client/connection setup
-
-
-
-
-
-
-const morgan = require("morgan");
-
 //dependency
+const chalk = require('chalk');
+const axios = require('axios')
+const morgan = require("morgan");
 const session = require("cookie-session");
-
-
 app.use(session({
   name: 'session', keys: ['test'],
   maxAge: 24 * 60 * 60 * 1000
 }));
-
-
-
-//  database client/connection setup
 
 
 
@@ -59,22 +35,22 @@ app.use(morgan("dev"));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  "/styles",
-  sassMiddleware({
-    source: __dirname + "/styles",
-    destination: __dirname + "/public/styles",
-    isSass: false, // false => scss, true => sass
-  })
-);
+const cookieSession = require('cookie-session');
 
-app.use(express.static("public"));
+app.set('view engine', 'ejs');
 
+// mongoDB database client/connection setup
+const dbName = process.env.DB_NAME
+
+const dbo = require('./db/conn')
+
+dbo.connectToServer(function (err) {
+  if (err) console.error(chalk.red(err));
+})
 
 // Separated Routes for each Resource
 const sitesRoutes = require("./routes/sitesRoutes");
 const userRoutes = require("./routes/userRoutes");
-
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -85,6 +61,7 @@ app.use('/', userRoutes(router, dbo));
 // normally routes will go in route files defined above
 // this is for quick testing and prototyping
 app.get("/", (req, res) => {
+  console.log("WE ARE IN THE SERVER");
   //dummy data for now
   //need to integrate mongo dB
   const vars = varInit(false, null, null, null)
@@ -96,63 +73,49 @@ app.get("/", (req, res) => {
 const fetchData = () => {
 
   // https://apps.solargis.com/api/data/lta?loc=-78.486328,45.089036
-  const lat = 50.513427
-  const lon = -107.06277
+  const lat = 45.513809
+  const lon = -73.5625
   return Promise
     .all([
       axios.get(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
     ])
-    .then(result => {
-      console.log('--------[promise]---------', result[0]);
-      return result[0];
+    .then(res => {
+      console.log(`--------[lat, long]---------\n ${lat},${lon}`);
+
+      return res[0].data;
     })
     .catch(error => console.log(`Error: ${error}`));
 };
 
 
 
-// const getSolarForLatLon = () => {
-//   const lat = -78.486328
-//   const lon = 45.089036
-//   return axios.get(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
-//     .then((result) => {
-//       console.log('--------[promise]---------', result);
-//       return result
-//     })
-// }
+const getSolarForLatLon = () => {
+  const lat = 45.513809
+  const lon = -73.5625
+  return axios.get(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
+    .then((result) => {
+      console.log('--------[promise]---------', result);
+      return result
+    })
+}
 
 
 app.get("/fetch", (req, res) => {
+  console.log('-----------i am here ----')
   fetchData()
     .then(result => {
-      console.log('-----------[axios call]---------', result.data)
-
-      // const vars = varInit(false, null, null, data)
-      res.json(result.data)
+      console.log('-----------[axios call]---------\n', Object.keys(result))
+      console.log('-----------[axios call]---------\n', result['annual'].data)
+      res.json(result['annual'].data)
 
     })
     .catch(err => console.log(err.message))
 
-
-  return
-  const lat = -78.486328
-  const lon = 45.089036
-  got(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
-    .then(response => {
-      console.log(JSON.parse(response.body));
-      res.send(JSON.parse(response.body))
-    }).catch(error => {
-      console.log(error);
-    });
-
 })
 
 
-app.listen(PORT, () => {
-  dbo.connectToServer(function (err) {
-    if (err) console.error(err);
 
-  });
+app.listen(PORT, () => {
   console.log(`Port running on ${PORT}`)
 })
 

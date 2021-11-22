@@ -1,6 +1,6 @@
 /*
  * All routes for orders are defined here
- * Since this file is loaded in server.js into api/orders,
+ * Since this file is loaded in server.js into api/
  *   these routes are mounted onto /orders
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
@@ -10,21 +10,34 @@ const { varInit,
   authenticateUser,
   getUserByEmail } = require('../lib/utils');
 
-  module.exports = (router, db) => {
+module.exports = (router, dbo) => {
 
-    router.get("/api/sites", (req, res) => {
+  router.get("/sites", (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  });
 
-      let db_connect = dbo.getDb("solar_flares");
-      db_connect
-        .collection("sites")
-        .find()
-        .toArray(function (err, result) {
-          if (err) throw err;
-          res.json(result);
-        });
-    });
-  }
+  router.get("/model", (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("dataModel")
+      .find()
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  });
 
+
+  return router;
+
+}
 // module.exports = (router, db) => {
 
 //   router.get("/m", (req, res) => {

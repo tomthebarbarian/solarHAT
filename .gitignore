@@ -6,8 +6,10 @@ node_modules/
 *.sqlite3
 .DS_Store
 cookiefile
-*.jsx
-views/
+
+server-api/node_modules/
+server-api/views/
+server-api/bin/*.jsx
 
 client/node_modules/
-server-api/node_modules/
+

@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs'); // bcryptjs/dist/bcrypt');
+
 
 
 //authenticate user
@@ -5,7 +7,10 @@ const authenticateUser = (email, password, user) => {
   let authStatus = {};
   if (user) {
 
-    if (password === user.password) {
+    //     bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+    //     // result == true
+    // });
+    if (password === user.hash) {
       err = 200; //user
       errMsg = 'Hello, ' + user.name;
 
@@ -28,8 +33,8 @@ const authenticateUser = (email, password, user) => {
 
 
 //initalize template variable passed to ejs view
-const varInit = (loggedIn, errCode, user, items) => {
-  const templateVars = { loggedIn, errCode, user, items };
+const varInit = (loggedIn, errCode, user, sites) => {
+  const templateVars = { loggedIn, errCode, user, sites };
   return templateVars;
 };
 
