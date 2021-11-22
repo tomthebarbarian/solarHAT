@@ -1,13 +1,16 @@
 import React, {useState, useEffect } from "react";
-import L, {addLayer} from "leaflet"
+import L from "leaflet"
 // Need to find leaflet.css and import into webpack
 // import "node_modules/leaflet/dist/leaflet.css"
 // import "./leaflet.css"
 import "./map.scss"
+// import markerIconPng from "leaflet/dist/images/marker-icon.png"
 
+const myIcon = L.icon({
+  iconUrl: 'leaflet/dist/images/marker-icon.png'
+});
 
-
- const Map = (props) => {
+const Map = (props) => {
   const [state, setState] = useState(
     {
       map: ''
@@ -26,9 +29,9 @@ import "./map.scss"
       marker.addTo(state.map)
     }
   }
-
+  const mapRef = React.useRef(null);
   useEffect(() => {
-    setMap(L.map('map', 
+    mapRef.current = L.map('map', 
       {
       center: [45.489934, -73.566805],
       zoom: 13,
@@ -44,11 +47,12 @@ import "./map.scss"
             accessToken: 'pk.eyJ1IjoidG9tdGhlYmFyYmFyaWFuIiwiYSI6ImNqZmZ4Z2ZvczJhaXgzM3BheHR3Nml2OGYifQ.jq0Tt-4aD5EpAaQ8ihykLw'
           }
         ),
-        L.marker([45.521020, -73.614750]),
-        L.marker([45.489934, -73.566805])
+        L.marker([45.521020, -73.614750],
+                    ).bindPopup('A marker'),
       ]
       })
-    )
+    
+
 
     // addMarker(marker)
 
@@ -62,22 +66,31 @@ import "./map.scss"
 
 
 
-  //   marker.bindPopup(
-  //     `
-  //     <b>Hello world!</b>
-  //     <br>I am a popup.
-  //     `
-  //   ).openPopup();
+    const onMapClick = (e) => {
+      L.popup
+        .setLatLng(e.latlng)
+        .setContent(`You clicked the map at ${e.latlng}`)
+        .openOn(state.map);
+    }
+    
+    if (state.map != ''){
+      state.map.on('click', onMapClick)
+    }
 
-  //   const onMapClick = (e) => {
-  //     L.popup
-  //       .setLatLng(e.latlng)
-  //       .setContent(`You clicked the map at ${e.latlng}`)
-  //       .openOn(state.map);
-  // }
-  //   state.map.on('click', onMapClick)
   },[])
-   
+
+  const markerRef = React.useRef(null);
+  React.useEffect(
+    () => {
+      if (markerRef.current) {
+        markerRef.current.setLatLng([45.489934, -73.566805]);
+      } else {
+        markerRef.current = L.marker([45.489934, -73.566805]).bindPopup('Center Marker').addTo(mapRef.current);
+      }
+    },
+    []
+  );
+
   return (
     <div 
       id="map" 
