@@ -40,7 +40,10 @@ module.exports = (router, dbo) => {
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> d659d3e (minor changes)
   // module.exports = (router, dbo) => {
 
   //   router.get("/api/sites", (req, res) => {
@@ -57,6 +60,7 @@ module.exports = (router, dbo) => {
   //   });
   //   return router
   // }
+<<<<<<< HEAD
 
 
 >>>>>>> d659d3e (minor changes)
@@ -77,6 +81,8 @@ module.exports = (router, dbo) => {
     });
     return router
   }
+=======
+>>>>>>> d659d3e (minor changes)
 
 
 >>>>>>> dc54507 (no real changes)

@@ -17,11 +17,15 @@ const axios = require('axios')
 const {MongoClient} = require('mongodb')
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 const cors = require('cors')
 >>>>>>> d659d3e (minor changes)
 =======
 const { data } = require('./db_test/data')
+=======
+
+>>>>>>> d659d3e (minor changes)
 const cors = require('cors')
 >>>>>>> dc54507 (no real changes)
 
