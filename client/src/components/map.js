@@ -19,14 +19,6 @@ const Map = (props) => {
       return ({ ...prev, map })
     })
   }
-  // const marker = L.marker([45.521020, -73.614750])
-  
-
-  // const addMarker = (marker) => {
-  //   if (state.map.layers) {
-  //     marker.addTo(state.map)
-  //   }
-  // }
 
   // const mapRef = React.useRef(null);
   useEffect(() => {
@@ -76,20 +68,30 @@ const Map = (props) => {
     // const addLayer = () => {
     //   L.layerGroup.addTo(state.map)
     // }
-    // const popup = L.popup()
+    const popup = L.popup()
 
-    // const onMapClick = (e) => {
-    //   popup
-    //     .setLatLng(e.latlng)
-    //     .setContent(`You clicked the map at ${e.latlng}`)
-    //     .openOn(state.map);
-    // }
+    const onMapClick = (e) => {
+      console.log(e.latlng)
+      // popup
+      //   .setLatLng(e.latlng)
+      //   .setContent(`You clicked the map at ${e.latlng}`)
+      //   .openOn(state.map);
+    }
   
-    // if (state.map.layers){
+    // if (state.map.getRenderer){
     //   state.map.on('click', onMapClick)
-    //   addMarker(L.marker([45.489934, -73.566805]).bindPopup('Center Marker'));
     // }
   },[])
+
+  const popup = L.popup()
+
+  const onMapClick = (e) => {
+    // console.log(e.latlng)
+    popup
+      .setLatLng(e.latlng)
+      .setContent(`You clicked the map at ${e.latlng}`)
+      .openOn(state.map);
+  }
 
   useEffect(()=> {
     console.log(state.map)
@@ -98,6 +100,7 @@ const Map = (props) => {
         .bindPopup('A marker').addTo(state.map)
       L.marker([45.489934, -73.566805])
         .bindPopup('Center Marker').addTo(state.map)
+      state.map.on('click', onMapClick)
     }
   }, [state.map])
 
