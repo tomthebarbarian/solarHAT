@@ -3,6 +3,8 @@ import L from "leaflet"
 // Need to find leaflet.css and import into webpack
 // import "node_modules/leaflet/dist/leaflet.css"
 // import "./leaflet.css"
+import "./map.scss"
+
 
 
  const Map = (props) => {
@@ -61,7 +63,6 @@ import L from "leaflet"
   return (
     <div 
       id="map" 
-      style={{height: "180px"}}
     >
     </div>
   )
