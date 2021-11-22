@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4e67b58 (minor changes)
 =======
 
 >>>>>>> 4e67b58 (minor changes)
@@ -10,8 +14,11 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import SiteForm from './components/siteForm'
 import Scoreboard from './components/Scoreboard';
 
+<<<<<<< HEAD
 =======
 >>>>>>> a9033f7 (added router dom and route for map)
+=======
+>>>>>>> 4e67b58 (minor changes)
 
 
 
@@ -29,8 +36,11 @@ function App() {
 <<<<<<< HEAD
       <Route path="/add_site" component={SiteForm} />
       <Route path="/scoreboard" component={Scoreboard} />
+<<<<<<< HEAD
 =======
 >>>>>>> a9033f7 (added router dom and route for map)
+=======
+>>>>>>> 4e67b58 (minor changes)
     </main>
     </>
     </Router>
