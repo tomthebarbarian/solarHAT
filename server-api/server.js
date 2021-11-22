@@ -6,6 +6,16 @@ const { varInit,
 
 // load .env data into process.env
 require("dotenv").config();
+<<<<<<< HEAD
+=======
+const axios = require('axios')
+
+
+const {MongoClient} = require('mongodb')
+
+
+const cors = require('cors')
+>>>>>>> d659d3e (minor changes)
 
 // if for whatever reason 8000 is taken by another process
 // change PORT in .env file
@@ -18,7 +28,7 @@ const router = express.Router();
 
 //dependency
 const chalk = require('chalk');
-const axios = require('axios')
+
 const morgan = require("morgan");
 const session = require("cookie-session");
 app.use(session({
