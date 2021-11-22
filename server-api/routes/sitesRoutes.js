@@ -39,6 +39,7 @@ module.exports = (router, dbo) => {
 
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   // module.exports = (router, dbo) => {
 
@@ -59,6 +60,26 @@ module.exports = (router, dbo) => {
 
 
 >>>>>>> d659d3e (minor changes)
+=======
+  module.exports = (router, dbo) => {
+
+    router.get("/api/sites", (req, res) => {
+
+      let db_connect = dbo.getDb("solar_flares");
+      db_connect
+        .collection("sites")
+        .find()
+        .sort({'consumption_kWh': -1})
+        .toArray(function (err, result) {
+          if (err) throw err;
+          res.json(result);
+        });
+    });
+    return router
+  }
+
+
+>>>>>>> dc54507 (no real changes)
 // module.exports = (router, db) => {
 
 //   router.get("/m", (req, res) => {
