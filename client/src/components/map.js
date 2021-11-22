@@ -13,7 +13,7 @@ const myIcon = L.icon({
 const Map = (props) => {
   const [state, setState] = useState(
     {
-      map: ''
+      map: {}
     }
   )
   const setMap = (map) => {
@@ -25,13 +25,14 @@ const Map = (props) => {
   
 
   const addMarker = (marker) => {
-    if (state.map !== '') {
+    if (state.map.layers) {
       marker.addTo(state.map)
     }
   }
-  const mapRef = React.useRef(null);
+
+  // const mapRef = React.useRef(null);
   useEffect(() => {
-    mapRef.current = L.map('map', 
+    setMap(L.map('map', 
       {
       center: [45.489934, -73.566805],
       zoom: 13,
@@ -49,47 +50,35 @@ const Map = (props) => {
         ),
         L.marker([45.521020, -73.614750],
                     ).bindPopup('A marker'),
+        L.marker([45.489934, -73.566805]).bindPopup('Center Marker')
       ]
-      })
+      }))
     
 
 
     // addMarker(marker)
 
-    if (state.map) {
-      marker.addTo(state.map)
-    }
+    // if (state.map.layers) {
+    //   marker.addTo(state.map)
+    // }
 
-    const addLayer = () => {
-      L.layerGroup.addTo(state.map)
-    }
-
-
+    // const addLayer = () => {
+    //   L.layerGroup.addTo(state.map)
+    // }
+    const popup = L.popup()
 
     const onMapClick = (e) => {
-      L.popup
+      popup
         .setLatLng(e.latlng)
         .setContent(`You clicked the map at ${e.latlng}`)
         .openOn(state.map);
     }
-    
-    if (state.map != ''){
+  
+    if (state.map.layers){
       state.map.on('click', onMapClick)
+      addMarker(L.marker([45.489934, -73.566805]).bindPopup('Center Marker'));
     }
-
   },[])
-
-  const markerRef = React.useRef(null);
-  React.useEffect(
-    () => {
-      if (markerRef.current) {
-        markerRef.current.setLatLng([45.489934, -73.566805]);
-      } else {
-        markerRef.current = L.marker([45.489934, -73.566805]).bindPopup('Center Marker').addTo(mapRef.current);
-      }
-    },
-    []
-  );
 
   return (
     <div 
