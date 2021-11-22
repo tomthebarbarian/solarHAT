@@ -21,7 +21,7 @@ const Map = (props) => {
   useEffect(() => {
     setMap(L.map('map',
       {
-        center: [51.505, -0.09],
+        center: [45.5017, -73.5673],
         zoom: 13,
         layers: [L.tileLayer(
           'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
@@ -59,9 +59,8 @@ const Map = (props) => {
   }, [])
 
   return (
-    <div
-      id="map"
-      style={{ height: "180px" }}
+    <div id="map"
+      style={{ height: "100%" }}
     >
     </div>
   )
