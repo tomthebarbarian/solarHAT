@@ -2,6 +2,9 @@ import './App.css';
 import Map from './components/map'
 import SideBar from './components/Sidebar'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import SiteForm from './components/siteForm'
+import Scoreboard from './components/Scoreboard';
+import {Component} from 'react'
 
 
 
@@ -16,6 +19,8 @@ function App() {
     <main className="App">
       <SideBar />
       <Route path="/solarmap" component={Map} />
+      <Route path="/add_site" component={SiteForm} />
+      {/* <Route path="/scoreboard" component={Scoreboard} /> */}
     </main>
     </>
     </Router>
