@@ -9,7 +9,10 @@ body, div, form, input, select, p {
   line-height: 22px;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
+  input {
+    padding: 3px;
+    margin: 3px;
   }
+  
+
+  
