@@ -38,7 +38,10 @@ const chartConfig = {
   }
 };
 
-const BarchartCompare = () => {
+// Here's the start of barchart compare
+// Should generate a barchart for all avg kw production for that number of 
+// months and year
+const BarchartCompare = (props) => {
   const chartContainer = useRef(null);
   const [state, setState] = useState(
     {
@@ -62,7 +65,7 @@ const BarchartCompare = () => {
 
   return (
     <div>
-      <canvas ref={chartContainer} id ='comparebar'/>
+      <canvas ref={chartContainer} class ='comparebar'/>
     </div>
   );
 };

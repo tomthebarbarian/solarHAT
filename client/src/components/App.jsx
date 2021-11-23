@@ -20,6 +20,7 @@ import Register from './Register/Register';
 import classNames from 'classnames';
 
 export default function App() {
+<<<<<<< HEAD
   //custom hook separate state logic from app rendering
   const {
     state,
@@ -49,6 +50,9 @@ export default function App() {
   //   console.log('sign the fuk in', show);
   // };
 
+=======
+  
+>>>>>>> 35bf4a1 (preparing for analytics)
   return (
     <Router>
       <>
