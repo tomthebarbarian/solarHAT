@@ -6,6 +6,13 @@ const { varInit,
 
 // load .env data into process.env
 require("dotenv").config();
+const axios = require('axios')
+
+
+const {MongoClient} = require('mongodb')
+
+
+const cors = require('cors')
 
 // if for whatever reason 8000 is taken by another process
 // change PORT in .env file
@@ -14,11 +21,12 @@ const PORT = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
 const router = express.Router();
+const bodyParser = require("body-parser");
 
 
 //dependency
 const chalk = require('chalk');
-const axios = require('axios')
+
 const morgan = require("morgan");
 const session = require("cookie-session");
 app.use(session({
@@ -26,7 +34,7 @@ app.use(session({
   maxAge: 24 * 60 * 60 * 1000
 }));
 
-
+app.use(cors())
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -34,6 +42,7 @@ app.use(session({
 app.use(morgan("dev"));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const cookieSession = require('cookie-session');
 

@@ -4,7 +4,6 @@
  *   these routes are mounted onto /
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
-
 //helper functions
 const { varInit, authenticateUser, getUserByEmail } = require("../lib/utils");
 
@@ -126,7 +125,9 @@ module.exports = (router, dbo) => {
         if (err) throw err;
         res.json(result);
       });
+
   });
+  return router
 
   router.get("/login", (req, res) => {
     //check if we are already logged in

@@ -39,25 +39,40 @@ viewing application for databases
     ....
   })
   OR TO INSERT MANY 
-  db.sites.insertMany([
-    {
-      id:
-      name: string
-      location: [x, y]
-      ...
-    }
-    {
-      id:
-      name: string
-      location: [x, y]
-      ...
-    }
-    {
-      
-      location: [x, y]
-      ...
-    }
-  ])
+  db.sites.insertMany(
+  [
+  {
+    name: 'site_name1',
+    coord: [45.5462, -73.36564],
+    prov_code: 'ON',
+    consumption_kWh: 7.5,
+    system_size_kW: 3.5,
+  },
+   {
+    name: 'site_name2',
+    coord: [40.5462, -70.36564],
+    prov_code: 'ON',
+    consumption_kWh: 8.5,
+    system_size_kW: 8.5,
+  },
+  {
+
+    name: 'site_name3',
+    coord: [45.5017, -73.5673],
+    prov_code: 'QC',
+    consumption_kWh: 6.5,
+    system_size_kW: 8.5,
+  },
+  {
+
+    name: 'site_name4',
+    coord: [49.2827, -123.1207],
+    prov_code: 'BC',
+    consumption_kWh: 5.5,
+    system_size_kW: 8.5,
+  }
+  ]);
+  
 ### QUERY DATA
   db.sites.find()
   db.sites.find().pretty --- formates BSON in terminal
