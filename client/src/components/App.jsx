@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import SideBar from './Sidebar'
 import Form from './Form'
 import Scoreboard from './Scoreboard';
+import BarchartCompare from './BarchartCompare';
 
 
 
@@ -54,6 +55,7 @@ export default function App() {
         <section className="map">
 
 <Map />
+<BarchartCompare/>
 
 </section>
 

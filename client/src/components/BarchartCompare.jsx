@@ -1,10 +1,7 @@
 import Chart from 'chart.js/auto'
 import "./BarchartCompare.scss"
-import axios from axios
-
-
-import React, { useEffect, useRef } from 'react';
-import Chartjs from 'chart.js';
+import axios from 'axios'
+import React, { useEffect, useState, useRef } from 'react';
 
 const chartConfig = {
   type: 'bar',
@@ -18,18 +15,29 @@ const chartConfig = {
 
 const BarchartCompare = () => {
   const chartContainer = useRef(null);
-  const [chartInstance, setChartInstance] = useState(null);
+  const [state, setState] = useState(
+    {
+      graph: {},
+      monthdata: [],
+    }
+  );
+
+  const setGraph = (graph) => {
+    return setState(prev => {
+      return ({ ...prev, graph })
+    })
+  }
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
-      const newChartInstance = new Chartjs(chartContainer.current, chartConfig);
-      setChartInstance(newChartInstance);
+      const newChartInstance = new Chart(chartContainer.current, chartConfig);
+      setGraph(newChartInstance);
     }
   }, [chartContainer]);
 
   return (
     <div>
-      <canvas ref={chartContainer} />
+      <canvas ref={chartContainer} id ='comparebar'/>
     </div>
   );
 };
