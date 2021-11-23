@@ -1,24 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 4e67b58 (minor changes)
-=======
-
->>>>>>> 4e67b58 (minor changes)
 import './App.css';
 import Map from './components/map'
 import SideBar from './components/Sidebar'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-<<<<<<< HEAD
 import SiteForm from './components/siteForm'
 import Scoreboard from './components/Scoreboard';
 
-<<<<<<< HEAD
-=======
->>>>>>> a9033f7 (added router dom and route for map)
-=======
->>>>>>> 4e67b58 (minor changes)
 
 
 
@@ -33,14 +19,8 @@ function App() {
     <main className="App">
       <SideBar />
       <Route path="/solarmap" component={Map} />
-<<<<<<< HEAD
       <Route path="/add_site" component={SiteForm} />
       <Route path="/scoreboard" component={Scoreboard} />
-<<<<<<< HEAD
-=======
->>>>>>> a9033f7 (added router dom and route for map)
-=======
->>>>>>> 4e67b58 (minor changes)
     </main>
     </>
     </Router>
