@@ -12,6 +12,7 @@ import Scoreboard from './Scoreboard';
 import BarchartCompare from './BarchartCompare';
 
 
+import Analytics from './Analytics/Analytics'
 
 export default function App() {
   
@@ -41,9 +42,19 @@ export default function App() {
           </section>         
         </div> 
         
-        <BarchartCompare/>
+        
+
+        
+        <section className="detail">
+         { true && 
+          
+          <Analytics/>
+            
+         }
+        </section>
+
         <section className="map">
-          <Map />
+          {true && <Map />}
         </section>
       </main>
       </>
