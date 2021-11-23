@@ -36,7 +36,7 @@ const Map = (props) => {
     Promise.all([
       axios.get('/api/sites')]
     ).then(res => {
-      console.log('this is axios sites', res[0].data)
+      // console.log('this is axios sites', res[0].data)
       setSites(res[0].data)
     })
 
@@ -75,37 +75,21 @@ const Map = (props) => {
     //     .bindPopup('Center Marker')
     //   ])
 
+  },[])
 
-    // const addLayer = () => {
-    //   L.layerGroup.addTo(state.map)
-    // }
+
+  useEffect(()=> {
     const popup = L.popup()
 
     const onMapClick = (e) => {
-      console.log(e.latlng)
-      // popup
-      //   .setLatLng(e.latlng)
-      //   .setContent(`You clicked the map at ${e.latlng}`)
-      //   .openOn(state.map);
+      // console.log(e.latlng)
+      popup
+        .setLatLng(e.latlng)
+        .setContent(`You clicked the map at ${e.latlng}`)
+        .openOn(state.map);
     }
   
-    // if (state.map.getRenderer){
-    //   state.map.on('click', onMapClick)
-    // }
-  },[])
-
-  const popup = L.popup()
-
-  const onMapClick = (e) => {
-    // console.log(e.latlng)
-    popup
-      .setLatLng(e.latlng)
-      .setContent(`You clicked the map at ${e.latlng}`)
-      .openOn(state.map);
-  }
-
-  useEffect(()=> {
-    console.log('This is state sites', state.sites)
+    // console.log('This is state sites', state.sites)
     if (state.map.getRenderer) {
       
       L.marker([45.521020, -73.614750])
