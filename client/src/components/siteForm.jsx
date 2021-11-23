@@ -49,6 +49,7 @@ export default class SiteForm extends Component {
       <div>
         <input type='text' name='longitude' placeholder='longitude' value={longitude} onChange={this.changeHandler}/>
         <input type='text' name='latitude' placeholder='latitude' value={latitude} onChange={this.changeHandler}/>
+
       </div>
       {/* <div>
         <input type='text' name='size' placeholder='Panel Size' value={size} onChange={this.changeHandler}/>
