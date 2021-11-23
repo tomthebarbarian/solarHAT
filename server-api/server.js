@@ -6,28 +6,13 @@ const { varInit,
 
 // load .env data into process.env
 require("dotenv").config();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> dc54507 (no real changes)
 const axios = require('axios')
 
 
 const {MongoClient} = require('mongodb')
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 const cors = require('cors')
->>>>>>> d659d3e (minor changes)
-=======
-const { data } = require('./db_test/data')
-=======
-
->>>>>>> d659d3e (minor changes)
-const cors = require('cors')
->>>>>>> dc54507 (no real changes)
 
 // if for whatever reason 8000 is taken by another process
 // change PORT in .env file
@@ -36,6 +21,7 @@ const PORT = process.env.PORT || 8000;
 const express = require("express");
 const app = express();
 const router = express.Router();
+const bodyParser = require("body-parser");
 
 
 //dependency
@@ -56,6 +42,7 @@ app.use(cors())
 app.use(morgan("dev"));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const cookieSession = require('cookie-session');
 
@@ -73,7 +60,6 @@ dbo.connectToServer(function (err) {
 // Separated Routes for each Resource
 const sitesRoutes = require("./routes/sitesRoutes");
 const userRoutes = require("./routes/userRoutes");
-const { Client } = require('pg');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
