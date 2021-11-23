@@ -6,7 +6,11 @@ import L from "leaflet"
 import "./map.scss"
 import axios from 'axios'
 // import markerIconPng from "leaflet/dist/images/marker-icon.png"
+//  import  'leaflet'
 
+ import 'leaflet-css'
+
+//  import {  } from 'leaflet-css'
 
 const Map = (props) => {
   const [state, setState] = useState(
@@ -39,7 +43,7 @@ const Map = (props) => {
     setMap(
         L.map('map', 
         {
-        center: [45.489934, -73.566805],
+        center: [45.5017, -73.5673],
         zoom: 13,
         layers: [ 
           L.tileLayer(
@@ -103,6 +107,7 @@ const Map = (props) => {
   useEffect(()=> {
     console.log('This is state sites', state.sites)
     if (state.map.getRenderer) {
+      
       L.marker([45.521020, -73.614750])
         .bindPopup('A marker').addTo(state.map)
       L.marker([45.489934, -73.566805])
@@ -115,11 +120,11 @@ const Map = (props) => {
         elem.coord[1]]).bindPopup(elem.name).addTo(state.map)
       }
     }
-  }, [state.map, state.sites])
+  }, [state])
 
   return (
-    <div 
-      id="map" 
+    <div id="map"
+      style={{ height: "100%" }}
     >
     </div>
   )
