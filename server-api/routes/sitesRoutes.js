@@ -34,16 +34,20 @@ module.exports = (router, dbo) => {
       })
   });
 
-
+  router.post('/sites', (req, res) => {
+    console.log("from backend",req.body)
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .insert({
+        name: req.body.name,
+        coord: [req.body.longitude, req.body.latitude],
+        usage_kWh: req.body.usage_kWh
+      })
+  })
   return router;
 
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> d659d3e (minor changes)
   // module.exports = (router, dbo) => {
 
   //   router.get("/api/sites", (req, res) => {
@@ -60,32 +64,8 @@ module.exports = (router, dbo) => {
   //   });
   //   return router
   // }
-<<<<<<< HEAD
 
 
->>>>>>> d659d3e (minor changes)
-=======
-  module.exports = (router, dbo) => {
-
-    router.get("/api/sites", (req, res) => {
-
-      let db_connect = dbo.getDb("solar_flares");
-      db_connect
-        .collection("sites")
-        .find()
-        .sort({'consumption_kWh': -1})
-        .toArray(function (err, result) {
-          if (err) throw err;
-          res.json(result);
-        });
-    });
-    return router
-  }
-=======
->>>>>>> d659d3e (minor changes)
-
-
->>>>>>> dc54507 (no real changes)
 // module.exports = (router, db) => {
 
 //   router.get("/m", (req, res) => {
