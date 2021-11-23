@@ -1,12 +1,12 @@
 import {React, Component} from "react";
 import {BrowserRouter as Router} from 'react-router-dom'
-import Map from "./map";
+import Map from "./Map";
 import classNames from "classnames";
-import './siteForm.css'
+import './Form.css'
 import axios from 'axios'
 
 
-export default class SiteForm extends Component {
+export default class Form extends Component {
   constructor(props) {
     super(props)
     
