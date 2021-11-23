@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
+import ProductionStats from './ProductionStats';
 
 
 export default function Analytics(props) {
@@ -40,6 +41,7 @@ export default function Analytics(props) {
   }
 
   const siteData = state.site
+  const modelData = state.provinceModel
 
   // Data prep for the production graph
   const produceData = monthData.map(elem => elem * siteData.size_kW)
@@ -51,6 +53,12 @@ export default function Analytics(props) {
     <div className='analytics'>
       <ProductionBar monthProduction= {produceData}/>
       <SurplusProportion surplusProduction={surplusData}/>
+      <ProductionStats 
+        province={siteData.province} 
+        name={siteData.name} 
+        usage={siteData.usage_kWh} 
+        size={siteData.size_kW} 
+      />
     </div>
   );
 }
