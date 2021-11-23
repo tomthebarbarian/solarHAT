@@ -6,11 +6,8 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-<<<<<<< HEAD
     "axios": "^0.24.0",
-=======
     "coffee-script": "^1.12.7",
->>>>>>> front-end-test
     "leaflet": "^1.7.1",
     "leaflet-css": "^0.1.0",
     "normalize.css": "^8.0.1",
@@ -23,9 +20,9 @@
     "sass": "^1.43.4",
     "web-vitals": "^1.1.2"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:9000",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=9001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
