@@ -3,12 +3,12 @@ import "./SurplusProportion.scss"
 import React, { useEffect, useState, useRef } from 'react';
 
 const chartConfig = {
-  type: 'pie',
+  type: 'doughnut',
   data: {
       labels: ['Surplus', 'Deficit', 'Covered'],
       datasets: [{
           label: 'surplus production',
-          data: [5, 5, 5],
+          data: [4, 5, 20],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(255, 132, 99, 0.2)',
@@ -46,7 +46,7 @@ const SurplusProportion = (props) => {
     })
   }
 
-  // chartConfig.data.datasets[0].data = props.surplusProduction
+  chartConfig.data.datasets[0].data = props.surplusProduction
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {

@@ -42,14 +42,15 @@ export default function Analytics(props) {
   const siteData = state.site
 
   // Data prep for the production graph
-  const producedata = monthData.map(elem => elem * siteData.size_kW)
+  const produceData = monthData.map(elem => elem * siteData.size_kW)
 
-
+  // Surplus production, use covered by solar, not covered by solar
+  const surplusData = [4,5,20]
 
   return (
     <div className='analytics'>
-      <ProductionBar monthProduction= {producedata}/>
-      <SurplusProportion surplusProduction={[1,2,3]}/>
+      <ProductionBar monthProduction= {produceData}/>
+      <SurplusProportion surplusProduction={surplusData}/>
     </div>
   );
 }
