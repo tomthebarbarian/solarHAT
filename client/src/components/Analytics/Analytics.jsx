@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios'
 
 import ProductionBar from './ProductionBar';
-
-
+import SurplusProportion from './SurplusProportion';
 
 
 export default function Analytics(props) {
@@ -27,29 +26,31 @@ export default function Analytics(props) {
         "size_kW":10.5}
     }
   );
-  
+
+  // Data fetching for the future
+    // Promise.all([
+  //   axios.get('/api/sites')]
+  // )
   const monthData = state.monthData
 
-  const setMonthData = (data) => {
-    
+  const setMonthData = (monthData) => {
+    return setState(prev => {
+      return ({ ...prev, monthData })
+    })
   }
 
   const siteData = state.site
 
+  // Data prep for the production graph
   const producedata = monthData.map(elem => elem * siteData.size_kW)
 
-  // Promise.all([
-  //   axios.get('/api/sites')]
-  // )
+
 
   return (
-    <>
+    <div className='analytics'>
       <ProductionBar monthProduction= {producedata}/>
-    </>
+      <SurplusProportion surplusProduction={[1,2,3]}/>
+    </div>
   );
 }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
