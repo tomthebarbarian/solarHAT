@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Modal, Form} from 'react-bootstrap';
+import {Button,Modal, Col, Row, Form, InputGroup} from 'react-bootstrap';
 import classNames from 'classnames'
 import { useState } from 'react';
 
@@ -7,14 +7,20 @@ export default function Login(props) {
   const {onClick, apiLogout, state, setState} = props
 
 	const [user, setUser] = useState({});
-  // const  [logged,setLogged] = useState(false)
+  const  [code,setCode] = useState(false)
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow((prev) => (prev = false));
+  const handleClose = () => {
+    setUser(prev => ({...prev, name: '', email:'', password:''}))
+    setCode(prev => null)
+    setShow((prev) => (prev = false));
+  }
   const handleShow = () => {
+    setUser(prev => ({...prev, name: '', email:'', password:''}))
+    setCode(prev => null)
     setShow((prev) => (prev = true));
-    console.log('sign the fuk in', show);
+
   };
 
   const logout = () => {
@@ -36,7 +42,8 @@ export default function Login(props) {
     onClick(user)
       .then((res)=>{
       console.log('-------------[login api res]----\n',res.data)
-      
+      setCode(prev => res.data.code)
+
       if (res.data.user) {
         setUser(prev => res.data.user)
         setState(prev => ({...prev, user:res.data.user}))
@@ -59,15 +66,15 @@ export default function Login(props) {
     <>
     
       <pre> </pre>
-      {!user.name && 
+      {!state.user && 
       <Button variant='outline-warning' onClick={handleShow}>
         Login
       </Button>}
 
-      {user.name &&
+      {state.user &&
       
       <>
-        Hello, {user.name} 🙋 <pre>    </pre>
+        Hello, {state.user.name} 🙋 <pre>    </pre>
 
         <Button variant='outline-warning' onClick={logout}>
           Logout
@@ -87,6 +94,24 @@ export default function Login(props) {
             <Form.Group className='sm-2' controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" onChange={handleEmail} value={user.email} placeholder="email address"/>           
+              {/* <input type="email" name="email" value={user.email} onChange={handleEmail} className="form-control" /> */}
+
+              <Form.Group as={Col} md='4' controlId='validationCustomUsername'>
+            <Form.Label>Username</Form.Label>
+            <InputGroup hasValidation>
+              <InputGroup.Text id='inputGroupPrepend'>@</InputGroup.Text>
+              <Form.Control
+                type='text'
+                placeholder='Username'
+                aria-describedby='inputGroupPrepend'
+                required
+              />
+              <Form.Control.Feedback type='invalid'>
+                Please choose a username.
+              </Form.Control.Feedback>
+            </InputGroup>
+          </Form.Group>
+
 
               <Form.Text className='text-muted'>
                 We'll never share your email with anyone else.
@@ -97,6 +122,21 @@ export default function Login(props) {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" onChange={handlePassword} value={user.password} placeholder="password"/>           
             </Form.Group>
+          
+            {code === 400 && 
+            <div class="alert alert-danger" role="alert">
+                Invalid user name or password
+            </div>}
+        
+            {code === 401 && 
+            <div class="alert alert-danger" role="alert">
+                {user.email} not found!
+            </div>}
+
+            {code === 403 && 
+            <div class="alert alert-danger" role="alert">
+                Invalid credentials. Please check password and try again.
+            </div>}
 
           </Form>
         </Modal.Body>
