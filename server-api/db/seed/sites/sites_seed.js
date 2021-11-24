@@ -3,7 +3,7 @@ module.exports = [
   {
     id: 1,
     name: "aj",
-    coord: [45.5462, -73.36564],
+    coord: [45.42316, -75.706787],
     province: "ON",
     usage_kWh: 12.5,
     size_kW: 10.5,
@@ -11,7 +11,7 @@ module.exports = [
   {
     id: 4,
     name: "hamza",
-    coord: [40.5462, -70.36564],
+    coord: [43.652463, -79.391602],
     province: "ON",
     usage_kWh: 7.5,
     size_kW: 8.5,
@@ -31,5 +31,13 @@ module.exports = [
     province: "BC",
     usage_kWh: 7.75,
     size_kW: 10.0,
+  },
+  {
+    id: 5,
+    name: "aj-cottage",
+    coord: [45.318476, -75.765152],
+    province: "ON",
+    usage_kWh: 4.5,
+    size_kW: 10.5,
   },
 ];

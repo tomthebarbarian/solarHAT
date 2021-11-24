@@ -1,0 +1,17 @@
+// Your variable overrides
+$body-bg: rgb(228, 228, 228);
+$body-color: rgb(68, 68, 68);
+
+
+.customNav {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin:0;
+  }
+/* import bootstrap to set changes */
+@import '../../node_modules/bootstrap/scss/bootstrap';

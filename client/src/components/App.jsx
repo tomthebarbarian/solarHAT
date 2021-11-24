@@ -1,63 +1,112 @@
-
 import './App.scss';
-import Map from './Map'
-import {useState, useHooks, useEffect} from 'react'
+import './custom.scss';
+import Map from './Map';
+import { useState, useHooks, useEffect } from 'react';
 
 // import {Container, Navbar, Button,  ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
-import { Container, Row, Col } from 'react-bootstrap'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import SideBar from './Sidebar'
-import Form from './Form'
+import { Container, Navbar, Button, Nav, Row, Col, Modal, } from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import SideBar from './Sidebar';
+import Form from './Form';
 import Scoreboard from './Scoreboard';
 import BarchartCompare from './BarchartCompare';
+import Analytics from './Analytics/Analytics';
+import useAppData from './useAppData.js';
 
+import Login from './Login/Login';
+import Register from './Register/Register';
 
-import Analytics from './Analytics/Analytics'
+import classNames from 'classnames';
 
 export default function App() {
-  
-  return (
-    
+  //custom hook separate state logic from app rendering
+  const {
+    state,
+    setState,
+    loading,
+    apiLogin,
+    apiLogout,
+    apiRegister,
+    fnSetDay,
+    bookInterview,
+    deleteInterview,
+    resetdB,
+    fetchDays,
+    fetchAppts,
+  } = useAppData();
 
+  //add condiontal styling
+  const navbarClass = classNames('customNav');
+
+  // const user = state.user;
+
+  // const [show, setShow] = useState(false);
+
+  // const handleClose = () => setShow((prev) => (prev = false));
+  // const handleShow = () => {
+  //   setShow((prev) => (prev = true));
+  //   console.log('sign the fuk in', show);
+  // };
+
+  return (
     <Router>
       <>
-      <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
-        <script src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"crossorigin></script>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-        <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.label/leaflet.label.css" />
-        <link rel="stylesheet" href="style.css" />
-        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-      </head>
-      <main className="layout">      
-        <section className="sidebar">
-          <SideBar />        
-        </section>
-        
-        <div >    
-          <section >
-            <Route path="/scoreboard" component={Scoreboard} />
-            <Route path="/add_site"   component={Form} />
-          </section>         
-        </div> 
-        
-        
+        <head>
+          <link
+            rel='stylesheet'
+            href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css'
+            integrity='sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=='
+            crossorigin=''
+          />
+          <link
+            rel='stylesheet'
+            href='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css'
+          />
+          <link
+            rel='stylesheet'
+            href='http://leaflet.github.io/Leaflet.label/leaflet.label.css'
+          />
+        </head>
 
-        
-        <section className="detail">
-         { true && 
-          
-          <Analytics/>
+        <>
+          <Navbar bg='dark' variant='dark' className={navbarClass}>
+            <Container>
+              <Navbar.Brand href='#'>solarFlares</Navbar.Brand>
+
+              <Navbar.Toggle />
+
+              <Navbar.Collapse className='justify-content-end'></Navbar.Collapse>
             
-         }
-        </section>
+             {!state.user && <Register onClick={(user) => apiRegister(user)} state={state}/>}
+              <Login onClick={(user) => apiLogin(user)} apiLogout={apiLogout} state={state} setState={setState}/>
+              
+            </Container>
+          </Navbar>
+        </>
+        <main className='layout'>
+          <section className='sidebar'>
+            <SideBar />
+          </section>
 
-        <section className="map">
-          {true && <Map />}
-        </section>
-      </main>
+          <section>
+            <Route path='/scoreboard' component={Scoreboard} />
+            <Route path='/add_site' component={Form} />
+          </section>
+
+          {false && (
+            <section className='analytics'>
+              <Analytics />
+            </section>
+          )}
+
+          {true && (
+            <section className='map'>
+              <Map />
+            </section>
+          )}
+        </main>
       </>
-    </Router>  
+    </Router>
   );
 }

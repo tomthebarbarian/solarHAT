@@ -1,14 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
+import Map from '../Map'
 import BarchartCompare from '../BarchartCompare';
 
 export default function Analytics() {
   return (
     <>
+      <Map />
       <BarchartCompare />
       <BarchartCompare />
       <BarchartCompare/>
+
     </>
   );
 }

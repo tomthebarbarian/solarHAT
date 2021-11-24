@@ -107,8 +107,9 @@ const Map = (props) => {
   }, [state])
 
   return (
+    
     <div id="map"
-      style={{ height: "100%" }}
+      style={{ height: "90%" }}
     >
     </div>
   )

@@ -12,4 +12,4 @@ server-api/views/
 server-api/bin/*.jsx
 
 client/node_modules/
-
+*.xjs
