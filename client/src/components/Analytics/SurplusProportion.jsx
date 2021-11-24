@@ -1,30 +1,21 @@
 import Chart from 'chart.js/auto'
-import "./BarchartCompare.scss"
-import axios from 'axios'
+import "./SurplusProportion.scss"
 import React, { useEffect, useState, useRef } from 'react';
 
 const chartConfig = {
-  type: 'bar',
+  type: 'doughnut',
   data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['Surplus', 'Deficit', 'Covered'],
       datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          label: 'surplus production',
+          data: [4, 5, 20],
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
+              'rgba(255, 132, 99, 0.2)',
+              'rgba(99, 255, 132, 0.2)'
           ],
           borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
+              'rgba(255, 99, 132, 1)'
           ],
           borderWidth: 1
       }]
@@ -41,12 +32,11 @@ const chartConfig = {
 // Here's the start of barchart compare
 // Should generate a barchart for all avg kw production for that number of 
 // months and year
-const BarchartCompare = (props) => {
+const SurplusProportion = (props) => {
   const chartContainer = useRef(null);
   const [state, setState] = useState(
     {
       graph: {},
-      monthdata: [],
     }
   );
 
@@ -55,6 +45,8 @@ const BarchartCompare = (props) => {
       return ({ ...prev, graph })
     })
   }
+
+  chartConfig.data.datasets[0].data = props.surplusProduction
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
@@ -65,9 +57,9 @@ const BarchartCompare = (props) => {
 
   return (
     <div>
-      <canvas ref={chartContainer} class ='comparebar'/>
+      <canvas ref={chartContainer} class ='productionpie'/>
     </div>
   );
 };
 
-export default BarchartCompare;
+export default SurplusProportion;
