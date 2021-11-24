@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 
 import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
-import ProductionStats from './ProductionStats';import ProductionEstimates from './ProductionEstimates';
-
+import ProductionStats from './ProductionStats';
+import ProductionEstimates from './ProductionEstimates';
 
 export default function Analytics(props) {
   const [state, setState] = useState(
@@ -22,22 +22,32 @@ export default function Analytics(props) {
         "size_kW":10.5}
     }
   );
-  // 
-  // State getters and setters
-  const siteData = state.site
   
+  // State getters and setters
+  const siteData = {...state.site}
+  const setSite = (site) => {
+    return setState(prev => ({...prev, site}))
+  }
+  
+
   const provinceModel = {...state.provinceModel}
+
   const setProvinceModel = (provinceModel) => {
     return setState(prev => {
       return ({ ...prev, provinceModel })
     })
   }
-
-  const monthData = provinceModel.pv_monthlyavg
+  useEffect( () => {
+    setProvinceModel(props.provinceModel)
+    setSite(props.site)
+  },[]
+  )
+  const monthData = provinceModel.pv_monthly_avg
 
   // Data prep for the production graph
   const produceData = monthData.map(elem => elem * siteData.size_kW)
 
+  // Prep for Production Estimates
   let totalProduction = 0
   produceData.forEach(each => {
     totalProduction += each
