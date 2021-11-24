@@ -54,10 +54,7 @@ export default function Analytics(props) {
       <ProductionBar monthProduction= {produceData}/>
       <SurplusProportion surplusProduction={surplusData}/>
       <ProductionStats 
-        province={siteData.province} 
-        name={siteData.name} 
-        usage={siteData.usage_kWh} 
-        size={siteData.size_kW} 
+        site={siteData}
       />
     </div>
   );

@@ -2,19 +2,20 @@ import React from "react";
 import './ProductionStats.scss'
 
 const ProductionStats = (props) => {
+  const {province, name, usage_kWh, size_kW} = props.site
   return(
     <ul>
       <li>
-        {`Province ${props.province}`}
+        {`Province ${province}`}
       </li>
       <li>
-        {`Name: ${props.name}`}
+        {`Name: ${name}`}
       </li>
       <li>
-        {`Usage (kWH): ${props.usage}`}
+        {`Usage (kWH): ${usage_kWh}`}
       </li>
       <li>
-        {`Size (kWH): ${props.size}`}
+        {`Size (kWH): ${size_kW}`}
       </li>
     </ul>
 
