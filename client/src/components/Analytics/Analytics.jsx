@@ -7,6 +7,7 @@ import ProductionStats from './ProductionStats';
 import ProductionEstimates from './ProductionEstimates';
 
 export default function Analytics(props) {
+  // Props should be named provinceModel, and sites
   const [state, setState] = useState(
     {
       provinceModel: {
