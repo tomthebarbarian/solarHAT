@@ -1,72 +1,66 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 
-import axios from 'axios'
-
 import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
-import ProductionStats from './ProductionStats';
-import { fetchData, apiCall, logout, login, register } from '../../helpers/api';
+import ProductionStats from './ProductionStats';import ProductionEstimates from './ProductionEstimates';
 
 
 export default function Analytics(props) {
   const [state, setState] = useState(
     {
-      monthData: [36,79,134,148,129,125,117,105,82,51,35,24],
       provinceModel: {
-        "_id":"619bd8f50e7e193e9fd00d0e",
-        "ON":{
           "pv_monthly_avg":[66,92,109,115,119,124,125,118,104,86,56,52],
-          "cost_cents_avg":13}
+          "cost_cents_avg":13
       },
       site: {
         "_id":1,
         "name":"aj",
         "coord":[45.5462,-73.36564],
         "province":"ON",
-        "usage kWh 1000s":12.5,
+        "usage_kWh":12.5,
         "size_kW":10.5}
     }
   );
   // 
-
-  const monthData = state.monthData
-
-  const setMonthData = (monthData) => {
+  // State getters and setters
+  const siteData = state.site
+  
+  const provinceModel = {...state.provinceModel}
+  const setProvinceModel = (provinceModel) => {
     return setState(prev => {
-      return ({ ...prev, monthData })
+      return ({ ...prev, provinceModel })
     })
   }
 
-  useEffect(() => {
-    //fetch data with API call
-    fetchData()
-      .then((data) => {
-        setState((prev) => ({
-          ...prev,
-          sites: data.sites,
-          model: data.model,
-          users: data.users,
-        }))
-      }
-    )
-  }, [])
-
-  const siteData = state.site
-  const modelData = state.provinceModel
+  const monthData = provinceModel.pv_monthlyavg
 
   // Data prep for the production graph
   const produceData = monthData.map(elem => elem * siteData.size_kW)
 
-  // Surplus production, use covered by solar, not covered by solar
-  // Surplus data format should be [surplus, deficit, covered]
-  let totalProduce = 0
+  let totalProduction = 0
   produceData.forEach(each => {
-    totalProduce += each
+    totalProduction += each
     }
   )
 
-  const surplusData = [4,5,20]
+  const totalUsage = siteData.usage_kWh * 1000
+  const netUsage = (totalUsage - totalProduction)
+  
+  // 1.35 tax
+  const netCost = netUsage * provinceModel.cost_cents_avg
+  
+  const percentUsge = totalProduction / totalUsage
+
+  // Surplus production, use covered by solar, not covered by solar
+  // Surplus data format should be [surplus, deficit, covered]
+  // let surplusData = []
+  const surplusData = [0,0,totalProduction]
+  if (netUsage > 0) {
+    surplusData[0] = netUsage
+  } else {
+    surplusData[1] = netUsage
+  }
 
   return (
     <div className='analytics'>
@@ -74,6 +68,12 @@ export default function Analytics(props) {
       <SurplusProportion surplusProduction={surplusData}/>
       <ProductionStats 
         site={siteData}
+      />
+      <ProductionEstimates
+        totalproduction={totalProduction}
+        surplus={totalProduction - totalUsage}
+        utilization={percentUsge}
+        netCost={netCost}
       />
     </div>
   );

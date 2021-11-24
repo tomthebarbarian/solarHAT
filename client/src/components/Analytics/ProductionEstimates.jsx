@@ -2,20 +2,20 @@ import React from "react";
 import './ProductionEstimates.scss'
 
 const ProductionEstimates = (props) => {
-  const {totalproduction, surplus, utilization} = props
+  const {totalproduction, surplus, utilization, netCost} = props
   return(
     <ul>
       <li>
-        {`Annual: ${totalproduction}kWh`}
+        {`Annual(kWh): ${totalproduction}`}
       </li>
       <li>
-        {`Surplus: ${surplus}`}
+        {`Surplus(kWh): ${surplus}`}
       </li>
       <li>
         {`Utilization (%): ${utilization}`}
       </li>
       <li>
-        {`Energy Costs: ${'To be determined'}`}
+        {`Energy Costs ($): ${netCost/100}`}
       </li>
     </ul>
 
