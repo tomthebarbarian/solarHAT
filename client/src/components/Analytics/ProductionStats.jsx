@@ -4,7 +4,7 @@ import './ProductionStats.scss'
 const ProductionStats = (props) => {
   const {province, name, usage_kWh, size_kW} = props.site
   return(
-    <ul>
+    <ul className="productionstats">
       <li>
         {`Province ${province}`}
       </li>

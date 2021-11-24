@@ -42,7 +42,7 @@ export default function Analytics(props) {
     setProvinceModel(props.provinceModel)
     setSite(props.site)
   },[])
-  
+
   const monthData = provinceModel.pv_monthly_avg
 
   // Data prep for the production graph
@@ -75,17 +75,19 @@ export default function Analytics(props) {
 
   return (
     <div className='analytics'>
+        <ProductionStats 
+          site={siteData}
+        />
+       <div>
+          <ProductionEstimates
+            totalproduction={totalProduction}
+            surplus={totalProduction - totalUsage}
+            utilization={percentUsge}
+            netCost={netCost}
+          />
+          <SurplusProportion surplusProduction={surplusData}/>
+      </div>
       <ProductionBar monthProduction= {produceData}/>
-      <SurplusProportion surplusProduction={surplusData}/>
-      <ProductionStats 
-        site={siteData}
-      />
-      <ProductionEstimates
-        totalproduction={totalProduction}
-        surplus={totalProduction - totalUsage}
-        utilization={percentUsge}
-        netCost={netCost}
-      />
     </div>
   );
 }
