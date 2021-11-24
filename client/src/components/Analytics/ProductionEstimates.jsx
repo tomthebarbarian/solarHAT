@@ -6,13 +6,13 @@ const ProductionEstimates = (props) => {
   return(
     <ul>
       <li>
-        {`Annual(kWh): ${totalproduction}`}
+        {`Annual production (kWh): ${totalproduction}`}
       </li>
       <li>
         {`Surplus(kWh): ${surplus}`}
       </li>
       <li>
-        {`Utilization (%): ${utilization}`}
+        {`Utilization (%): ${Math.round(utilization * 100)/100}`}
       </li>
       <li>
         {`Energy Costs ($): ${netCost/100}`}

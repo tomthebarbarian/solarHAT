@@ -37,11 +37,12 @@ export default function Analytics(props) {
       return ({ ...prev, provinceModel })
     })
   }
+
   useEffect( () => {
     setProvinceModel(props.provinceModel)
     setSite(props.site)
-  },[]
-  )
+  },[])
+  
   const monthData = provinceModel.pv_monthly_avg
 
   // Data prep for the production graph
