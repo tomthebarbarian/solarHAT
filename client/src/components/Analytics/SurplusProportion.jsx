@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef } from 'react';
 const chartConfig = {
   type: 'doughnut',
   data: {
-      labels: ['Surplus', 'Deficit', 'Covered'],
+      labels: ['Surplus kWh', 'Deficit kWh', 'Covered kWh'],
       datasets: [{
           label: 'surplus production',
           data: [4, 5, 20],
