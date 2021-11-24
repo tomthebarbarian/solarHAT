@@ -15,7 +15,7 @@ const ProductionStats = (props) => {
         {`Usage (kWH): ${usage_kWh}`}
       </li>
       <li>
-        {`Size (kWH): ${size_kW}`}
+        {`Size (kW): ${size_kW}`}
       </li>
     </ul>
 

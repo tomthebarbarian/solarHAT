@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 
 import axios from 'axios'
@@ -6,6 +6,7 @@ import axios from 'axios'
 import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
 import ProductionStats from './ProductionStats';
+import { fetchData, apiCall, logout, login, register } from '../../helpers/api';
 
 
 export default function Analytics(props) {
@@ -23,15 +24,12 @@ export default function Analytics(props) {
         "name":"aj",
         "coord":[45.5462,-73.36564],
         "province":"ON",
-        "usage_kWh":12.5,
+        "usage kWh 1000s":12.5,
         "size_kW":10.5}
     }
   );
+  // 
 
-  // Data fetching for the future
-    // Promise.all([
-  //   axios.get('/api/sites')]
-  // )
   const monthData = state.monthData
 
   const setMonthData = (monthData) => {
@@ -40,6 +38,20 @@ export default function Analytics(props) {
     })
   }
 
+  useEffect(() => {
+    //fetch data with API call
+    fetchData()
+      .then((data) => {
+        setState((prev) => ({
+          ...prev,
+          sites: data.sites,
+          model: data.model,
+          users: data.users,
+        }))
+      }
+    )
+  }, [])
+
   const siteData = state.site
   const modelData = state.provinceModel
 
@@ -47,6 +59,13 @@ export default function Analytics(props) {
   const produceData = monthData.map(elem => elem * siteData.size_kW)
 
   // Surplus production, use covered by solar, not covered by solar
+  // Surplus data format should be [surplus, deficit, covered]
+  let totalProduce = 0
+  produceData.forEach(each => {
+    totalProduce += each
+    }
+  )
+
   const surplusData = [4,5,20]
 
   return (
