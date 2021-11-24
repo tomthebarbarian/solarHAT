@@ -18,6 +18,7 @@ import Login from './Login/Login';
 import Register from './Register/Register';
 
 import classNames from 'classnames';
+import EditSite from './Edit/EditSite.jsx';
 
 export default function App() {
   //custom hook separate state logic from app rendering
@@ -78,7 +79,7 @@ export default function App() {
 
               <Navbar.Collapse className='justify-content-end'></Navbar.Collapse>
             
-             {!state.user && <Register onClick={(user) => apiRegister(user)} state={state}/>}
+             {!state.user && <Register onClick={(user) => apiRegister(user)} state={state} setState={setState}/>}
               <Login onClick={(user) => apiLogin(user)} apiLogout={apiLogout} state={state} setState={setState}/>
               
             </Container>
@@ -99,6 +100,10 @@ export default function App() {
               <Analytics />
             </section>
           )}
+
+          <section>
+            <EditSite/>
+          </section>
 
           {true && (
             <section className='map'>

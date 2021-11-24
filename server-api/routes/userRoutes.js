@@ -73,53 +73,51 @@ module.exports = (router, dbo) => {
     const { name, email, password } = req.body;
     if (!email || !password) {
       console.log("errCode 400: Invalid user name or password");
-      const vars = varInit(false, 400, user, null);
+      const vars = varInit(false, 400, null, null);
       // res.render("register", vars);
       res.json({ code: 401, exist: false, msg: 'Invalid user name or password!' });
 
       return;
     }
+
     const dbConn = dbo.getDb();
     dbConn
       .collection("users")
       .find({ email: email })
       .toArray(function (err, user) {
         if (err) throw err;
+        console.log('-xxx----x--reg---')
         console.log({ user, name, email, password });
 
         //check if user exist
-        if (user.length > 0 && user[0].email === email) {
+        if (user[0]) {
           //errCode 410: user exist
           console.log("user exists ");
-          const vars = varInit(false, 410, user, null);
+          // const vars = varInit(false, 410, user[0], null);
           // res.render("register", vars);
-          res.json({ code: 401, exist: true, msg: 'user already exists' });
+          res.json({ code: 400, exist: true, msg: 'user already exists' });
           return;
         }
 
 
         bcrypt.hash(password, 10, function (err, hash) {
           // Store hash in your password DB.
-
+          console.log('bcrypt register')
           user = { name, email, hash };
-          // //user and password are OK - create new
-          // const newUser = createUser(name, email, password);
-          // //wirte new user to usersdB
-          // usersdB[newUser.id] = newUser;
 
           dbConn.collection("users").insertOne(user);
 
+
+          //create session cookie
+          req.session.user_id = user.id;
           res
             .status(200)
-            .json({ code: 200, name, email, hash });
+            .json({ code: 200, exist: false, user });
         });
 
-        // const user = getUserByEmail(email, usersdB);
+
       });
 
-    //create session cookie
-    // req.session.user_id = newUser.id;
-    // res.redirect("/urls");
   });
 
   router.get("/users", (req, res) => {
@@ -149,16 +147,18 @@ module.exports = (router, dbo) => {
       .find(ObjectId(userId))
       .toArray((err, user) => {
         if (err) throw err;
-
-        console.log(user);
-        user = user[0];
-        if (user) {
-          res.redirect("/sites");
+        if (user[0]) {
+          res.json({ code: 200, msg: 'success', user })
+          // res.redirect("/sites");
         }
         //initialize template variable,
         //if we are here we are not logged in
         const templateVars = varInit(false, null, null, null);
-        res.render("login", templateVars);
+        // res.render("login", templateVars);
+
+        console.log('------------------session-------')
+        res.json({ code: 401, msg: 'user not found', user: null })
+
       });
   });
 
@@ -166,7 +166,14 @@ module.exports = (router, dbo) => {
     //parse user email and password
     const { email, password } = req.body;
     console.log({ email, password });
+    if (!email || !password) {
+      console.log("errCode 400: Invalid user name or password");
+      const vars = varInit(false, 400, null, null);
+      // res.render("register", vars);
+      res.json({ code: 400, exist: false, msg: 'Invalid user name or password!' });
 
+      return;
+    }
     const dbConn = dbo.getDb();
     dbConn
       .collection("users")

@@ -8,47 +8,55 @@ export default function Register(props) {
   
 	const [user, setUser] = useState({});
   const [show, setShow] = useState(false);
-  const [exist,setExist] = useState(false)
+  const [code,setCode] = useState(false)
 
-  const handleClose = () => setShow((prev) => false);
+  const handleClose = () => {
+    setShow(prev => false);
+    setUser(prev => ({...prev, name: '', email:'', password:''}))
+  }
   const handleShow = () => {
-    setShow((prev) => true);
+    setShow(prev => true);
     console.log('sign the fuk in', show);
   };
 
 
-  const submit = () => {
-    console.log('-------------[register form]------------',user)
+  const register = () => {
+      
+
+    console.log('-------------[register form]------------\n',user)
     onClick(user)
     .then(res => {
-      console.log('-------------[register api res]----',res.data)
-      setExist(prev => res.data.exist)
-      if (!exist) {
-        setUser(prev => user )
-        setState(prev => ({...prev, user:user}))
+      console.log('-------------[register api res]----\n',res.data)
+      setCode(prev => res.data.code)
+      if (res.data.user) {
+        // setUser(prev => ({...prev, name: '', email:'', password:''}))
+        setState(prev => ({...prev, user:res.data.user}))
         handleClose()
         return
       }
-      setUser(prev => ({...prev, name: '', email:'', password:''}))
-      setState(prev => ({...prev, user:null}))
-
-      handleShow()
+      
+      // setState(prev => ({...prev, user:null})) 
+      // handleShow()
+      return
+    
+      
     })
     .catch(error => `Error: ${error}`);
+
   };
 
   const handleName = (e) => {
     setUser(prev => ({...prev, name: e.target.value }))
-    setExist(prev => false)
+    setCode(prev => null)
   }
 
   const handleEmail = (e) => {
     setUser(prev => ({...prev, email: e.target.value }))
-    setExist(prev => false)
+    setCode(prev => null)
   }
   const handlePassword = (e) => {
     setUser(prev => ({...prev, password: e.target.value }))
-    setExist(prev => false)
+    setCode(prev => null)
    }
 
 
@@ -56,7 +64,7 @@ export default function Register(props) {
     <>
     
       <pre> </pre>
-     { !user.name && <Button variant='outline-warning' onClick={handleShow}>
+     { (code !==200) && <Button variant='outline-warning' onClick={handleShow}>
         Register
       </Button>}
 
@@ -68,7 +76,7 @@ export default function Register(props) {
         </Modal.Header>
         <Modal.Body>
           <Form>
-          <Form.Group className='sm-2' controlId='name'>
+          <Form.Group className='sm-2' controlId='namze'>
               <Form.Label>Name</Form.Label>
               <Form.Control type="text" onChange={handleName} value={user.name} placeholder="John Smith"/>           
             </Form.Group>
@@ -86,14 +94,19 @@ export default function Register(props) {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" onChange={handlePassword} value={user.password} placeholder="password"/>           
             </Form.Group>
-          {exist && 
-            <div class="alert alert-danger" role="alert">
-                {user.name} already exists!
-            </div>}
+              {code === 400 && 
+                <div class="alert alert-danger" role="alert">
+                    {user.email} already exists!
+                </div>}
+
+                {code === 401 && 
+                <div class="alert alert-danger" role="alert">
+                    Invalid user name or password
+                </div>}
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='warning' onClick={submit}>
+          <Button variant='warning' onClick={register}>
             Register
           </Button>
         </Modal.Footer>
