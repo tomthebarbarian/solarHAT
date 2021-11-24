@@ -5,12 +5,12 @@ import React, { useEffect, useState, useRef } from 'react';
 const chartConfig = {
   type: 'doughnut',
   data: {
-      labels: ['Surplus', 'Deficit', 'Covered'],
+      labels: ['Surplus kWh', 'Deficit kWh', 'Covered kWh'],
       datasets: [{
           label: 'surplus production',
           data: [4, 5, 20],
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 255, 200, 0.2)',
               'rgba(255, 132, 99, 0.2)',
               'rgba(99, 255, 132, 0.2)'
           ],
@@ -56,7 +56,7 @@ const SurplusProportion = (props) => {
   }, [chartContainer]);
 
   return (
-    <div>
+    <div className='productionpie'>
       <canvas ref={chartContainer} class ='productionpie'/>
     </div>
   );

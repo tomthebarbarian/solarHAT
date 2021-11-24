@@ -16,7 +16,20 @@ const chartConfig = {
               'rgba(255, 99, 132, 1)'
           ],
           borderWidth: 1
-      }]
+      },
+      {
+        label: '# kWH produced',
+        type: 'line',
+        data: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+        backgroundColor: [
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)'
+        ]
+      
+      }
+    ]
   },
   options: {
       scales: {
@@ -45,6 +58,7 @@ const ProductionBar = (props) => {
   }
 
   chartConfig.data.datasets[0].data = props.monthProduction
+  chartConfig.data.datasets[1].data = props.monthProduction
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
@@ -54,8 +68,8 @@ const ProductionBar = (props) => {
   }, [chartContainer]);
 
   return (
-    <div>
-      <canvas ref={chartContainer} class ='comparebar'/>
+    <div className='comparebar'>
+      <canvas ref={chartContainer} />
     </div>
   );
 };

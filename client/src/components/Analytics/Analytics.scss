@@ -1,0 +1,24 @@
+.analytics{
+  display: flex;
+  flex-direction: column;
+
+  .productionstats{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+  }
+
+  div:nth-child(2){
+    display: flex;
+    flex-direction: row;
+    .productionpie{
+      width: 49%;
+    }
+    ul{
+      width: 49%;
+    }
+  }
+}
+
+
+
