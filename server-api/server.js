@@ -9,7 +9,7 @@ require("dotenv").config();
 const axios = require('axios')
 
 
-const {MongoClient} = require('mongodb')
+const { MongoClient } = require('mongodb')
 
 
 const cors = require('cors')
@@ -63,8 +63,8 @@ const userRoutes = require("./routes/userRoutes");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/api", sitesRoutes(router, dbo));
 app.use('/', userRoutes(router, dbo));
+app.use("/api/", sitesRoutes(router, dbo));
 
 
 // normally routes will go in route files defined above

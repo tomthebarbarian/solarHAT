@@ -71,8 +71,15 @@ module.exports = (router, dbo) => {
   //T_T
   router.post("/register", (req, res) => {
     const { name, email, password } = req.body;
-    const dbConn = dbo.getDb();
+    if (!email || !password) {
+      console.log("errCode 400: Invalid user name or password");
+      const vars = varInit(false, 400, user, null);
+      // res.render("register", vars);
+      res.json({ code: 401, exist: false, msg: 'Invalid user name or password!' });
 
+      return;
+    }
+    const dbConn = dbo.getDb();
     dbConn
       .collection("users")
       .find({ email: email })
@@ -84,15 +91,12 @@ module.exports = (router, dbo) => {
         if (user.length > 0 && user[0].email === email) {
           //errCode 410: user exist
           console.log("user exists ");
-          const templateVars = varInit(false, 410, user, null);
-          res.render("register", templateVars);
-          return;
-        } else if (!email || !password) {
-          console.log("errCode 400: Invalid user name or password");
-          const templateVars = varInit(false, 400, user, null);
-          res.render("register", templateVars);
+          const vars = varInit(false, 410, user, null);
+          // res.render("register", vars);
+          res.json({ code: 401, exist: true, msg: 'user already exists' });
           return;
         }
+
 
         bcrypt.hash(password, 10, function (err, hash) {
           // Store hash in your password DB.
@@ -105,7 +109,9 @@ module.exports = (router, dbo) => {
 
           dbConn.collection("users").insertOne(user);
 
-          res.json({ name, email, password, hash });
+          res
+            .status(200)
+            .json({ code: 200, name, email, hash });
         });
 
         // const user = getUserByEmail(email, usersdB);
@@ -123,11 +129,13 @@ module.exports = (router, dbo) => {
       .find()
       .toArray(function (err, result) {
         if (err) throw err;
-        res.json(result);
+        res
+          .status(200)
+          .json(result);
       });
 
   });
-  return router
+
 
   router.get("/login", (req, res) => {
     //check if we are already logged in
@@ -158,25 +166,30 @@ module.exports = (router, dbo) => {
     //parse user email and password
     const { email, password } = req.body;
     console.log({ email, password });
-    const dbConn = dbo.getDb();
 
+    const dbConn = dbo.getDb();
     dbConn
       .collection("users")
       .find({ email: email })
       .toArray((err, user) => {
         if (err) throw err;
-
         user = user[0];
+        if (!user) {
+          res.json({ code: 401, msg: 'user not found', user: null })
+          return
+        }
 
-        bcrypt.compare(password, user.hash, function (err, result) {
+        bcrypt.compare(password, user.hash, function (err, auth) {
           // result == true
 
-          console.log({ result });
-          if (!result) {
+          console.log({ auth });
+          if (!auth) {
             //authentication failed -
             //redirect to login with appropriate error message
-            const templateVars = varInit(false, 410, null, null);
-            res.render("login", templateVars);
+            const vars = varInit(false, 410, null, null);
+            // res.render("login", vars);
+            res
+              .json({ code: 403, msg: 'invalid password', user: null })
             return;
           }
 
@@ -184,20 +197,23 @@ module.exports = (router, dbo) => {
           console.log(`------------[user.id]--------------\n`, user._id);
 
           const vars = varInit(true, 200, user, null);
-          res.status(200).send([vars]);
-          // res.redirect('/me');
+          // res.render('main', vars);
+          res
+            .json({ code: 200, msg: 'success', user })
           return;
         });
       });
 
-    // authenticate if matching user found
+
   });
 
   router.get("/logout", (req, res) => {
     //clears cookie and redirect to login page
     req.session = null;
-    const templateVars = varInit(false, 200, null, null);
-    res.redirect("login");
+    const state = varInit(false, 200, null, null);
+    // res.render("login", vars);
+    res.json({ code: 200, msg: 'logged out', user: null })
+
   });
 
   return router;
