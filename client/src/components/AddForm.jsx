@@ -4,7 +4,7 @@ import classNames from "classnames";
 import Geocode from 'react-geocode'
 
 import axios from 'axios'
-import './Form.scss'
+// import './Form.scss'
 
 Geocode.setApiKey('AIzaSyCcKsKVOs-uzI8Ri0xtVmP-Mi9NNsFkj_c');
 Geocode.setLanguage('en');
@@ -53,7 +53,7 @@ export default class AddForm extends Component {
 
   submitHandler = (e) => {
     e.preventDefault()
-    console.log(this.state)
+    // console.log(this.state)
     Geocode.fromAddress(this.state.address)
         .then((response) => {
           console.log(response)
@@ -61,17 +61,18 @@ export default class AddForm extends Component {
           const lng = response.results[0].geometry.location.lng
           this.setState({latitude: lat, longitude: lng})
           console.log("state with correct coord",this.state)
+          axios.post('/api/sites', this.state)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
         },
         (error)=>{
           console.log(error)
         })
-    axios.post('/api/sites', this.state)
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    
   }
 
   render(){
