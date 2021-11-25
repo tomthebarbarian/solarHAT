@@ -12,6 +12,8 @@
     display: flex;
     flex-direction: row;
     .productionpie{
+      display: flex;
+      flex-direction: column;
       width: 49%;
     }
     ul{

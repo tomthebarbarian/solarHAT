@@ -49,6 +49,7 @@ export default function App() {
   //   setShow((prev) => (prev = true));
   //   console.log('sign the fuk in', show);
   // };
+  
 
   return (
     <Router>
@@ -95,7 +96,7 @@ export default function App() {
             <Route path='/add_site' component={Form} />
           </section>
 
-          {false && (
+          {true && (
             <section className='analytics'>
               <Analytics />
             </section>
@@ -105,7 +106,7 @@ export default function App() {
             <EditSite/>
           </section>
 
-          {true && (
+          {false && (
             <section className='map'>
               <Map />
             </section>

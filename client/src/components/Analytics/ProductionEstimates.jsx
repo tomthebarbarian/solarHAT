@@ -5,6 +5,7 @@ const ProductionEstimates = (props) => {
   const {totalproduction, surplus, utilization, netCost} = props
   return(
     <ul>
+      <h2>Production Estimates</h2>
       <li>
         {`Annual production (kWh): ${totalproduction}`}
       </li>
