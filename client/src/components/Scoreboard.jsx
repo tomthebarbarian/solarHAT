@@ -36,18 +36,23 @@ export default class Scoreboard extends Component{
   return (
     <>
     {/* {console.log(this.state.siteData)} */}
-    <table className='scoreboard'>
-     
-   <tr>
-      {this.state.siteData.map((site) => <td>{site.name}</td>)}
-    </tr>
+    <table class="table">
+  <thead>
     <tr>
-      {this.state.siteData.map((site) => <td>{site.usage_kWh}</td>)}
+      <th scope="col">Ranking</th>
+      <th scope="col">Name</th>
+      <th scope="col">Usage</th>
     </tr>
-    
-    
-    
-  </table>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    </tbody>
+    </table>  
     </>
   )}
   }
