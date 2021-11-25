@@ -164,7 +164,7 @@ export default function App() {
                
           <section>
               {/* {nav.editMap && <EditSite />} */}
-              {nav.analytics &&  <Analytics />}
+              {nav.analytics &&  <Analytics state={state} setState={setState} />}
               {nav.addSite &&  <EditSite state={state} setState={setState}/>}
               {nav.addSite &&  <AddForm/>}
               {nav.leaderBoard &&  <Scoreboard/>}
