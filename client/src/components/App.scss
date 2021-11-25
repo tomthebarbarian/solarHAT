@@ -88,3 +88,45 @@
     transform: rotate(360deg);
   }
 }
+input {
+  padding: 3px;
+  margin: 3px;
+}
+
+.site-form {
+display: flex;
+justify-content: center;
+margin: 2px;
+padding: 10px;
+}
+
+.input {
+padding: 10px;
+}
+
+
+
+.add {
+margin-right: 45px;
+}
+
+#size {
+margin-right: 55px;
+}
+
+#name {
+margin-right: 20px;
+}
+
+.scoreboard {
+  padding-bottom: 100px;
+}
+
+#scoreboard {
+  margin: 100px;
+  justify-content: center;
+}
+
+td {
+  border: none;
+}
