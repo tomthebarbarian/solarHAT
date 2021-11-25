@@ -38,7 +38,7 @@ module.exports = (router, dbo) => {
     console.log("from backend", req.body)
     const site = req.body
     res.json({ site })
-    return
+
     const dbConn = dbo.getDb();
     dbConn.collection("sites").insertOne(site);
 

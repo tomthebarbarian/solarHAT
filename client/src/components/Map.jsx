@@ -15,26 +15,21 @@ import axios from 'axios'
 const Map = (props) => {
 
   const {state, setState} = props
+  /*
+    map: {_addLayers: ƒ _addLayers() {}, _addZoomLimit: ƒ _a…}
+    model: [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
+    sites: [{…}, {…}, {…}, {…}, {…}]
+    user:null
+    users:[{…}, {…}, {…}, {…}]
+*/
 
-  
-  // const [state, setState] = useState(
-  //   {
-  //     map: {},
-  //     sites: [],
-  //   }
-  // )
-  const setMap = (map) => {
-    console.log(state)
-     setState(prev => ({ ...prev, map:map }))
-  }
-  
+  const [map, setMap] = useState({} )
+
+
   
   // const mapRef = React.useRef(null);
   useEffect(() => {
-
-    // setSites(state.sites)
-    console.log(state.sites)
-    console.log('this is props.sites', state.sites)
+    console.log('----------[this is props.sites]--------', state.sites)
     setMap(
         L.map('map', 
         {
@@ -55,7 +50,7 @@ const Map = (props) => {
         ]
         })
     )
-  },[])
+  },[state.sites])
 
 
   useEffect(()=> {
@@ -66,25 +61,28 @@ const Map = (props) => {
       popup
         .setLatLng(e.latlng)
         .setContent(`You clicked the map at ${e.latlng}`)
-        .openOn(state.map);
+        .openOn(map);
     }
   
     // console.log('This is state sites', state.sites)
-    if (state.map.getRenderer) {
+    if (map.getRenderer) {
+      console.log('.............rendering markers..................')
       
       L.marker([45.521020, -73.614750])
-        .bindPopup('A marker').addTo(state.map)
+        .bindPopup('A marker').addTo(map)
       L.marker([45.489934, -73.566805])
-        .bindPopup('Center Marker').addTo(state.map)
-      state.map.on('click', onMapClick)
+        .bindPopup('Center Marker').addTo(map)
+      map.on('click', onMapClick)
+  
+      if (state.sites.length > 0) {
+        for (let elem of state.sites){
+          L.marker([elem.coord[0],
+          elem.coord[1]]).bindPopup(elem.name).addTo(map)
+        }
+      }
     }
-    if (state.sites.length > 0) {
-      // for (let elem of state.sites){
-      //   L.marker([elem.coord[0],
-      //   elem.coord[1]]).bindPopup(elem.name).addTo(state.map)
-      // }
-    }
-  }, [state])
+  
+  }, [map])
 
   return (
     <>

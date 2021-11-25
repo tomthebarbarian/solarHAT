@@ -50,6 +50,11 @@ export default function EditSite(props) {
     newSite.coord = coord;
     setSite((prev) => ({ ...newSite }));
 
+
+    const newSites = [...state.sites, newSite]
+    
+    setState(prev=> ({...prev, sites: newSites}))
+
     axios
       .post('/api/sites', newSite)
       .then((response) => {
