@@ -57,27 +57,36 @@ export default function EditSite(props) {
         console.log(error);
       });
 
+    clear()
+      
+  }
+
+  const clear=() => {
+    // setValidated(false)
 
     setSite(prev => ({...{},
       name: '',
       lat: '',
       long: '',
-      usage_kWh: null,
-      size_kW: null,
+      usage_kWh: '',
+      size_kW: '',
       province: '',
       city: '',
       zip: '',
     }))
 
-      
-  }
+    setValidated(false)
 
+
+  }
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault()
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+
+      setValidated(false)
     }   
     
     console.log('validated', validated)
@@ -174,6 +183,7 @@ export default function EditSite(props) {
           <Form.Group as={Col} md='6' controlId='validationCustom03'>
             <Form.Label>City</Form.Label>
             <Form.Control
+              required
               type='text'
               placeholder='Ottawa'
               name={'city'}
@@ -201,6 +211,7 @@ export default function EditSite(props) {
           <Form.Group as={Col} md='3' controlId='validationCustom05'>
             <Form.Label>Zip</Form.Label>
             <Form.Control
+              required
               type='text'
               placeholder='A0A 0Z0'
               name={'zip'}
@@ -213,7 +224,11 @@ export default function EditSite(props) {
           </Form.Group>
         </Row>
         <Button type='submit' variant='outline-success'>
-          Submit form
+          Submit
+        </Button>
+        <span>  </span>
+        <Button type='submit' variant='outline-dark' onClick={clear}>
+          Clear
         </Button>
       </Form>
     </main>

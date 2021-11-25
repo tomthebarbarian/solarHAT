@@ -140,7 +140,10 @@ export default function App() {
         <main className='layout'>
           
           <section className='sidebar '>
-       
+                <img
+              className="logo--centered"
+              src='./logo.png' alt= 'logo' width='160'
+            />
             <ButtonGroup vertical>
               <Button variant="outline-secondary" onClick={() => showMap()} >Solar Map</Button>
               
@@ -167,7 +170,6 @@ export default function App() {
               {/* {nav.editMap && <EditSite />} */}
               {nav.analytics &&  <Analytics state={state} setState={setState} />}
               {nav.addSite &&  <EditSite state={state} setState={setState}/>}
-              {nav.addSite &&  <AddForm/>}
               {nav.leaderBoard &&  <Scoreboard/>}
             </section>
 
