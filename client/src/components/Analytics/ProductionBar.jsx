@@ -69,6 +69,7 @@ const ProductionBar = (props) => {
 
   return (
     <div className='comparebar'>
+      <h2>Energy Produced</h2>
       <canvas ref={chartContainer} />
     </div>
   );

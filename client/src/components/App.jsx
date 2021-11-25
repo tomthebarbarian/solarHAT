@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SideBar from './Sidebar';
 import Form from './Form';
 import Scoreboard from './Scoreboard';
-import BarchartCompare from './BarchartCompare';
 import Analytics from './Analytics/Analytics';
 import useAppData from './useAppData.js';
 
@@ -49,6 +48,7 @@ export default function App() {
   //   setShow((prev) => (prev = true));
   //   console.log('sign the fuk in', show);
   // };
+  
 
   return (
     <Router>
@@ -95,21 +95,23 @@ export default function App() {
             <Route path='/add_site' component={Form} />
           </section>
 
-          {false && (
+          {true && (
             <section className='analytics'>
               <Analytics />
             </section>
-          )}
+            )
+          }
 
           <section>
             <EditSite/>
           </section>
 
-          {true && (
+          {false && (
             <section className='map'>
               <Map />
             </section>
-          )}
+           )
+          }
         </main>
       </>
     </Router>

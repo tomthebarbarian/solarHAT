@@ -33,13 +33,10 @@ const Map = (props) => {
 
   // const mapRef = React.useRef(null);
   useEffect(() => {
-    Promise.all([
-      axios.get('/api/sites')]
-    ).then(res => {
-      // console.log('this is axios sites', res[0].data)
-      setSites(res[0].data)
-    })
 
+    setSites(props.sites)
+    console.log(state.sites)
+    console.log('this is props.sites', props.sites)
     setMap(
         L.map('map', 
         {
@@ -57,24 +54,9 @@ const Map = (props) => {
               accessToken: 'pk.eyJ1IjoidG9tdGhlYmFyYmFyaWFuIiwiYSI6ImNqZmZ4Z2ZvczJhaXgzM3BheHR3Nml2OGYifQ.jq0Tt-4aD5EpAaQ8ihykLw'
             }
           ),
-          // L.marker([45.521020, -73.614750])
-          //   .bindPopup('A marker'),
-          // L.marker([45.489934, -73.566805])
-          //   .bindPopup('Center Marker')
         ]
         })
     )
-    
-
-
-    // // addMarker(marker)
-    // L.layerGroup([
-    //   L.marker([45.521020, -73.614750])
-    //     .bindPopup('A marker'),
-    //   L.marker([45.489934, -73.566805])
-    //     .bindPopup('Center Marker')
-    //   ])
-
   },[])
 
 
@@ -107,11 +89,12 @@ const Map = (props) => {
   }, [state])
 
   return (
-    
+    <>
     <div id="map"
-      style={{ height: "90%" }}
     >
+      Map should be here
     </div>
+    </>
   )
 }
 export default Map
