@@ -17,6 +17,7 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .find()
+      .sort({usage_kWh: -1})
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);

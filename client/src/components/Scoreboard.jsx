@@ -35,17 +35,17 @@ export default class Scoreboard extends Component{
   render() {
   return (
     <>
-    {console.log(this.state.siteData)}
-    <table>
-      {this.state.siteData.map((site) => {
-        
-   return( <tr>
-      <td>{site.name}</td>
-      <td>{site.province}</td>
-      <td>{site.usage_kWh}</td>
+    {/* {console.log(this.state.siteData)} */}
+    <table className='scoreboard'>
+     
+   <tr>
+      {this.state.siteData.map((site) => <td>{site.name}</td>)}
     </tr>
-   )
-      })}
+    <tr>
+      {this.state.siteData.map((site) => <td>{site.usage_kWh}</td>)}
+    </tr>
+    
+    
     
   </table>
     </>
