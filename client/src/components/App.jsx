@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SideBar from './Sidebar';
 import Form from './Form';
 import Scoreboard from './Scoreboard';
-import BarchartCompare from './BarchartCompare';
 import Analytics from './Analytics/Analytics';
 import useAppData from './useAppData.js';
 
@@ -100,7 +99,8 @@ export default function App() {
             <section className='analytics'>
               <Analytics />
             </section>
-          )}
+            )
+          }
 
           <section>
             <EditSite/>
@@ -110,7 +110,8 @@ export default function App() {
             <section className='map'>
               <Map />
             </section>
-          )}
+           )
+          }
         </main>
       </>
     </Router>
