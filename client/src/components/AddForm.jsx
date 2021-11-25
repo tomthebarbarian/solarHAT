@@ -6,7 +6,7 @@ import './Form.css'
 import axios from 'axios'
 
 
-export default class Form extends Component {
+export default class AddForm extends Component {
   constructor(props) {
     super(props)
     

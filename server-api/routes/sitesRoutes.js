@@ -35,15 +35,13 @@ module.exports = (router, dbo) => {
   });
 
   router.post('/sites', (req, res) => {
-    console.log("from backend",req.body)
+    console.log("from backend", req.body)
+    const site = req.body
+    res.json({ site })
+    return
     const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .insert({
-        name: req.body.name,
-        coord: [req.body.longitude, req.body.latitude],
-        usage_kWh: req.body.usage_kWh
-      })
+    dbConn.collection("sites").insertOne(site);
+
   })
   return router;
 

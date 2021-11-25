@@ -8,7 +8,7 @@ import ProductionEstimates from './ProductionEstimates';
 
 export default function Analytics(props) {
   // Props should be named provinceModel, and sites
-  const [state, setState] = useState(
+  const [model, setModel] = useState(
     {
       provinceModel: {
           "pv_monthly_avg":[66,92,109,115,119,124,125,118,104,86,56,52],
@@ -24,17 +24,17 @@ export default function Analytics(props) {
     }
   );
   
-  // State getters and setters
-  const siteData = {...state.site}
+  // model getters and setters
+  const siteData = {...model.site}
   const setSite = (site) => {
-    return setState(prev => ({...prev, site}))
+    return setModel(prev => ({...prev, site}))
   }
   
 
-  const provinceModel = {...state.provinceModel}
+  const provinceModel = {...model.provinceModel}
 
   const setProvinceModel = (provinceModel) => {
-    return setState(prev => {
+    return setModel(prev => {
       return ({ ...prev, provinceModel })
     })
   }

@@ -13,35 +13,33 @@ import axios from 'axios'
 //  import {  } from 'leaflet-css'
 
 const Map = (props) => {
-  const [state, setState] = useState(
-    {
-      map: {},
-      sites: [],
-    }
-  )
+
+  const {state, setState} = props
+
+  
+  // const [state, setState] = useState(
+  //   {
+  //     map: {},
+  //     sites: [],
+  //   }
+  // )
   const setMap = (map) => {
-    return setState(prev => {
-      return ({ ...prev, map })
-    })
+    console.log(state)
+     setState(prev => ({ ...prev, map:map }))
   }
   
-  const setSites = (sites) => {
-    return setState(prev => {
-      return ({ ...prev, sites })
-    })
-  }
-
+  
   // const mapRef = React.useRef(null);
   useEffect(() => {
 
-    setSites(props.sites)
+    // setSites(state.sites)
     console.log(state.sites)
-    console.log('this is props.sites', props.sites)
+    console.log('this is props.sites', state.sites)
     setMap(
         L.map('map', 
         {
-        center: [45.5017, -73.5673],
-        zoom: 13,
+        center: [50.5017, -100.5673],
+        zoom: 5,
         layers: [ 
           L.tileLayer(
           'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', 
@@ -81,10 +79,10 @@ const Map = (props) => {
       state.map.on('click', onMapClick)
     }
     if (state.sites.length > 0) {
-      for (let elem of state.sites){
-        L.marker([elem.coord[0],
-        elem.coord[1]]).bindPopup(elem.name).addTo(state.map)
-      }
+      // for (let elem of state.sites){
+      //   L.marker([elem.coord[0],
+      //   elem.coord[1]]).bindPopup(elem.name).addTo(state.map)
+      // }
     }
   }, [state])
 

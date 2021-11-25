@@ -23,9 +23,9 @@
     "sass": "^1.43.4",
     "web-vitals": "^1.1.2"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:9000",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=9001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
