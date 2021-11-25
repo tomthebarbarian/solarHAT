@@ -59,7 +59,8 @@ export default class AddForm extends Component {
           console.log(response)
           const lat = response.results[0].geometry.location.lat
           const lng = response.results[0].geometry.location.lng
-          this.setState({latitude: lat, longitude: lng})
+          const province = response.results[0].address_components[4].short_name
+          this.setState({latitude: lat, longitude: lng, province: province})
           console.log("state with correct coord",this.state)
           axios.post('/api/sites', this.state)
           .then(response => {
