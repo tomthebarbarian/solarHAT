@@ -98,18 +98,7 @@ export default function Login(props) {
 
               <Form.Group as={Col} md='4' controlId='validationCustomUsername'>
             <Form.Label>Username</Form.Label>
-            <InputGroup hasValidation>
-              <InputGroup.Text id='inputGroupPrepend'>@</InputGroup.Text>
-              <Form.Control
-                type='text'
-                placeholder='Username'
-                aria-describedby='inputGroupPrepend'
-                required
-              />
-              <Form.Control.Feedback type='invalid'>
-                Please choose a username.
-              </Form.Control.Feedback>
-            </InputGroup>
+
           </Form.Group>
 
 

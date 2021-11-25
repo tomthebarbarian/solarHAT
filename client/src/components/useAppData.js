@@ -13,6 +13,7 @@ export default function useAppData(props) {
   //iniitalize app state and set day to Monday
   const [state, setState] = useState({
     user: null,
+    map: {},
     sites: [
       {
         _id: 'ObjectId(619d5d325e08dcf685043d24)',

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
+
 
 import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
@@ -8,42 +8,13 @@ import ProductionEstimates from './ProductionEstimates';
 
 export default function Analytics(props) {
   // Props should be named provinceModel, and sites
-  const [state, setState] = useState(
-    {
-      provinceModel: {
-          "pv_monthly_avg":[66,92,109,115,119,124,125,118,104,86,56,52],
-          "cost_cents_avg":13
-      },
-      site: {
-        "_id":1,
-        "name":"aj",
-        "coord":[45.5462,-73.36564],
-        "province":"ON",
-        "usage_kWh":12.5,
-        "size_kW":10.5}
-    }
-  );
+  const {state, setState} = props
+
   
-  // State getters and setters
-  const siteData = {...state.site}
-  const setSite = (site) => {
-    return setState(prev => ({...prev, site}))
-  }
-  
+  const modelx = {...state.model[0]}
 
-  const provinceModel = {...state.provinceModel}
-
-  const setProvinceModel = (provinceModel) => {
-    return setState(prev => {
-      return ({ ...prev, provinceModel })
-    })
-  }
-
-  useEffect( () => {
-    setProvinceModel(props.provinceModel)
-    setSite(props.site)
-  },[])
-
+  const siteData = state.sites[3]
+  const provinceModel = modelx[siteData.province]
   const monthData = provinceModel.pv_monthly_avg
 
   // Data prep for the production graph
@@ -56,7 +27,7 @@ export default function Analytics(props) {
     }
   )
 
-  const totalUsage = siteData.usage_kWh * 1000
+  const totalUsage = siteData.usage_kWh 
   const netUsage = (totalUsage - totalProduction)
   
   // 1.35 tax
