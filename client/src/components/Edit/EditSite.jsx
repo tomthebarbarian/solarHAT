@@ -13,7 +13,7 @@ export default function EditSite(props) {
   const [user, setUser] = useState({});
   const [code, setCode] = useState(false);
 
-  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState(false);
 
   const [validated, setValidated] = useState(false);
 
@@ -21,8 +21,8 @@ export default function EditSite(props) {
     name: '',
     lat: '',
     long: '',
-    usage_kWh: 0,
-    size_kW: 0,
+    usage_kWh: null,
+    size_kW: null,
     province: '',
     city: '',
     zip: '',
@@ -32,17 +32,10 @@ export default function EditSite(props) {
     setSite((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    event.preventDefault()
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-      return
-    }
 
-    setValidated(true);
 
+  const submit =() =>{
+      
     const newSite = { ...site };
     const coord = [site.lat, site.long];
     delete newSite.lat;
@@ -63,7 +56,42 @@ export default function EditSite(props) {
       .catch((error) => {
         console.log(error);
       });
-  };
+
+
+    setSite(prev => ({...{},
+      name: '',
+      lat: '',
+      long: '',
+      usage_kWh: null,
+      size_kW: null,
+      province: '',
+      city: '',
+      zip: '',
+    }))
+
+      
+  }
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault()
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }   
+    
+    console.log('validated', validated)
+   
+    setValidated(true);
+    
+    if (form.checkValidity()) {
+     
+     submit() 
+     setValidated(false)
+    }   
+    
+
+  }
 
   const { name, lat, long, usage_kWh, size_kW, city, province, zip } = site;
 
@@ -174,7 +202,6 @@ export default function EditSite(props) {
             <Form.Label>Zip</Form.Label>
             <Form.Control
               type='text'
-              required
               placeholder='A0A 0Z0'
               name={'zip'}
               value={zip}
