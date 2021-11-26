@@ -4,7 +4,7 @@ import Map from './Map';
 import { useState, useHooks, useEffect } from 'react';
 
 import {Container, Navbar, FormControl,Form, Button, Nav, NavDropdown, ButtonGroup, Dropdown, DropdownButton, MenuItem } from 'react-bootstrap';
-// import { Container, Navbar, Button, Nav, Row, Col, Modal, } from 'react-bootstrap';
+// import { Container, Navbar, Button,  Nav, Row, Col, Modal, } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import SideBar from './Sidebar';
@@ -38,7 +38,9 @@ export default function App() {
 
   //add condiontal styling
   const navbarClass = classNames('customNav');
-  
+
+   
+
   const [nav, setNav] = useState({})
   let toggleMap 
   let toggleEditMap
@@ -80,21 +82,22 @@ export default function App() {
 
 
   return (
-    <Router>
+      
       <>
+       
+
          <> 
+       
           <Navbar bg='dark' variant='dark' className={navbarClass}>
             <Container>
-              <Navbar.Brand href='#'>solarFlares</Navbar.Brand>
+              <Navbar.Brand > <b>solar<i>Flares</i></b></Navbar.Brand>
 
               <Navbar.Toggle />
-
               <Navbar.Collapse className='justify-content-end'></Navbar.Collapse>
-            
+
              {!state.user && <Register onClick={(user) => apiRegister(user)} state={state} setState={setState}/>}
               <Login onClick={(user) => apiLogin(user)} apiLogout={apiLogout} state={state} setState={setState}/>
-              
-            </Container>
+              </Container>
           </Navbar>
        
         </>
@@ -123,6 +126,16 @@ export default function App() {
           </section> 
         }
 
+          {/* {(!state.user )&&
+            <section className="map">   
+              
+              <Map state={state} setState={setState}/>
+              
+            </section>
+            }
+              
+         
+          */}
             <section className={`cols ${showMapclass}`} >
            
                 {nav.showMap    && <Map  state={state} setState={setState} />  }  
@@ -152,10 +165,8 @@ export default function App() {
               </div>
                   <Map state={state} setState={setState}/>          
             </section>
-           
-          }
+            }
         </main>
       </>
-    </Router>
   );
 }
