@@ -5,8 +5,7 @@ import L from "leaflet"
 import 'leaflet-css'
 import "./map.scss"
 import axios from 'axios'
-import markerIconPng from "leaflet/dist/images/marker-icon.png"
-//  import  'leaflet'
+
 
 
 
@@ -50,6 +49,14 @@ const Map = (props) => {
     popupAnchor: [0, 0],
 
   });
+
+  const pvBounds = [[41,-140], [61, -52]]
+  const pvOver = L.imageOverlay (
+    './PVOUT.png',
+    pvBounds,
+    {opacity: 0.5}
+    )
+  
 
   useEffect(() => {
     const popup = L.popup()
@@ -113,7 +120,7 @@ const Map = (props) => {
       //   map.removelayer(dummy)
 
       map.on('click', onMapClick)
-
+      pvOver.addTo(map)
       if (state.sites.length > 0) {
         for (let elem of state.sites) {
           L.marker([elem.coord[0],elem.coord[1]],
@@ -123,7 +130,7 @@ const Map = (props) => {
       }
     }
 
-  }, [map,myIcon, state])
+  }, [map, myIcon, state])
 
   return (
     <>
