@@ -166,7 +166,7 @@ export default function App() {
             </section>
           
                
-          <section>
+          <section className='layout'>
               {/* {nav.editMap && <EditSite />} */}
               {nav.analytics &&  <Analytics state={state} setState={setState} />}
               {nav.addSite &&  <EditSite state={state} setState={setState}/>}
@@ -175,7 +175,7 @@ export default function App() {
 
             {(nav.editMap )&&
             <section className={editMapClass}>
-             <EditSite/>
+             <EditSite state={state} setState={setState}/>
              <Map state={state} setState={setState}/>
             
             </section>

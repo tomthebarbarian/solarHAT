@@ -7,6 +7,12 @@ import '../custom.scss';
 
 import axios from 'axios';
 
+import Geocode from 'react-geocode';
+const DECIMALS =  6
+Geocode.setApiKey('AIzaSyCcKsKVOs-uzI8Ri0xtVmP-Mi9NNsFkj_c');
+Geocode.setLanguage('en');
+Geocode.setRegion('ca');
+
 export default function EditSite(props) {
   const { onClick, apiLogout, state, setState } = props;
 
@@ -24,7 +30,7 @@ export default function EditSite(props) {
     usage_kWh: null,
     size_kW: null,
     province: '',
-    city: '',
+    address: '',
     zip: '',
   });
 
@@ -32,77 +38,96 @@ export default function EditSite(props) {
     setSite((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-
-
-  const submit =() =>{
-      
+  const submit = () => {
     const newSite = { ...site };
-    const coord = [site.lat, site.long];
+    const coord = [Number(site.lat.toFixed(DECIMALS)), Number(site.long.toFixex(DECIMALS))];
     delete newSite.lat;
     delete newSite.long;
     newSite.coord = coord;
     setSite((prev) => ({ ...newSite }));
 
+    const newSites = [...state.sites, newSite];
 
-    const newSites = [...state.sites, newSite]
-    
-    setState(prev=> ({...prev, sites: newSites}))
+    setState((prev) => ({ ...prev, sites: newSites }));
 
     axios
       .post('/api/sites', newSite)
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
       });
 
-    clear()
-      
-  }
+    clear();
+  };
 
-  const clear=() => {
+  const fetchLatLong = () => {
+    console.log('-----------------------')
+    console.log(site.address)
+    Geocode.fromAddress(site.address)
+      .then((res) => {
+        console.log(res.results[0]);
+        const lat = res.results[0].geometry.location.lat.toFixed(DECIMALS);
+        const long = res.results[0].geometry.location.lng.toFixed(DECIMALS);
+        const addrComp = res.results[0].address_components
+        
+        let province = ''
+        for (const e of addrComp) {
+
+          if (Object.keys({...state.model[0]}).includes(e.short_name)) {
+            province =  e.short_name
+            break
+          }
+
+        }
+            
+
+        setSite( prev => ({...prev, lat, long, province}))
+        console.log(site)
+
+        // const province = res.results[0].address_components[4].short_name;
+        // setState({ latitude: lat, longitude: lng, province: province });
+        // console.log('state with correct coord', this.state);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const clear = () => {
     // setValidated(false)
-
-    setSite(prev => ({...{},
+    setSite((prev) => ({
+      ...{},
       name: '',
       lat: '',
       long: '',
       usage_kWh: '',
       size_kW: '',
       province: '',
-      city: '',
+      address: '',
       zip: '',
-    }))
+    }));
 
-    setValidated(false)
-
-
-  }
+    setValidated((prev) => false);
+  };
+  
   const handleSubmit = (event) => {
     const form = event.currentTarget;
-    event.preventDefault()
+    event.preventDefault();
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    }
 
-      setValidated(false)
-    }   
-    
-    console.log('validated', validated)
-   
-    setValidated(true);
-    
+    setValidated((prev) => true);
+
     if (form.checkValidity()) {
-     
-     submit() 
-     setValidated(false)
-    }   
-    
+      submit();
+      setValidated((prev) => false);
+    }
+  };
 
-  }
-
-  const { name, lat, long, usage_kWh, size_kW, city, province, zip } = site;
+  const { name, lat, long, usage_kWh, size_kW, address, province, zip } = site;
 
   return (
     <main className='cols'>
@@ -150,6 +175,7 @@ export default function EditSite(props) {
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
+            <img src='./geoicon.png' alt='logo' width='64px' height='64px' onClick={fetchLatLong}/>
           </Form.Group>
         </Row>
 
@@ -159,7 +185,7 @@ export default function EditSite(props) {
             <Form.Control
               required
               type='text'
-              placeholder='10000'
+              placeholder=''
               name={'usage_kWh'}
               value={usage_kWh}
               onChange={changeHandler}
@@ -171,7 +197,7 @@ export default function EditSite(props) {
             <Form.Control
               required
               type='text'
-              placeholder='8.6'
+              placeholder=''
               name={'size_kW'}
               value={size_kW}
               onChange={changeHandler}
@@ -181,17 +207,17 @@ export default function EditSite(props) {
         </Row>
         <Row className='mb-3'>
           <Form.Group as={Col} md='6' controlId='validationCustom03'>
-            <Form.Label>City</Form.Label>
+            <Form.Label>address</Form.Label>
             <Form.Control
               required
               type='text'
               placeholder='Ottawa'
-              name={'city'}
-              value={city}
+              name={'address'}
+              value={address}
               onChange={changeHandler}
             />
             <Form.Control.Feedback type='invalid'>
-              Please provide a valid city.
+              Please provide a valid address.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md='3' controlId='validationCustom04'>
@@ -208,7 +234,7 @@ export default function EditSite(props) {
               Please provide a valid state.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md='3' controlId='validationCustom05'>
+          {/* <Form.Group as={Col} md='3' controlId='validationCustom05'>
             <Form.Label>Zip</Form.Label>
             <Form.Control
               required
@@ -221,13 +247,13 @@ export default function EditSite(props) {
             <Form.Control.Feedback type='invalid'>
               Please provide a valid zip.
             </Form.Control.Feedback>
-          </Form.Group>
+          </Form.Group> */}
         </Row>
         <Button type='submit' variant='outline-success'>
           Submit
         </Button>
-        <span>  </span>
-        <Button type='submit' variant='outline-dark' onClick={clear}>
+        <span> </span>
+        <Button type='button' variant='outline-dark' onClick={clear}>
           Clear
         </Button>
       </Form>
