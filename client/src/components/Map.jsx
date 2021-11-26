@@ -4,12 +4,9 @@ import L from "leaflet"
 // import "node_modules/leaflet/dist/leaflet.css"
 import 'leaflet-css'
 import "./map.scss"
-<<<<<<< HEAD
 import axios from 'axios'
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 //  import  'leaflet'
-=======
->>>>>>> 087d0f0 (deletes a bunch of old comments from map)
 
 
 
@@ -17,13 +14,9 @@ const Map = (props) => {
 
   const {state, setState} = props
 
-<<<<<<< HEAD
   const [map, setMap] = useState({})
 
   // const mapRef = React.useRef(null);
-=======
-  const [map, setMap] = useState({} )
->>>>>>> 087d0f0 (deletes a bunch of old comments from map)
   useEffect(() => {
     console.log('----------[this is props.sites]--------', state.sites)
     setMap(
