@@ -160,24 +160,37 @@ export default function App() {
           </section>
 
          
-            <section className={showMapclass}>
+            <section >
                 {(nav.showMap )&& <Map  state={state} setState={setState} />  }  
             
             </section>
           
                
-          <section className='layout'>
-              {/* {nav.editMap && <EditSite />} */}
+          <section >
               {nav.analytics &&  <Analytics state={state} setState={setState} />}
-              {nav.addSite &&  <EditSite state={state} setState={setState}/>}
               {nav.leaderBoard &&  <Scoreboard/>}
             </section>
 
+          {(nav.addSite )&&
+               <section className="cols">
+               <EditSite state={state} setState={setState}/>
+               <Map state={state} setState={setState}/>
+              
+              </section>
+              }
+
             {(nav.editMap )&&
-            <section className={editMapClass}>
-             <EditSite state={state} setState={setState}/>
-             <Map state={state} setState={setState}/>
-            
+            <section className="cols">
+              <div className="container"> 
+               <h1> My Sites</h1>
+              <EditSite state={state} setState={setState}/>
+
+              </div>
+              
+                
+              
+              <Map state={state} setState={setState}/>
+              
             </section>
             }
         </main>

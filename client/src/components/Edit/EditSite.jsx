@@ -131,7 +131,7 @@ export default function EditSite(props) {
 
   return (
     <main className='cols'>
-      <div></div>
+      
       <Form
         noValidate
         validated={validated}

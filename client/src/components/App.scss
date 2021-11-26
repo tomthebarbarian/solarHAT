@@ -28,6 +28,12 @@
   }
 }
 
+#map {
+   height: 100vh;
+  width: 100vw;
+}
+      
+
 .map {
   display: flex;
   flex-direction: column;
@@ -47,8 +53,7 @@
 
 .cols {
   justify-content: center;
-  padding:25px;
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
   //min-height: 100vh;
