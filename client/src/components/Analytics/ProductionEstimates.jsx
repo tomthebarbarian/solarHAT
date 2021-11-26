@@ -4,7 +4,7 @@ import './ProductionEstimates.scss'
 const ProductionEstimates = (props) => {
   const {totalproduction, surplus, utilization, netCost} = props
   return(
-    <ul>
+    <ul className='col-md-6 text-center'>
       <h2>Production Estimates</h2>
       <li>
         {`Annual production (kWh): ${totalproduction}`}

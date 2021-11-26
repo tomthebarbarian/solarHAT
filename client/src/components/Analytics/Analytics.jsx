@@ -5,6 +5,8 @@ import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
 import ProductionStats from './ProductionStats';
 import ProductionEstimates from './ProductionEstimates';
+import "./Analytics.scss"
+
 
 export default function Analytics(props) {
   // Props should be named provinceModel, and sites
@@ -15,6 +17,7 @@ export default function Analytics(props) {
 
   const siteData = state.sites[3]
   const provinceModel = modelx[siteData.province]
+
   const monthData = provinceModel.pv_monthly_avg
 
   // Data prep for the production graph
@@ -47,10 +50,7 @@ export default function Analytics(props) {
 
   return (
     <div className='analytics'>
-        <ProductionStats 
-          site={siteData}
-        />
-       <div>
+      <div className='topbar col-md-12 row'>
           <ProductionEstimates
             totalproduction={totalProduction}
             surplus={totalProduction - totalUsage}
@@ -58,7 +58,7 @@ export default function Analytics(props) {
             netCost={netCost}
           />
           <SurplusProportion surplusProduction={surplusData}/>
-      </div>
+        </div>
       <ProductionBar monthProduction= {produceData}/>
     </div>
   );

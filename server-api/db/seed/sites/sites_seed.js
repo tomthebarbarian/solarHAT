@@ -5,7 +5,7 @@ module.exports = [
     name: "aj",
     coord: [45.42316, -75.706787],
     province: "ON",
-    usage_kWh: 12.5,
+    usage_kWh: 12500,
     size_kW: 10.5,
     production: 1250,
     cost: -150
@@ -15,7 +15,7 @@ module.exports = [
     name: "hamza",
     coord: [43.652463, -79.391602],
     province: "ON",
-    usage_kWh: 7.5,
+    usage_kWh: 7500,
     size_kW: 8.5,
     production: 4250,
     cost: -100

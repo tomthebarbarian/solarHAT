@@ -27,26 +27,6 @@ export default class AddForm extends Component {
     address: ''
   }
   }
-
-  
-  
-  componentDidMount = () => {
-    // axios.get('https://api.ipify.org?format=json')
-    //     .then((response) => {
-    //       this.setState({ip: response.data})
-    //       console.log(this.state)
-    //     })
-
-    // axios.get(`https://freegeoip.app/json/${this.state.ip}`)
-    //       .then((response) => {
-    //         this.setState({
-    //           longitude: response.data.longitude,
-    //           latitude: response.data.latitude,
-    //           province: response.data.region_code,
-    //         })
-    //         // console.log(this.state)
-    //       })    
-  }
   
   changeHandler = (e) => {
     this.setState({[e.target.name]: e.target.value})

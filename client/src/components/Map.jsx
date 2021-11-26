@@ -9,24 +9,17 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png"
 //  import  'leaflet'
 
 
-//  import {  } from 'leaflet-css'
 
 const Map = (props) => {
 
   const {state, setState} = props
-  /*
-    map: {_addLayers: ƒ _addLayers() {}, _addZoomLimit: ƒ _a…}
-    model: [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
-    sites: [{…}, {…}, {…}, {…}, {…}]
-    user:null
-    users:[{…}, {…}, {…}, {…}]
-*/
 
   const [map, setMap] = useState({})
 
   // const mapRef = React.useRef(null);
   useEffect(() => {
-    console.log('----------[this is props.sites]--------', state.sites)
+    // console.log('----------[this is props]--------', props.sites)
+    // console.log('----------[this is props.sites]--------', state)
     setMap(
       L.map('map',
         {
