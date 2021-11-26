@@ -14,6 +14,7 @@ export default function useAppData(props) {
   const [state, setState] = useState({
     user: null,
     map: {},
+    marker: { lat: 45, lng: -100 },
     sites: [
       {
         _id: 'ObjectId(619d5d325e08dcf685043d24)',

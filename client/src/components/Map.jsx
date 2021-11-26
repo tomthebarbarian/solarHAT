@@ -23,15 +23,15 @@ const Map = (props) => {
 */
 
   const [map, setMap] = useState({})
-  
+
   // const mapRef = React.useRef(null);
   useEffect(() => {
     console.log('----------[this is props.sites]--------', state.sites)
     setMap(
       L.map('map',
         {
-          center: [50.5017, -100.5673],
-          zoom: 5,
+          center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
+          zoom: 5 || state.marker.zoom,
           layers: [
             L.tileLayer(
               'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
@@ -47,13 +47,13 @@ const Map = (props) => {
           ]
         })
     )
-  }, [state.sites])
+  }, [])
 
 
   const myIcon = L.icon({
     iconUrl: './redmarker.png',
     iconSize: [32, 32],
-    iconAnchor: [0, 0],
+    iconAnchor: [16, 16],
     popupAnchor: [0, 0],
 
   });
@@ -71,12 +71,6 @@ const Map = (props) => {
       // Create url to use for getting the data
       const tempUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${ll.lat}&lon=${ll.lng}&appid=f47e3b80d1c5930eef8a0bb433094f47`
       const pvUrl = `/pv_data`
-
-      // Fetch the data with the created url
-      // axios.post('/login', {
-      //   email: user.email,
-      //   password: user.password
-      // })  <link rel='stylesheet' href='http://leaflet.github.io/Leaflet.label/leaflet.label.css' />
 
       let tooltip = ''
       Promise.all([
@@ -118,10 +112,13 @@ const Map = (props) => {
     if (map.getRenderer) {
       console.log('.............rendering markers..................')
 
-      L.marker([45.521020, -73.614750])
-        .bindPopup('A marker').addTo(map)
-      L.marker([45.489934, -73.566805])
-        .bindPopup('Center Marker').addTo(map)
+      
+      // let dummy =   L.marker([state.marker.lat,state.marker.lng])
+      //   .bindPopup('add site')
+        
+      //   map.addLayer(dummy)
+      //   map.removelayer(dummy)
+
       map.on('click', onMapClick)
 
       if (state.sites.length > 0) {
@@ -133,7 +130,7 @@ const Map = (props) => {
       }
     }
 
-  }, [map])
+  }, [map,myIcon, state])
 
   return (
     <>

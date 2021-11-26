@@ -104,7 +104,7 @@ export default function App() {
      
       <main className='layout'>
 
-      {/* {state.user &&  */}
+      {state.user && 
           <section className='sidebar '>
              <img className="logo--centered" src='./logo2.png' alt= 'logo' width='128'/>
             
@@ -124,7 +124,7 @@ export default function App() {
              </ButtonGroup>
 
           </section> 
-          {/* } */}
+        }
 
           {/* {(!state.user )&&
             <section className="map">   
@@ -147,19 +147,23 @@ export default function App() {
               {nav.leaderBoard &&  <Scoreboard/>}
             </section>
 
-          {(nav.addSite )&&
-               <section className="cols">
-                 <EditSite state={state} setState={setState}/>              
-              </section>
+          {(nav.addSite) &&
+               <section className={`cols map`}>
+               <div className="container"> 
+                <h1> My Sites</h1>
+                   <EditSite state={state} setState={setState}/>
+               </div>
+               <Map state={state} setState={setState}/>          
+             </section>
               }
 
             {(nav.editMap )&&
-            <section className={`cols ${editMapClass}`}>
+            <section className={`cols map`}>
               <div className="container"> 
                <h1> My Sites</h1>
                   <EditSite state={state} setState={setState}/>
               </div>
-              <Map state={state} setState={setState}/>          
+                  <Map state={state} setState={setState}/>          
             </section>
             }
         </main>

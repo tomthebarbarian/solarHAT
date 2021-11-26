@@ -31,8 +31,12 @@ export default function EditSite(props) {
     size_kW: '',
     province: '',
     address: '',
-    zip: '',
+    // zip: '',
   });
+
+
+  // const [dummy , setDummy] = useState()
+
 
   const changeHandler = (e) => {
     setSite((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -94,6 +98,7 @@ const long =  position.coords.longitude
         const long = res.results[0].geometry.location.lng.toFixed(DECIMALS);
         const addrComp = res.results[0].address_components
         
+        
         let province = ''
         for (const e of addrComp) {
 
@@ -105,6 +110,14 @@ const long =  position.coords.longitude
         }
         console.log({province})
         setSite( prev => ({...prev, lat, long, province}))
+        setState(prev => ({...prev, marker:{lat: lat, lng: long}}))
+        
+        
+        // setDummy(state.map.L.marker([state.marker.lat,state.marker.lng]))
+        // state.map.addLayer(dummy)
+
+
+
 
         console.log(site)
         // const province = res.results[0].address_components[4].short_name;
@@ -131,6 +144,8 @@ const long =  position.coords.longitude
     }));
 
     setValidated((prev) => false);
+
+    // state.map.removeLayer(dummy)
   };
   
   const handleSubmit = (event) => {
@@ -173,23 +188,19 @@ const long =  position.coords.longitude
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-          
-          </Form.Group>
-        
-          
-           <Form.Group as={Col} md='4' controlId='validationCustom02'>
-            <Form.Label>Longitude</Form.Label>
-            <Form.Control
-              required
-              type='text'
-              placeholder='-75.6554'
-              onChange={changeHandler}
-              name={'long'}
-              value={long}
-            />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
+          <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
+            <div id = "demo" >
+            <button > 
+              <img src='./geoicon.png' alt='logo' height='32' onClick={() => getLocation()} title="Get current location [Lat, Long]"/>
+             </button>
+            </div> 
+          
+            </Form.Group>
+        
+        </Row>
+        <Row className='mb-3'>
           <Form.Group as={Col} md='4' controlId='validationCustom02'>
             <Form.Label>Latitude</Form.Label>
             <Form.Control
@@ -200,20 +211,22 @@ const long =  position.coords.longitude
               value={lat}
               onChange={changeHandler}
             />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            <button onClick={() => getLocation()}>Try It</button>
+          {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
 
-            <div id = "demo" >
-
-            </div> 
           </Form.Group>
+            <Form.Group as={Col} md='4' controlId='validationCustom02'>
+            <Form.Label>Longitude</Form.Label>
+            <Form.Control
+              required
+              type='text'
+              placeholder='-75.6554'
+              onChange={changeHandler}
+              name={'long'}
+              value={long}
+            />
+          </Form.Group> 
+            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
            
-            <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
-          <div > 
-              <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}/>
-          </div>
-
-          </Form.Group>
         </Row>
 
         <Row className='mb-3'>
@@ -243,6 +256,15 @@ const long =  position.coords.longitude
           </Form.Group>         
         </Row>
         <Row className='mb-3'>
+       
+        <Form.Group as={Col} md='1' controlId='validationCustom03'>
+        <Form.Label>Get</Form.Label>
+
+           <button > 
+              <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}/>
+          </button>
+          </Form.Group>
+      
           <Form.Group as={Col} md='6' controlId='validationCustom03'>
             <Form.Label>address</Form.Label>
             <Form.Control
