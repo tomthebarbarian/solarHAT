@@ -1,6 +1,7 @@
 .analytics{
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   .productionstats{
     display: flex;
@@ -8,16 +9,16 @@
     align-self: center;
   }
 
-  div:nth-child(2){
+  .topbar {
     display: flex;
     flex-direction: row;
     .productionpie{
       display: flex;
       flex-direction: column;
-      width: 49%;
+      width: 100%;
     }
     ul{
-      width: 49%;
+      width: 100%;
     }
   }
 }
