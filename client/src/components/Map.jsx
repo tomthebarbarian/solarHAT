@@ -18,8 +18,8 @@ const Map = (props) => {
 
   // const mapRef = React.useRef(null);
   useEffect(() => {
-    console.log('----------[this is props]--------', props)
-    console.log('----------[this is props.sites]--------', state)
+    // console.log('----------[this is props]--------', props.sites)
+    // console.log('----------[this is props.sites]--------', state)
     setMap(
       L.map('map',
         {
@@ -40,7 +40,6 @@ const Map = (props) => {
           ]
         })
     )
-<<<<<<< HEAD
   }, [])
 
 
@@ -49,9 +48,6 @@ const Map = (props) => {
     iconSize: [32, 32],
     iconAnchor: [16, 16],
     popupAnchor: [0, 0],
-=======
-  },[state])
->>>>>>> 81f0418 (trying to fix map)
 
   });
 

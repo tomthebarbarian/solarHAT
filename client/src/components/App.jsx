@@ -3,12 +3,12 @@ import './custom.scss';
 import Map from './Map';
 import { useState, useHooks, useEffect } from 'react';
 
-// import {Container, Navbar, Button,  ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
-import { Container, Navbar, Button, Nav, Row, Col, Modal, } from 'react-bootstrap';
+import {Container, Navbar, FormControl,Form, Button, Nav, NavDropdown, ButtonGroup, Dropdown, DropdownButton, MenuItem } from 'react-bootstrap';
+// import { Container, Navbar, Button, Nav, Row, Col, Modal, } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import SideBar from './Sidebar';
-import Form from './AddForm';
+import AddForm from './AddForm';
 import Scoreboard from './Scoreboard';
 import Analytics from './Analytics/Analytics';
 import useAppData from './useAppData.js';
@@ -152,7 +152,7 @@ export default function App() {
               </div>
                   <Map state={state} setState={setState}/>          
             </section>
-           )
+           
           }
         </main>
       </>
