@@ -17,7 +17,6 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .find()
-      .sort({usage_kWh: -1})
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -44,6 +43,42 @@ module.exports = (router, dbo) => {
     dbConn.collection("sites").insertOne(site);
 
   })
+
+  router.get('/sites/usage', (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .sort({usage_kWh: -1})
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+  router.get('/sites/cost', (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .sort({cost: -1})
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+  router.get('/sites/production', (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .sort({production: -1})
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+
+
   return router;
 
 }
