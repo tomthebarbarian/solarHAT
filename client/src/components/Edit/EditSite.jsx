@@ -99,13 +99,13 @@ const long =  position.coords.longitude
 
           if (Object.keys({...state.model[0]}).includes(e.short_name)) {
             province =  e.short_name
+            setSite( prev => ({...prev, lat, long, province}))
             break
           }
 
         }
             
 
-        setSite( prev => ({...prev, lat, long, province}))
         console.log(site)
 
         // const province = res.results[0].address_components[4].short_name;
@@ -161,8 +161,9 @@ const long =  position.coords.longitude
         className=''
       >
         <Row className='mb-3'>
-          <Form.Group as={Col} md='4' controlId='validationCustom01'>
-            <Form.Label>Site Name</Form.Label>
+          <Form.Group as={Col} md='6' controlId='validationCustom01'>
+            <Form.Label>Site Name</Form.Label>  
+            
             <Form.Control
               required
               type='text'
@@ -172,8 +173,11 @@ const long =  position.coords.longitude
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
+          
           </Form.Group>
-          <Form.Group as={Col} md='4' controlId='validationCustom02'>
+        
+          {/*
+           <Form.Group as={Col} md='4' controlId='validationCustom02'>
             <Form.Label>Longitude</Form.Label>
             <Form.Control
               required
@@ -183,7 +187,7 @@ const long =  position.coords.longitude
               name={'long'}
               value={long}
             />
-            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group as={Col} md='4' controlId='validationCustom02'>
@@ -196,19 +200,25 @@ const long =  position.coords.longitude
               value={lat}
               onChange={changeHandler}
             />
-            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-            <img src='./geoicon.png' alt='logo' width='64px' height='64px' onClick={fetchLatLong}/>
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             <button onClick={() => getLocation()}>Try It</button>
 
             <div id = "demo" >
-              wtefaslf jaslfjasl fd
-            </div>
+
+            </div> 
+          </Form.Group>
+            */}
+            <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
+          <div > 
+              <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}/>
+          </div>
+
           </Form.Group>
         </Row>
 
         <Row className='mb-3'>
-          <Form.Group as={Col} md='4' controlId='validationCustom01'>
-            <Form.Label>Average Annual Consumption [ kWh ]</Form.Label>
+          <Form.Group as={Col} md='6' controlId='validationCustom01'>
+            <Form.Label>Avg. Consumption [ kWh / Yr ]</Form.Label>
             <Form.Control
               required
               type='text'
@@ -230,7 +240,7 @@ const long =  position.coords.longitude
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-          </Form.Group>
+          </Form.Group>         
         </Row>
         <Row className='mb-3'>
           <Form.Group as={Col} md='6' controlId='validationCustom03'>
@@ -257,6 +267,7 @@ const long =  position.coords.longitude
               value={province}
               onChange={changeHandler}
             />
+             
             <Form.Control.Feedback type='invalid'>
               Please provide a valid state.
             </Form.Control.Feedback>

@@ -86,7 +86,8 @@ export default function App() {
       <>
        
 
-        <>
+         <> 
+       
           <Navbar bg='dark' variant='dark' className={navbarClass}>
             <Container>
               <Navbar.Brand > <b>solar<i>Flares</i></b></Navbar.Brand>
@@ -98,30 +99,32 @@ export default function App() {
               <Login onClick={(user) => apiLogin(user)} apiLogout={apiLogout} state={state} setState={setState}/>
               </Container>
           </Navbar>
+       
         </>
      
       <main className='layout'>
 
       {state.user && 
           <section className='sidebar '>
-                <img
-              className="logo--centered"
-              src='./logo2.png' alt= 'logo' width='128'
-            />
+             <img className="logo--centered" src='./logo2.png' alt= 'logo' width='128'/>
+            
             <ButtonGroup vertical>
               <Button variant="outline-secondary" onClick={() => showMap()} >Solar Map</Button>
               
-
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
-              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => editMap()}>my Sites</Dropdown.Item>
-              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => addSite()}>Add Site</Dropdown.Item>
-              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => analytics()}>Analytics</Dropdown.Item>
+              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => editMap()}> 
+              <img src='./editMap.png' alt= 'logo' width='32' />my Sites</Dropdown.Item>
+              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => addSite()}>
+              <img src='./add.png' alt= 'logo' width='32' />add Sites</Dropdown.Item>
+              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => analytics()}>
+              <img src='./analytics.png' alt= 'logo' width='32' />Analytics</Dropdown.Item>
               </DropdownButton>
 
-              <Button variant="outline-secondary" onClick={() => leaderBoard()}>Leader Board</Button>
+               <Button variant="outline-secondary" onClick={() => leaderBoard()}>Leader Board</Button>
              </ButtonGroup>
 
-          </section> }
+          </section> 
+          }
 
           {/* {(!state.user )&&
             <section className="map">   
@@ -135,7 +138,7 @@ export default function App() {
           */}
             <section className={`cols ${showMapclass}`} >
            
-                {(nav.showMap  ) && <Map  state={state} setState={setState} />  }  
+                {(nav.showMap   ) && <Map  state={state} setState={setState} />  }  
             
             </section>
                
