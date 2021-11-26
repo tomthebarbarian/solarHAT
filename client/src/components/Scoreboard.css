@@ -1,4 +1,4 @@
-table, th, td {
+/* table, th, td {
   display: flex;
   justify-content: center;
   border: 1px solid black;
@@ -6,4 +6,8 @@ table, th, td {
 
 td {
   border: none;
+} */
+
+.filter {
+  justify-content: center;
 }
