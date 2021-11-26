@@ -54,7 +54,7 @@ const Map = (props) => {
   // Pv Overlay
   const pvBounds = [[40,-140], [60, -52]]
   const pvOver = L.imageOverlay (
-    './r.png',
+    './bluestored.png',
     pvBounds,
     {opacity: 0.8}
     )
