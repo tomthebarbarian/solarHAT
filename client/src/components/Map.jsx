@@ -50,6 +50,7 @@ const Map = (props) => {
 
   });
 
+  // Pv Overlay
   const pvBounds = [[41,-140], [61, -52]]
   const pvOver = L.imageOverlay (
     './PVOUT.png',
@@ -112,7 +113,8 @@ const Map = (props) => {
     if (map.getRenderer) {
       console.log('.............rendering markers..................')
 
-      
+      // Add pvoverlay
+      pvOver.addTo(map)
       // let dummy =   L.marker([state.marker.lat,state.marker.lng])
       //   .bindPopup('add site')
         
@@ -120,7 +122,7 @@ const Map = (props) => {
       //   map.removelayer(dummy)
 
       map.on('click', onMapClick)
-      pvOver.addTo(map)
+      
       if (state.sites.length > 0) {
         for (let elem of state.sites) {
           L.marker([elem.coord[0],elem.coord[1]],
