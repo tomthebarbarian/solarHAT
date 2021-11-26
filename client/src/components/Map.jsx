@@ -5,7 +5,7 @@ import L from "leaflet"
 import 'leaflet-css'
 import "./map.scss"
 import axios from 'axios'
-import * as url from './pvout.png';
+
 
 
 const Map = (props) => {
@@ -41,6 +41,7 @@ const Map = (props) => {
   }, [])
 
 
+
   const myIcon = L.icon({
     // iconUrl: './pvout.png',
     iconUrl: './redmarker.png',
@@ -51,10 +52,9 @@ const Map = (props) => {
   });
 
   // Pv Overlay
-  console.log(url)
   const pvBounds = [[40,-140], [60, -52]]
   const pvOver = L.imageOverlay (
-    './pvout.png',
+    './r.png',
     pvBounds,
     {opacity: 0.8}
     )
