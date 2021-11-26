@@ -27,8 +27,8 @@ export default function EditSite(props) {
     name: '',
     lat: '',
     long: '',
-    usage_kWh: null,
-    size_kW: null,
+    usage_kWh: '',
+    size_kW: '',
     province: '',
     address: '',
     zip: '',
@@ -40,7 +40,7 @@ export default function EditSite(props) {
 
   const submit = () => {
     const newSite = { ...site };
-    const coord = [Number(site.lat.toFixed(DECIMALS)), Number(site.long.toFixex(DECIMALS))];
+    const coord = [Number(site.lat), Number(site.long)];
     delete newSite.lat;
     delete newSite.long;
     newSite.coord = coord;
@@ -99,23 +99,23 @@ const long =  position.coords.longitude
 
           if (Object.keys({...state.model[0]}).includes(e.short_name)) {
             province =  e.short_name
-            setSite( prev => ({...prev, lat, long, province}))
             break
           }
 
         }
-            
+        console.log({province})
+        setSite( prev => ({...prev, lat, long, province}))
 
         console.log(site)
-
         // const province = res.results[0].address_components[4].short_name;
         // setState({ latitude: lat, longitude: lng, province: province });
         // console.log('state with correct coord', this.state);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   };
+
   const clear = () => {
     // setValidated(false)
     setSite((prev) => ({
@@ -149,7 +149,7 @@ const long =  position.coords.longitude
     }
   };
 
-  const { name, lat, long, usage_kWh, size_kW, address, province, zip } = site;
+  const { name, lat, long, usage_kWh, size_kW, address, province} = site;
 
   return (
     <main className='cols'>
@@ -176,7 +176,7 @@ const long =  position.coords.longitude
           
           </Form.Group>
         
-          {/*
+          
            <Form.Group as={Col} md='4' controlId='validationCustom02'>
             <Form.Label>Longitude</Form.Label>
             <Form.Control
@@ -207,7 +207,7 @@ const long =  position.coords.longitude
 
             </div> 
           </Form.Group>
-            */}
+           
             <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
           <div > 
               <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}/>

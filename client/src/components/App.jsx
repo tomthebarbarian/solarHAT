@@ -104,7 +104,7 @@ export default function App() {
      
       <main className='layout'>
 
-      {state.user && 
+      {/* {state.user &&  */}
           <section className='sidebar '>
              <img className="logo--centered" src='./logo2.png' alt= 'logo' width='128'/>
             
@@ -124,7 +124,7 @@ export default function App() {
              </ButtonGroup>
 
           </section> 
-          }
+          {/* } */}
 
           {/* {(!state.user )&&
             <section className="map">   
