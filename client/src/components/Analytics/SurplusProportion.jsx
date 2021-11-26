@@ -56,7 +56,7 @@ const SurplusProportion = (props) => {
   }, [chartContainer]);
 
   return (
-    <div className='productionpie .col-md-6'>
+    <div className='productionpie col-md-6'>
       <h2>Production Proportions</h2>
       <canvas ref={chartContainer} class ='productionpie'/>
     </div>

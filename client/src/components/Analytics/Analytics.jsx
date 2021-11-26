@@ -5,6 +5,8 @@ import ProductionBar from './ProductionBar';
 import SurplusProportion from './SurplusProportion';
 import ProductionStats from './ProductionStats';
 import ProductionEstimates from './ProductionEstimates';
+import "./Analytics.scss"
+
 
 export default function Analytics(props) {
   // Props should be named provinceModel, and sites
@@ -47,8 +49,8 @@ export default function Analytics(props) {
   }
 
   return (
-    <div className='analytics .col-md-6'>
-       <div className='topbar .col-md-12'>
+    <div className='analytics'>
+      <div className='topbar col-md-12 row'>
           <ProductionEstimates
             totalproduction={totalProduction}
             surplus={totalProduction - totalUsage}
