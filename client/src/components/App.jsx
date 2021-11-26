@@ -39,36 +39,11 @@ export default function App() {
   //add condiontal styling
   const navbarClass = classNames('customNav');
 
-  // const user = state.user;
+   
 
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow((prev) => (prev = false));
-  // const handleShow = () => {
-  //   setShow((prev) => (prev = true));
-  //   console.log('sign the fuk in', show);
-  // };
-  
-
- 
-  
-
-   const provinceModel= {
-        "pv_monthly_avg":[66,92,109,115,119,124,125,118,104,86,56,52],
-        "cost_cents_avg":13
-    }
-    const site= {
-      "_id":1,
-      "name":"aj",
-      "coord":[45.5462,-73.36564],
-      "province":"ON",
-      "usage_kWh":12.5,
-      "size_kW":10.5}
-  
-
-      const [nav, setNav] = useState(1)
-      let toggleMap 
-      let toggleEditMap
+  const [nav, setNav] = useState({})
+  let toggleMap 
+  let toggleEditMap
 
   const showMap = () => {
     console.log('------------------------[showMap]---------------', nav)
@@ -99,31 +74,20 @@ export default function App() {
    //quick hack to resolve  more than one map issue
    const showMapclass = (classNames('',
     { 'map': nav.showMap },
-     { '': nav.editMap }))
+     { 'hide': nav.editMap }))
 
      const editMapClass = (classNames('',
-     { '': nav.showMap },
+     { 'hide': nav.showMap },
      { 'map': nav.editMap }))
 
-
-      console.log({showMapclass}, {editMapClass} )
-  
 
   return (
       
       <>
-        <head>
-          <link rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css'
-            integrity='sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=='
-            crossorigin=''/>
-          <link rel='stylesheet'href='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css'/>
-          <link rel='stylesheet' href='http://leaflet.github.io/Leaflet.label/leaflet.label.css' />
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        </head>
+       
 
-        <>
-      
-
+         <> 
+       
           <Navbar bg='dark' variant='dark' className={navbarClass}>
             <Container>
               <Navbar.Brand > <b>solar<i>Flares</i></b></Navbar.Brand>
@@ -135,47 +99,71 @@ export default function App() {
               <Login onClick={(user) => apiLogin(user)} apiLogout={apiLogout} state={state} setState={setState}/>
               </Container>
           </Navbar>
+       
         </>
-       
-        <main className='layout'>
-          
+     
+      <main className='layout'>
+
+      {state.user && 
           <section className='sidebar '>
-       
+             <img className="logo--centered" src='./logo2.png' alt= 'logo' width='128'/>
+            
             <ButtonGroup vertical>
               <Button variant="outline-secondary" onClick={() => showMap()} >Solar Map</Button>
               
-
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
-              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => editMap()}>my Sites</Dropdown.Item>
-              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => addSite()}>Add Site</Dropdown.Item>
-              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => analytics()}>Analytics</Dropdown.Item>
+              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => editMap()}> 
+              <img src='./editMap.png' alt= 'logo' width='32' />my Sites</Dropdown.Item>
+              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => addSite()}>
+              <img src='./add.png' alt= 'logo' width='32' />add Sites</Dropdown.Item>
+              <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => analytics()}>
+              <img src='./analytics.png' alt= 'logo' width='32' />Analytics</Dropdown.Item>
               </DropdownButton>
 
-              <Button variant="outline-secondary" onClick={() => leaderBoard()}>Leader Board</Button>
+               <Button variant="outline-secondary" onClick={() => leaderBoard()}>Leader Board</Button>
              </ButtonGroup>
 
-          </section>
+          </section> 
+        }
 
+          {/* {(!state.user )&&
+            <section className="map">   
+              
+              <Map state={state} setState={setState}/>
+              
+            </section>
+            }
+              
          
-            <section className={showMapclass}>
-                {(nav.showMap )&& <Map  state={state} setState={setState} />  }  
+          */}
+            <section className={`cols ${showMapclass}`} >
+           
+                {nav.showMap    && <Map  state={state} setState={setState} />  }  
             
             </section>
-          
                
-          <section>
-              {/* {nav.editMap && <EditSite />} */}
+          <section >
               {nav.analytics &&  <Analytics state={state} setState={setState} />}
-              {nav.addSite &&  <EditSite state={state} setState={setState}/>}
-              {nav.addSite &&  <AddForm/>}
               {nav.leaderBoard &&  <Scoreboard/>}
             </section>
 
+          {(nav.addSite) &&
+               <section className={`cols map`}>
+               <div className="container"> 
+                <h1> My Sites</h1>
+                   <EditSite state={state} setState={setState}/>
+               </div>
+               <Map state={state} setState={setState}/>          
+             </section>
+              }
+
             {(nav.editMap )&&
-            <section className={editMapClass}>
-             <EditSite/>
-             <Map state={state} setState={setState}/>
-            
+            <section className={`cols map`}>
+              <div className="container"> 
+               <h1> My Sites</h1>
+                  <EditSite state={state} setState={setState}/>
+              </div>
+                  <Map state={state} setState={setState}/>          
             </section>
             }
         </main>

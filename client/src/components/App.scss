@@ -2,11 +2,11 @@
  @import "custom";
 .sidebar {
   background-color: $dark-background;
-  box-shadow: 0px 4px 8px rgba($dark-background, 0.5);
+  // box-shadow: 0px 4px 8px rgba($dark-background, 0.5);
   display: flex;
   flex-direction: column;
   min-width: 10rem;
-  padding: $spacing 0;
+  padding: 0//$spacing 0;
 
   &--centered {
     align-self: center;
@@ -28,6 +28,12 @@
   }
 }
 
+#map {
+   height: 100vh;
+  width: 100vw;
+}
+      
+
 .map {
   display: flex;
   flex-direction: column;
@@ -38,14 +44,19 @@
 }
 
 
-
+.logo{
+  &--centered {
+    align-self: center;
+    margin-bottom: 10px;
+  }
+}
 
 .cols {
   justify-content: center;
-  padding:25px;
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
   //min-height: 100vh;
 }
 
@@ -103,7 +114,13 @@ padding: 10px;
 .input {
 padding: 10px;
 }
-.layout{
-  display: flex;
-}
 
+
+.icon {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 0px
+;
+  }
+  

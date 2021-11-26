@@ -7,13 +7,19 @@ import '../custom.scss';
 
 import axios from 'axios';
 
+import Geocode from 'react-geocode';
+const DECIMALS =  6
+Geocode.setApiKey('AIzaSyCcKsKVOs-uzI8Ri0xtVmP-Mi9NNsFkj_c');
+Geocode.setLanguage('en');
+Geocode.setRegion('ca');
+
 export default function EditSite(props) {
   const { onClick, apiLogout, state, setState } = props;
 
   const [user, setUser] = useState({});
   const [code, setCode] = useState(false);
 
-  const [show, setShow] = useState(false);
+  const [mode, setMode] = useState(false);
 
   const [validated, setValidated] = useState(false);
 
@@ -21,55 +27,148 @@ export default function EditSite(props) {
     name: '',
     lat: '',
     long: '',
-    usage_kWh: 0,
-    size_kW: 0,
+    usage_kWh: '',
+    size_kW: '',
     province: '',
-    city: '',
-    zip: '',
+    address: '',
+    // zip: '',
   });
+
+
+  // const [dummy , setDummy] = useState()
+
 
   const changeHandler = (e) => {
     setSite((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    event.preventDefault()
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-      return
-    }
-
-    setValidated(true);
-
+  const submit = () => {
     const newSite = { ...site };
-    const coord = [site.lat, site.long];
+    const coord = [Number(site.lat), Number(site.long)];
     delete newSite.lat;
     delete newSite.long;
     newSite.coord = coord;
     setSite((prev) => ({ ...newSite }));
 
+    const newSites = [...state.sites, newSite];
 
-    const newSites = [...state.sites, newSite]
-    
-    setState(prev=> ({...prev, sites: newSites}))
+    setState((prev) => ({ ...prev, sites: newSites }));
 
     axios
       .post('/api/sites', newSite)
-      .then((response) => {
-        console.log(response);
+      .then((res) => {
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    clear();
   };
 
-  const { name, lat, long, usage_kWh, size_kW, city, province, zip } = site;
+
+
+const x = document.getElementById("demo");
+
+function getLocation() {
+  console.log('button clicked')
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  
+const lat = position.coords.latitude
+const long =  position.coords.longitude
+  setSite( prev => ({...prev, lat, long}))
+ 
+}
+
+
+  const fetchLatLong = () => {
+    console.log('-----------------------')
+    console.log(site.address)
+    Geocode.fromAddress(site.address)
+      .then((res) => {
+        console.log(res.results[0]);
+        const lat = res.results[0].geometry.location.lat.toFixed(DECIMALS);
+        const long = res.results[0].geometry.location.lng.toFixed(DECIMALS);
+        const addrComp = res.results[0].address_components
+        
+        
+        let province = ''
+        for (const e of addrComp) {
+
+          if (Object.keys({...state.model[0]}).includes(e.short_name)) {
+            province =  e.short_name
+            break
+          }
+
+        }
+        console.log({province})
+        setSite( prev => ({...prev, lat, long, province}))
+        setState(prev => ({...prev, marker:{lat: lat, lng: long}}))
+        
+        
+        // setDummy(state.map.L.marker([state.marker.lat,state.marker.lng]))
+        // state.map.addLayer(dummy)
+
+
+
+
+        console.log(site)
+        // const province = res.results[0].address_components[4].short_name;
+        // setState({ latitude: lat, longitude: lng, province: province });
+        // console.log('state with correct coord', this.state);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  const clear = () => {
+    // setValidated(false)
+    setSite((prev) => ({
+      ...{},
+      name: '',
+      lat: '',
+      long: '',
+      usage_kWh: '',
+      size_kW: '',
+      province: '',
+      address: '',
+      zip: '',
+    }));
+
+    setValidated((prev) => false);
+
+    // state.map.removeLayer(dummy)
+  };
+  
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated((prev) => true);
+
+    if (form.checkValidity()) {
+      submit();
+      setValidated((prev) => false);
+    }
+  };
+
+  const { name, lat, long, usage_kWh, size_kW, address, province} = site;
 
   return (
     <main className='cols'>
-      <div></div>
+      
       <Form
         noValidate
         validated={validated}
@@ -77,8 +176,9 @@ export default function EditSite(props) {
         className=''
       >
         <Row className='mb-3'>
-          <Form.Group as={Col} md='4' controlId='validationCustom01'>
-            <Form.Label>Site Name</Form.Label>
+          <Form.Group as={Col} md='6' controlId='validationCustom01'>
+            <Form.Label>Site Name</Form.Label>  
+            
             <Form.Control
               required
               type='text'
@@ -89,19 +189,18 @@ export default function EditSite(props) {
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
           </Form.Group>
-          <Form.Group as={Col} md='4' controlId='validationCustom02'>
-            <Form.Label>Longitude</Form.Label>
-            <Form.Control
-              required
-              type='text'
-              placeholder='-75.6554'
-              onChange={changeHandler}
-              name={'long'}
-              value={long}
-            />
-            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-          </Form.Group>
 
+          <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
+            <div id = "demo" >
+            <button > 
+              <img src='./geoicon.png' alt='logo' height='32' onClick={() => getLocation()} title="Get current location [Lat, Long]"/>
+             </button>
+            </div> 
+          
+            </Form.Group>
+        
+        </Row>
+        <Row className='mb-3'>
           <Form.Group as={Col} md='4' controlId='validationCustom02'>
             <Form.Label>Latitude</Form.Label>
             <Form.Control
@@ -112,17 +211,31 @@ export default function EditSite(props) {
               value={lat}
               onChange={changeHandler}
             />
-            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-          </Form.Group>
-        </Row>
+          {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
 
-        <Row className='mb-3'>
-          <Form.Group as={Col} md='4' controlId='validationCustom01'>
-            <Form.Label>Average Annual Consumption [ kWh ]</Form.Label>
+          </Form.Group>
+            <Form.Group as={Col} md='4' controlId='validationCustom02'>
+            <Form.Label>Longitude</Form.Label>
             <Form.Control
               required
               type='text'
-              placeholder='10000'
+              placeholder='-75.6554'
+              onChange={changeHandler}
+              name={'long'}
+              value={long}
+            />
+          </Form.Group> 
+            {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
+           
+        </Row>
+
+        <Row className='mb-3'>
+          <Form.Group as={Col} md='6' controlId='validationCustom01'>
+            <Form.Label>Avg. Consumption [ kWh / Yr ]</Form.Label>
+            <Form.Control
+              required
+              type='text'
+              placeholder=''
               name={'usage_kWh'}
               value={usage_kWh}
               onChange={changeHandler}
@@ -134,26 +247,36 @@ export default function EditSite(props) {
             <Form.Control
               required
               type='text'
-              placeholder='8.6'
+              placeholder=''
               name={'size_kW'}
               value={size_kW}
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
-          </Form.Group>
+          </Form.Group>         
         </Row>
         <Row className='mb-3'>
+       
+        <Form.Group as={Col} md='1' controlId='validationCustom03'>
+        <Form.Label>Get</Form.Label>
+
+           <button > 
+              <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}/>
+          </button>
+          </Form.Group>
+      
           <Form.Group as={Col} md='6' controlId='validationCustom03'>
-            <Form.Label>City</Form.Label>
+            <Form.Label>address</Form.Label>
             <Form.Control
+              required
               type='text'
               placeholder='Ottawa'
-              name={'city'}
-              value={city}
+              name={'address'}
+              value={address}
               onChange={changeHandler}
             />
             <Form.Control.Feedback type='invalid'>
-              Please provide a valid city.
+              Please provide a valid address.
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md='3' controlId='validationCustom04'>
@@ -166,15 +289,16 @@ export default function EditSite(props) {
               value={province}
               onChange={changeHandler}
             />
+             
             <Form.Control.Feedback type='invalid'>
               Please provide a valid state.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md='3' controlId='validationCustom05'>
+          {/* <Form.Group as={Col} md='3' controlId='validationCustom05'>
             <Form.Label>Zip</Form.Label>
             <Form.Control
-              type='text'
               required
+              type='text'
               placeholder='A0A 0Z0'
               name={'zip'}
               value={zip}
@@ -183,10 +307,14 @@ export default function EditSite(props) {
             <Form.Control.Feedback type='invalid'>
               Please provide a valid zip.
             </Form.Control.Feedback>
-          </Form.Group>
+          </Form.Group> */}
         </Row>
         <Button type='submit' variant='outline-success'>
-          Submit form
+          Submit
+        </Button>
+        <span> </span>
+        <Button type='button' variant='outline-dark' onClick={clear}>
+          Clear
         </Button>
       </Form>
     </main>

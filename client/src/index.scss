@@ -18,6 +18,8 @@ body {
 .layout {
   display: flex;
   min-height: 100vh;
+  flex-direction: row;
+  overflow:hidden
 }
 
 @media only screen and (max-width: 960px) {

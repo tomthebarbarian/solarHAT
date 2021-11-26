@@ -14,6 +14,7 @@ export default function useAppData(props) {
   const [state, setState] = useState({
     user: null,
     map: {},
+    marker: { lat: 45, lng: -100 },
     sites: [
       {
         _id: 'ObjectId(619d5d325e08dcf685043d24)',
@@ -69,17 +70,29 @@ export default function useAppData(props) {
 
   useEffect(() => {
     //fetch data with API call
-    fetchData()
-      .then((data) => {
-        setState((prev) => ({
-          ...prev,
-          sites: data.sites,
-          model: data.model,
-          users: data.users,
-        }))
-      }
-      )
+    axios.get("/login")
+      .then(res => {
+        console.log('------------get/login------------', res)
+        if (res.data.code === 200)
+          setState(prev => ({ ...prev, user: res.data.user[0] }))
+      })
+      .then(() => {
+
+        fetchData()
+          .then((data) => {
+            setState((prev) => ({
+              ...prev,
+              sites: data.sites,
+              model: data.model,
+              users: data.users,
+            }))
+          })
+
+      })
       .catch((error) => console.log(`ERROR ${error}`));
+
+
+
     return cleanup();
   }, []);
 
