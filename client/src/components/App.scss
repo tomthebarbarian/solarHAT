@@ -103,30 +103,7 @@ padding: 10px;
 .input {
 padding: 10px;
 }
-
-
-
-.add {
-margin-right: 45px;
+.layout{
+  display: flex;
 }
 
-#size {
-margin-right: 55px;
-}
-
-#name {
-margin-right: 20px;
-}
-
-.scoreboard {
-  padding-bottom: 100px;
-}
-
-#scoreboard {
-  margin: 100px;
-  justify-content: center;
-}
-
-td {
-  border: none;
-}

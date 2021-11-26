@@ -118,6 +118,7 @@ export default function App() {
             crossorigin=''/>
           <link rel='stylesheet'href='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css'/>
           <link rel='stylesheet' href='http://leaflet.github.io/Leaflet.label/leaflet.label.css' />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         </head>
 
         <>

@@ -2,6 +2,7 @@ import {React, Component} from "react";
 import {BrowserRouter as Router} from 'react-router-dom'
 import classNames from "classnames";
 import Geocode from 'react-geocode'
+import { fetchData } from "../helpers/api";
 
 import axios from 'axios'
 // import './Form.scss'
@@ -59,7 +60,8 @@ export default class AddForm extends Component {
           console.log(response)
           const lat = response.results[0].geometry.location.lat
           const lng = response.results[0].geometry.location.lng
-          const province = response.results[0].address_components[4].short_name
+          const province = response.results[0].formatted_address.split(',')[2].split(' ')[1]
+        
           this.setState({latitude: lat, longitude: lng, province: province})
           console.log("state with correct coord",this.state)
           axios.post('/api/sites', this.state)
