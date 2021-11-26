@@ -62,6 +62,28 @@ export default function EditSite(props) {
     clear();
   };
 
+
+
+const x = document.getElementById("demo");
+
+function getLocation() {
+  console.log('button clicked')
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  
+const lat = position.coords.latitude
+const long =  position.coords.longitude
+  setSite( prev => ({...prev, lat, long}))
+ 
+}
+
+
   const fetchLatLong = () => {
     console.log('-----------------------')
     console.log(site.address)
@@ -176,6 +198,11 @@ export default function EditSite(props) {
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
             <img src='./geoicon.png' alt='logo' width='64px' height='64px' onClick={fetchLatLong}/>
+            <button onClick={() => getLocation()}>Try It</button>
+
+            <div id = "demo" >
+              wtefaslf jaslfjasl fd
+            </div>
           </Form.Group>
         </Row>
 

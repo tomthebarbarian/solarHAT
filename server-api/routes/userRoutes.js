@@ -150,6 +150,7 @@ module.exports = (router, dbo) => {
         if (user[0]) {
           res.json({ code: 200, msg: 'success', user })
           // res.redirect("/sites");
+          return
         }
         //initialize template variable,
         //if we are here we are not logged in
@@ -166,7 +167,7 @@ module.exports = (router, dbo) => {
     //parse user email and password
     const { email, password } = req.body;
     console.log({ email, password });
-    if (!email || !password) {
+    if (!email && !password) {
       console.log("errCode 400: Invalid user name or password");
       const vars = varInit(false, 400, null, null);
       // res.render("register", vars);

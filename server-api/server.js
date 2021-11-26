@@ -79,11 +79,11 @@ app.get("/", (req, res) => {
 
 
 //api call to fetch data and returns a promise
-const fetchData = () => {
+const fetchData = (latlong) => {
 
   // https://apps.solargis.com/api/data/lta?loc=-78.486328,45.089036
-  const lat = 45.513809
-  const lon = -73.5625
+  const lat = latlong.lat
+  const lon = latlong.lng
   return Promise
     .all([
       axios.get(`https://apps.solargis.com/api/data/lta?loc=${lat},${lon}`)
@@ -110,8 +110,25 @@ const getSolarForLatLon = () => {
 
 
 app.get("/fetch", (req, res) => {
-  console.log('-----------i am here ----')
-  fetchData()
+  console.log("from client", req.body)
+  const latlong = req.body
+
+  fetchData(latlong)
+    .then(result => {
+      console.log('-----------[axios call]---------\n', Object.keys(result))
+      console.log('-----------[axios call]---------\n', result['annual'].data)
+      res.json(result['annual'].data)
+
+    })
+    .catch(err => console.log(err.message))
+
+})
+
+app.post('/pv_data', (req, res) => {
+  console.log("from client", req.body)
+  const latlong = req.body
+
+  fetchData(latlong)
     .then(result => {
       console.log('-----------[axios call]---------\n', Object.keys(result))
       console.log('-----------[axios call]---------\n', result['annual'].data)
