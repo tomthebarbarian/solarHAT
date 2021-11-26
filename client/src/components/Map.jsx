@@ -23,9 +23,7 @@ const Map = (props) => {
 */
 
   const [map, setMap] = useState({})
-
-
-
+  
   // const mapRef = React.useRef(null);
   useEffect(() => {
     console.log('----------[this is props.sites]--------', state.sites)

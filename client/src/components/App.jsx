@@ -74,10 +74,10 @@ export default function App() {
    //quick hack to resolve  more than one map issue
    const showMapclass = (classNames('',
     { 'map': nav.showMap },
-     { '': nav.editMap }))
+     { 'hide': nav.editMap }))
 
      const editMapClass = (classNames('',
-     { '': nav.showMap },
+     { 'hide': nav.showMap },
      { 'map': nav.editMap }))
 
 
@@ -138,7 +138,7 @@ export default function App() {
           */}
             <section className={`cols ${showMapclass}`} >
            
-                {(nav.showMap   ) && <Map  state={state} setState={setState} />  }  
+                {nav.showMap    && <Map  state={state} setState={setState} />  }  
             
             </section>
                
