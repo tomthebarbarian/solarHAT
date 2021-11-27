@@ -82,6 +82,12 @@ export default function App() {
   }
 
 
+  const handleLogout = () => {
+    console.log('-----------------[Appjsx user logout]---------------', nav)
+    setNav(prev => ({...{}, landing: true}))
+    return apiLogout()
+  }
+
    //add condiontal styling
    //quick hack to resolve  more than one map issue
    const showMapclass = (classNames('',
@@ -105,7 +111,7 @@ export default function App() {
             <Navbar.Collapse className='justify-content-end'></Navbar.Collapse>
 
             {!state.user && <Register apiRegister={apiRegister} state={state} setState={setState}/>}
-            <Login apiLogin={apiLogin} apiLogout={apiLogout} state={state} setState={setState}/>
+            <Login apiLogin={apiLogin} apiLogout={handleLogout} state={state} setState={setState}/>
             </Container>
         </Navbar>
          
@@ -141,7 +147,13 @@ export default function App() {
           }  
           
         <Container >
-          {nav.analytics &&  <Analytics state={state} setState={setState} />}
+          {nav.analytics &&  
+          
+              // { (state.site > 0 ) && 
+                  < Analytics state={state} setState={setState} />
+              
+              // }
+          }
          
           {nav.leaderBoard &&  <Scoreboard/>}
       
