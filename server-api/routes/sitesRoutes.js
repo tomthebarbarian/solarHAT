@@ -37,12 +37,33 @@ module.exports = (router, dbo) => {
   router.post('/sites', (req, res) => {
     console.log("from backend", req.body)
     const site = req.body
-    res.json({ site })
+
+    const userId = req.session.user_id;
+    console.log("req session user ID:", userId);
+
+    site.owner = userId
+
+    console.log(site)
 
     const dbConn = dbo.getDb();
     dbConn.collection("sites").insertOne(site);
 
   })
+
+  router.get('/sites/:id', (req, res) => {
+    const userId = req.session.user_id;
+    console.log("req session user ID:", userId);
+
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find({ owner: userId })
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+
 
   router.get('/sites/usage', (req, res) => {
     const dbConn = dbo.getDb();
@@ -59,7 +80,7 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .find()
-      .sort({cost: -1})
+      .sort({ cost: -1 })
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
@@ -70,13 +91,12 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .find()
-      .sort({production: -1})
+      .sort({ production: -1 })
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
       })
   })
-
 
   return router;
 
