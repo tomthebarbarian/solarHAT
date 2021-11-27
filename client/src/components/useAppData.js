@@ -12,6 +12,7 @@ import { fetchData, apiCall, logout, login, register } from '../helpers/api';
 export default function useAppData(props) {
   //iniitalize app state and set day to Monday
   const [state, setState] = useState({
+    logged: false,
     user: null,
     map: {},
     marker: { lat: 45, lng: -100 },
@@ -73,28 +74,28 @@ export default function useAppData(props) {
     axios.get("/login")
       .then(res => {
         console.log('------------get/login------------', res)
-        if (res.data.code === 200)
-          setState(prev => ({ ...prev, user: res.data.user[0] }))
-      })
-      .then(() => {
+        if (res.data.code === 200) {
+          setState(prev => ({ ...prev, logged: true, user: res.data.user[0] }))
 
-        fetchData()
-          .then((data) => {
-            setState((prev) => ({
-              ...prev,
-              sites: data.sites,
-              model: data.model,
-              users: data.users,
-            }))
-          })
 
+          fetchData()
+            .then((data) => {
+              setState((prev) => ({
+                ...prev,
+                sites: data.sites,
+                model: data.model,
+                users: data.users,
+              }))
+            })
+        }
       })
       .catch((error) => console.log(`ERROR ${error}`));
 
 
 
     return cleanup();
-  }, []);
+  }, [state.logged]);
+
 
 
   return {

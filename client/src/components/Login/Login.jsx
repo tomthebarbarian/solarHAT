@@ -56,7 +56,7 @@ export default function Login(props) {
 
       if (res.data.code ===200) {
         setUser(prev => res.data.user)
-        setState(prev => ({...prev, user:res.data.user}))
+        setState(prev => ({...prev, user:res.data.user, logged:true}))
         handleClose()
         return 
       }
