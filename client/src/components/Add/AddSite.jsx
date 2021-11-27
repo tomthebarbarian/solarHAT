@@ -13,7 +13,7 @@ Geocode.setApiKey('AIzaSyCcKsKVOs-uzI8Ri0xtVmP-Mi9NNsFkj_c');
 Geocode.setLanguage('en');
 Geocode.setRegion('ca');
 
-export default function EditSite(props) {
+export default function AddSite(props) {
   const { onClick, apiLogout, state, setState } = props;
 
   const [user, setUser] = useState({});
@@ -168,7 +168,7 @@ const long =  position.coords.longitude
 
   return (
     <main className='cols'>
-      <h1> Edit Site</h1>
+      <h1> Add Site</h1>         
       <Form
         noValidate
         validated={validated}
