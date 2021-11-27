@@ -20,6 +20,7 @@ import Register from './Register/Register';
 
 import classNames from 'classnames';
 import EditSite from './Edit/EditSite.jsx';
+import AddSite from './Add/AddSite';
 
 const SHOW = 0
 const EDIT = 1
@@ -128,7 +129,7 @@ export default function App() {
               
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(EDIT)}> 
-                 <img src='./editMap.png' alt= 'logo' width='32' />Edit Sites</Dropdown.Item>
+                 <img src='./editMap.png' alt= 'logo' width='32' />Edit Site</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ADD)}>
                   <img src='./add.png' alt= 'logo' width='32' />Add Site</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ANALYTICS)}>
@@ -160,7 +161,6 @@ export default function App() {
           {nav.editMap &&
             <Row>
               <Col xs={6}>
-                  <h1> Edit Sites</h1>
                   <EditSite state={state} setState={setState}/>
               </Col>
               <Col xs={6}>
@@ -172,10 +172,8 @@ export default function App() {
           {nav.addSite &&
              <Row>  
               <Col xs={6}>
-                <h1> Add Site</h1>
-                <EditSite state={state} setState={setState}/>              
+                <AddSite state={state} setState={setState}/>              
               </Col>
-            
               <Col xs={6}>
                 <Map state={state} setState={setState}/>          
               </Col>
