@@ -1,12 +1,13 @@
-@import "../styles/variables.scss";
- @import "custom";
+@import '../styles/variables.scss';
+@import 'custom';
 .sidebar {
   background-color: $dark-background;
   // box-shadow: 0px 4px 8px rgba($dark-background, 0.5);
   display: flex;
   flex-direction: column;
   min-width: 10rem;
-  padding: 0//$spacing 0;
+  height: 100vh;
+  padding: 0 //$spacing 0;;
 
   &--centered {
     align-self: center;
@@ -28,23 +29,7 @@
   }
 }
 
-#map {
-   height: 100vh;
-  width: 100vw;
-}
-      
-
-.map {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  // margin: 2rem 0;
-  // padding: 0 $spacing;
-  width: 100%;
-}
-
-
-.logo{
+.logo {
   &--centered {
     align-self: center;
     margin-bottom: 10px;
@@ -55,11 +40,10 @@
   justify-content: center;
   align-items: flex-start;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: hidden;
   //min-height: 100vh;
 }
-
 
 .App {
   text-align: center;
@@ -105,22 +89,32 @@ input {
 }
 
 .site-form {
-display: flex;
-justify-content: center;
-margin: 2px;
-padding: 10px;
+  display: flex;
+  justify-content: center;
+  margin: 2px;
+  padding: 10px;
 }
 
 .input {
-padding: 10px;
+  padding: 10px;
 }
-
 
 .icon {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-bottom: 0px
-;
-  }
-  
+  margin-bottom: 0px;
+}
+
+.icon {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+.navbar {
+  padding: 5px ; //$spacing 0;;
+  color: rgb(204, 204, 204);
+
+}
