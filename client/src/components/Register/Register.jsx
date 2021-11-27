@@ -4,14 +4,16 @@ import {Button,Modal, Form} from 'react-bootstrap';
 import { useState } from 'react';
 
 export default function Register(props) {
-  const {onClick, state, setState} = props
+  const {apiRegister, state, setState} = props
   
 	const [user, setUser] = useState({});
   const [show, setShow] = useState(false);
   const [code,setCode] = useState(false)
 
   const handleClose = () => {
-    setShow(prev => false);
+    setShow(prev => prev = false);
+    setCode(prev => prev = null)
+    setValidated(prev => prev = false)
     setUser(prev => ({...prev, name: '', email:'', password:''}))
   }
   const handleShow = () => {
@@ -21,16 +23,14 @@ export default function Register(props) {
 
 
   const register = () => {
-      
-
     console.log('-------------[register form]------------\n',user)
-    onClick(user)
+    apiRegister(user)
     .then(res => {
       console.log('-------------[register api res]----\n',res.data)
       setCode(prev => res.data.code)
       if (res.data.user) {
         // setUser(prev => ({...prev, name: '', email:'', password:''}))
-        setState(prev => ({...prev, user:res.data.user}))
+        setState(prev => ({...prev, user:res.data.user, logged:true}))
         handleClose()
         return
       }
@@ -45,28 +45,36 @@ export default function Register(props) {
 
   };
 
-  const handleName = (e) => {
-    setUser(prev => ({...prev, name: e.target.value }))
-    setCode(prev => null)
+  const handleChange = (e) => {
+    setUser(prev => ({...prev, [e.target.name]: e.target.value }))
+    setCode(prev => prev = null)
+    console.log(user)
   }
 
-  const handleEmail = (e) => {
-    setUser(prev => ({...prev, email: e.target.value }))
-    setCode(prev => null)
-  }
-  const handlePassword = (e) => {
-    setUser(prev => ({...prev, password: e.target.value }))
-    setCode(prev => null)
-   }
+  const [validated, setValidated] = useState(false);
+  
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated((prev) => true);
+
+    if (form.checkValidity()) {
+      register();
+      setValidated((prev) => false);
+    }
+  };
 
 
   return (
     <>
-    
-      <pre> </pre>
-     { (code !==200) && <Button variant='outline-warning' onClick={handleShow}>
+      <Button variant='outline-warning' onClick={handleShow}>
         Register
-      </Button>}
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -75,15 +83,20 @@ export default function Register(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          
+          <Form      
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}>
           <Form.Group className='sm-2' controlId='namze'>
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" onChange={handleName} value={user.name} placeholder="John Smith"/>           
+              <Form.Control required type="text" onChange={handleChange} name='name' value={user.name} placeholder="John Smith"/>           
             </Form.Group>
+            <p/>
 
            <Form.Group className='sm-2' controlId='email'>
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" onChange={handleEmail} value={user.email} placeholder="john.smith@email.com"/>           
+              <Form.Control required type="email" onChange={handleChange} name='email' value={user.email} placeholder="john.smith@email.com"/>           
 
               <Form.Text className='text-muted'>
                 We'll never share your email with anyone else.
@@ -92,8 +105,9 @@ export default function Register(props) {
 
             <Form.Group className='sm-2' controlId='password'>
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" onChange={handlePassword} value={user.password} placeholder="password"/>           
+              <Form.Control type="password" required onChange={handleChange} name='password' value={user.password} placeholder="password"/>           
             </Form.Group>
+            <br/>
               {code === 400 && 
                 <div class="alert alert-danger" role="alert">
                     {user.email} already exists!
@@ -103,13 +117,11 @@ export default function Register(props) {
                 <div class="alert alert-danger" role="alert">
                     Invalid user name or password
                 </div>}
+            <Button  type='submit' variant='warning'>
+              Register
+            </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='warning' onClick={register}>
-            Register
-          </Button>
-        </Modal.Footer>
       </Modal>
       
     </>

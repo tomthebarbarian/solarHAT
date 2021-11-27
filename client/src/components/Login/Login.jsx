@@ -14,7 +14,7 @@ const initState = {
   };
 
 export default function Login(props) {
-  const {onClick, apiLogout, state, setState} = props
+  const {apiLogin, apiLogout, state, setState} = props
 
 	const [user, setUser] = useState({});
   const  [code,setCode] = useState(false)
@@ -23,8 +23,9 @@ export default function Login(props) {
 
   const handleClose = () => {
     setUser(prev => ({...prev, name: '', email:'', password:''}))
-    setCode(prev => null)
-    setShow((prev) => (prev = false));
+    setCode(prev => prev = null)
+    setShow((prev) => prev = false);
+    setValidated(prev => prev = false)
   }
   const handleShow = () => {
     setUser(prev => ({...prev, name: '', email:'', password:''}))
@@ -49,7 +50,7 @@ export default function Login(props) {
 
   const login = () => {
     console.log('-------------[login form]------------\n',user)
-    onClick(user)
+    apiLogin(user)
       .then((res)=>{
       console.log('-------------[login api res]----\n',res.data)
       setCode(prev => res.data.code)
@@ -65,17 +66,30 @@ export default function Login(props) {
       
   };
 
-  const handleEmail = (e) => {
-    setUser(prev => ({...prev, email: e.target.value }))
+  const handleChange = (e) => {
+    setUser(prev => ({...prev, [e.target.name]: e.target.value }))
   }
-  const handlePassword = (e) => {
-    setUser(prev => ({...prev, password: e.target.value }))
-  }
+  
+  const [validated, setValidated] = useState(false);
+  
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
+    setValidated((prev) => true);
+
+    if (form.checkValidity()) {
+      login();
+      setValidated((prev) => false);
+    }
+  };
   return (
     <>
-    
-      <pre> </pre>
+    <pre> </pre>
       {!state.user && 
       <Button variant='outline-warning' onClick={handleShow}>
         Login
@@ -84,8 +98,8 @@ export default function Login(props) {
       {state.user &&
       
       <>
-        Hello, {state.user.name} 🙋 <pre>    </pre>
-
+        <div className='navrbar'> 🙋 Hello, {state.user.name}  </div>
+        <pre> </pre>
         <Button variant='outline-warning' onClick={logout}>
           Logout
         </Button>
@@ -100,50 +114,34 @@ export default function Login(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+        <Form      
+          noValidate
+          validated={validated}
+          onSubmit={handleSubmit}>
             <Form.Group className='sm-2' controlId='email'>
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" onChange={handleEmail} value={user.email} placeholder="email address"/>           
+              <Form.Control required type="email"  onChange={handleChange} name='email' value={user.email} placeholder="email address"/>           
               {/* <input type="email" name="email" value={user.email} onChange={handleEmail} className="form-control" /> */}
 
-              <Form.Group as={Col} md='4' controlId='validationCustomUsername'>
-            <Form.Label>Username</Form.Label>
-
-          </Form.Group>
-
-
               <Form.Text className='text-muted'>
-                We'll never share your email with anyone else.
               </Form.Text>
             </Form.Group>
-
+            <p/>
             <Form.Group className='sm-2' controlId='password'>
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" onChange={handlePassword} value={user.password} placeholder="password"/>           
+              <Form.Control required type="password"  onChange={handleChange} name='password' value={user.password} placeholder="password"/>           
             </Form.Group>
-          
-            {code === 400 && 
-            <div class="alert alert-danger" role="alert">
-                Invalid user name or password
-            </div>}
-        
-            {code === 401 && 
-            <div class="alert alert-danger" role="alert">
-                {user.email} not found!
-            </div>}
-
-            {code === 403 && 
-            <div class="alert alert-danger" role="alert">
-                Invalid credentials. Please check password and try again.
-            </div>}
-
+            <p/>
+            <div class={code===null? '' :"alert alert-danger"} role="alert">
+              {code === 400 && <> Invalid user name or password </> }
+              {code === 401 && <> {user.email} not found! </>}
+              {code === 403 &&  <>Invalid credentials. Please check password and try again.' </>}
+            </div>
+            <Button type='submit' variant='warning' >
+              Login
+           </Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='warning' onClick={login}>
-            Login
-          </Button>
-        </Modal.Footer>
       </Modal>
       
     </>
