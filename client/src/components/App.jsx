@@ -134,9 +134,11 @@ export default function App() {
 
           </section> 
        
-        <section className='map'>
-          {nav.showMap && <Map  state={state} setState={setState} />  }  
-        </section>  
+        { nav.showMap &&
+          <section className='map'>
+            <Map  state={state} setState={setState} />  
+          </section>  
+          }  
           
         <Container >
           {nav.analytics &&  <Analytics state={state} setState={setState} />}

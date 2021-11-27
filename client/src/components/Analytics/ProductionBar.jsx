@@ -19,7 +19,7 @@ const chartConfig = {
       },
       {
         label: '# kWH produced',
-        type: 'line',
+        type: 'bar',
         data: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
         backgroundColor: [
           'rgba(255, 99, 132, 1)'
@@ -68,10 +68,12 @@ const ProductionBar = (props) => {
   }, [chartContainer]);
 
   return (
-    <div className='comparebar col-md-12 row'>
+    <row className="">
       <h2>Energy Produced</h2>
-      <canvas ref={chartContainer} />
-    </div>
+      <div className='comparebar col-md-12 row'>
+        <canvas ref={chartContainer} />
+      </div>
+    </row>
   );
 };
 

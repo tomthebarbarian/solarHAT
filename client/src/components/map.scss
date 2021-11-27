@@ -1,8 +1,18 @@
 
-#map{
-  width:100%;
-  height:1000px;
+#map {
+  height: 100vh;
+ width: 100vw;
 }
+
+.map {
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+ // margin: 2rem 0;
+ // padding: 0 $spacing;
+ width: 100%;
+}
+
 
  .leaflet-popup-content-wrapper {
   background:#2c3e50;
@@ -45,7 +55,7 @@
   overflow: hidden;
   pointer-events: none;
 	// cursor:zoom-in;
-	// margin:0;
+	margin-left:-20px;
 	// background: sandybrown
 }
 
