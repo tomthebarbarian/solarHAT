@@ -105,6 +105,8 @@ export default function App() {
       <main className='layout'>
 
       {state.user && 
+
+      <>
           <section className='sidebar '>
              <img className="logo--centered" src='./logo2.png' alt= 'logo' width='128'/>
             
@@ -124,18 +126,8 @@ export default function App() {
              </ButtonGroup>
 
           </section> 
-        }
-
-          {/* {(!state.user )&&
-            <section className="map">   
-              
-              <Map state={state} setState={setState}/>
-              
-            </section>
-            }
-              
-         
-          */}
+       
+       
             <section className={`cols ${showMapclass}`} >
            
                 {nav.showMap    && <Map  state={state} setState={setState} />  }  
@@ -166,6 +158,9 @@ export default function App() {
                   <Map state={state} setState={setState}/>          
             </section>
             }
+
+            </>
+        }
         </main>
       </>
   );

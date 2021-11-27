@@ -3,6 +3,16 @@ import {Button,Modal, Col, Row, Form, InputGroup} from 'react-bootstrap';
 import classNames from 'classnames'
 import { useState } from 'react';
 
+
+const initState = {
+    user: null,
+    map: null,
+    marker: null,
+    users: null,
+    sites: null,
+    model: null,
+  };
+
 export default function Login(props) {
   const {onClick, apiLogout, state, setState} = props
 
@@ -29,7 +39,7 @@ export default function Login(props) {
     .then(res => {
       console.log('-------------[login api res]----',res.data)
       setUser(prev => ({...{}, name:null, email: null , password:null}))
-      setState(prev => ({...prev, user:null}))
+      setState(prev => ({...{}, ...initState } ))
       handleClose()
       return 
     })
@@ -44,7 +54,7 @@ export default function Login(props) {
       console.log('-------------[login api res]----\n',res.data)
       setCode(prev => res.data.code)
 
-      if (res.data.user) {
+      if (res.data.code ===200) {
         setUser(prev => res.data.user)
         setState(prev => ({...prev, user:res.data.user}))
         handleClose()
