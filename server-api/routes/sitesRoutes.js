@@ -9,6 +9,7 @@
 const { varInit,
   authenticateUser,
   getUserByEmail } = require('../lib/utils');
+const { ObjectId } = require("bson");
 
 module.exports = (router, dbo) => {
 
@@ -68,20 +69,31 @@ module.exports = (router, dbo) => {
     const site = req.body
     console.log('--------POST: [param]:', req.params.id)
     console.log('--------POST: [site]:', site)
-
     delete site._id
-    console.log('--------POST: [site]:', site)
+    // console.log('--------POST: [site]:', site)
 
-    res.json(site)
-    return
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .update({ "_id": ObjectId(req.parms.id) }, { $set: site }, { upsert: false })
+      .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false })
     // .update(ObjectId(req.params.id), { $set: site })
+    res.json(site)
   });
 
 
+  router.post("/sites/delete/:id", (req, res) => {
+    const site = req.body
+    console.log('--------POST: [param]:', req.params.id)
+    console.log('--------POST: [site]:', site)
+    delete site._id
+    // console.log('--------POST: [site]:', site)
+
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .deleteOne({ "_id": ObjectId(`${req.params.id}`) })
+    res.json(site)
+  });
 
   router.get('/sites/usage', (req, res) => {
     const dbConn = dbo.getDb();
