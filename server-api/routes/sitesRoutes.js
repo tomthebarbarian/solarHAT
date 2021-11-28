@@ -64,6 +64,24 @@ module.exports = (router, dbo) => {
       })
   })
 
+  router.post("/sites/edit/:id", (req, res) => {
+    const site = req.body
+    console.log('--------POST: [param]:', req.params.id)
+    console.log('--------POST: [site]:', site)
+
+    delete site._id
+    console.log('--------POST: [site]:', site)
+
+    res.json(site)
+    return
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .update({ "_id": ObjectId(req.parms.id) }, { $set: site }, { upsert: false })
+    // .update(ObjectId(req.params.id), { $set: site })
+  });
+
+
 
   router.get('/sites/usage', (req, res) => {
     const dbConn = dbo.getDb();
