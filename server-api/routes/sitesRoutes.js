@@ -6,6 +6,7 @@
  */
 
 //helper functions
+const { ObjectId } = require('bson');
 const { varInit,
   authenticateUser,
   getUserByEmail } = require('../lib/utils');
@@ -38,10 +39,10 @@ module.exports = (router, dbo) => {
     console.log("from backend", req.body)
     const site = req.body
 
-    const userId = req.session.user_id;
+    const userId = user._id;
     console.log("req session user ID:", userId);
 
-    site.owner = userId
+    site.owner = userId.toString()
 
     console.log(site)
 
@@ -51,8 +52,8 @@ module.exports = (router, dbo) => {
   })
 
   router.get('/sites/:id', (req, res) => {
-    const userId = req.session.user_id;
-    console.log("req session user ID:", userId);
+    const userId = req.params.id;
+    console.log("req params user ID:", userId);
 
     const dbConn = dbo.getDb();
     dbConn
@@ -97,6 +98,15 @@ module.exports = (router, dbo) => {
         res.json(result);
       })
   })
+
+  router.post("/sites/edit/:id", (req, res) => {
+    const dbConn = dbo.getDb();
+    const site = req.body
+    dbConn
+      .collection("sites")
+      // .update({_id: ObjectId(req.params.id)}, {$set: site})
+
+  });
 
   return router;
 

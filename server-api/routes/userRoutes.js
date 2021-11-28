@@ -110,6 +110,10 @@ module.exports = (router, dbo) => {
 
           //create session cookie
           req.session.user_id = user.id;
+          // dbConn.collection("users").update(
+          //   {email,},
+          //   {$set: {_id: }}
+          // )
           res
             .status(200)
             .json({ code: 200, exist: false, user });
@@ -202,6 +206,7 @@ module.exports = (router, dbo) => {
           }
 
           req.session.user_id = user._id;
+          // console.log("user id from login", user._id.toString())
           console.log(`------------[user.id]--------------\n`, user._id);
 
           const vars = varInit(true, 200, user, null);
@@ -223,6 +228,8 @@ module.exports = (router, dbo) => {
     res.json({ code: 200, msg: 'logged out', user: null })
 
   });
+
+
 
   return router;
 };
