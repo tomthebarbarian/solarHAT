@@ -37,7 +37,7 @@ export default class Scoreboard extends Component{
   changeHandler = (e) => {
     this.setState({option: e.target.name}, ()=> {
       if(this.state.option === 'usage') {
-      axios.get('/api/sites/usage')
+      axios.get('/api/sites/s/usage')
       .then((response) => {
         console.log(response.data)
         this.setState({siteData: response.data })
@@ -48,7 +48,7 @@ export default class Scoreboard extends Component{
     }
 
     if(this.state.option === 'production') {
-      axios.get('/api/sites/production')
+      axios.get('/api/sites/s/production')
       .then((response) => {
         // console.log(response.data)
         this.setState({siteData: response.data })
@@ -59,7 +59,7 @@ export default class Scoreboard extends Component{
       })
     }
     if(this.state.option === 'cost') {
-      axios.get('/api/sites/cost')
+      axios.get('/api/sites/s/cost')
       .then((response) => {
         // console.log(response.data)
         this.setState({siteData: response.data })

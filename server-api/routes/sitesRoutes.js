@@ -95,37 +95,47 @@ module.exports = (router, dbo) => {
     res.json(site)
   });
 
-  router.get('/sites/usage', (req, res) => {
+  router.get('/sites/s/usage', (req, res) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find()
+      .aggregate([{ $sort: { usage_kWh: 1 } }]
+      )
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
       })
+
   })
-  router.get('/sites/cost', (req, res) => {
+  router.get('/sites/s/cost', (req, res) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find()
-      .sort({ cost: -1 })
+      .aggregate([{ $sort: { cost: 1 } }]
+      )
       .toArray(function (err, result) {
         if (err) throw err;
+
+        const data = result.map(e => {
+          console.log(e)
+
+        })
+
         res.json(result);
       })
+
   })
-  router.get('/sites/production', (req, res) => {
+  router.get('/sites/s/production', (req, res) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find()
-      .sort({ production: -1 })
+      .aggregate([{ $sort: { production: -1 } }]
+      )
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
       })
+
   })
 
   return router;
