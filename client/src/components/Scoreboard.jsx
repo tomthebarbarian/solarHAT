@@ -50,59 +50,12 @@ export default function Scoreboard(props) {
     siteInfo(state.option);
   }, [state.option]);
 
-<<<<<<< HEAD
-  }
-  
-  changeHandler = (e) => {
-    this.setState({option: e.target.name}, ()=> {
-<<<<<<< HEAD
-
-    this.siteInformation(this.state.option);
-
-=======
-      if(this.state.option === 'usage') {
-      axios.get('/api/sites/s/usage')
-      .then((response) => {
-        console.log(response.data)
-        this.setState({siteData: response.data })
-      })
-      .catch((err) => {
-        console.log('Error while getting data', err)
-      })
-    }
-
-    if(this.state.option === 'production') {
-      axios.get('/api/sites/s/production')
-      .then((response) => {
-        // console.log(response.data)
-        this.setState({siteData: response.data })
-        
-      })
-      .catch((err) => {
-        console.log('Error while getting data', err)
-      })
-    }
-    if(this.state.option === 'cost') {
-      axios.get('/api/sites/s/cost')
-      .then((response) => {
-        // console.log(response.data)
-        this.setState({siteData: response.data })
-        
-      })
-      .catch((err) => {
-        console.log('Error while getting data', err)
-      })
-    }
->>>>>>> - update siteRoute endpoint for scoreboard
-    })
-=======
   const changeHandler = (e) => {
     console.log('-------e.target.name--------', e.target.name);
     setState((prev) => ({ ...prev, option: e.target.name }));
 
     siteInfo(e.target.name);
   };
->>>>>>> - fix scoreboard backend code
 
   const chartContainer = useRef(null);
 

@@ -6,7 +6,6 @@
  */
 
 //helper functions
-const { ObjectId } = require('bson');
 const { varInit,
   authenticateUser,
   getUserByEmail } = require('../lib/utils');
