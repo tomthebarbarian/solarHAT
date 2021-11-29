@@ -109,7 +109,9 @@ module.exports = (router, dbo) => {
 
 
           //create session cookie
-          req.session.user_id = user.id;
+          req.session.user_id = user._id;
+          console.log("from the register route", user.id)
+          console.log("session id from register route", req.session.user_id)
           res
             .status(200)
             .json({ code: 200, exist: false, user });
