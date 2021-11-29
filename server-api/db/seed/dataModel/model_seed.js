@@ -1,7 +1,5 @@
 // mongoDB database client/connection setup
-// const PORT = process.argv[3]
 
-// 19841505
 module.exports = {
   MB: {
     pv_monthly_avg: [79, 106, 132, 136, 127, 124, 127, 122, 103, 85, 66, 64],

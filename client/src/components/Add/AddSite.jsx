@@ -110,7 +110,7 @@ const long =  position.coords.longitude
         }
         console.log({province})
         setSite( prev => ({...prev, lat, long, province}))
-        setState(prev => ({...prev, marker:{lat: lat, lng: long}}))
+        setState(prev => ({...prev, markers:{ [site._id] : {lat: lat, lng: long}}}))
         
         
         // setDummy(state.map.L.marker([state.marker.lat,state.marker.lng]))

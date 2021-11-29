@@ -6,10 +6,13 @@
  */
 
 //helper functions
-const { ObjectId } = require('bson');
 const { varInit,
   authenticateUser,
   getUserByEmail } = require('../lib/utils');
+const { ObjectId } = require("bson");
+const _ = require('lodash')
+
+const model = require('../db/seed/dataModel/model_seed')
 
 module.exports = (router, dbo) => {
 
@@ -39,7 +42,7 @@ module.exports = (router, dbo) => {
     console.log("from backend", req.body)
     const site = req.body
 
-    const userId = req.session.user_id
+    const userId = req.session.user_id;
     console.log("req session user ID:", userId);
 
     site.owner = userId
@@ -51,73 +54,9 @@ module.exports = (router, dbo) => {
 
   })
 
-
-
-  router.get('/sites/usage', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find()
-      .sort({usage_kWh: 1})
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  })
-  router.get('/sites/cost', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find()
-      .sort({cost: 1})
-      .toArray(function (err, result) {
-        console.log("Result from server", result)
-        if (err) throw err;
-        res.json(result);
-      })
-  })
-  router.get('/sites/production', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find()
-      .sort({production: -1 })
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  })
-
-  router.post("/sites/edit/:id", (req, res) => {
-    const dbConn = dbo.getDb();
-
-    dbConn
-      .collection("sites")
-      .update({_id: ObjectId(req.params.id)}, {$set:{
-        name: req.body.name,
-        usage_kWh: req.body.usage_kWh,
-        size_kW: req.body.size_kW,
-        province: req.body.province,
-        address: req.body.address,
-        coord: req.body.coord
-      } }, function(err, result){
-        res.send(result)
-      })
-  });
-
-  router.post("/sites/delete/:id", (req, res)=> {
-    const dbConn = dbo.getDb();
-
-    dbConn
-      .collection("sites")
-      .deleteOne({_id: ObjectId(req.params.id)},function(err, result){
-        res.send(result)
-      })
-  })
-
   router.get('/sites/:id', (req, res) => {
-    const userId = req.params.id;
-    console.log("req params user ID:", userId);
+    const userId = req.session.user_id;
+    console.log("req session user ID:", userId);
 
     const dbConn = dbo.getDb();
     dbConn
@@ -128,6 +67,88 @@ module.exports = (router, dbo) => {
         res.json(result);
       })
   })
+
+  router.post("/sites/edit/:id", (req, res) => {
+    const site = req.body
+    console.log('--------POST: [param]:', req.params.id)
+    console.log('--------POST: [site]:', site)
+    delete site._id
+    site.coord = [Number(site.coord[0].toFixed(6)), Number(site.coord[1].toFixed(6))]
+    for (const key in site) {
+      if (!isNaN(site[key])) {
+        site[key] = Number(site[key])
+      }
+    }
+    console.log('--------POST: [site]:', site)
+
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false })
+
+    res.json(site)
+  });
+
+
+  router.post("/sites/delete/:id", (req, res) => {
+    const site = req.body
+    console.log('--------POST: [param]:', req.params.id)
+    console.log('--------POST: [site]:', site)
+    delete site._id
+    // console.log('--------POST: [site]:', site)
+
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .deleteOne({ "_id": ObjectId(`${req.params.id}`) })
+    res.json(site)
+  });
+
+
+  router.get('/sites/s/:id', (req, res) => {
+    const param = req.params.id
+    console.log('---sort By----', param)
+
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .toArray(function (err, result) {
+        if (err) throw err;
+
+
+        const data = result.map(e => {
+          siteData = { ...e }
+          pvoutSum = 1000000
+          cent_per_kWh = 0
+
+          if (model[e.province]) {
+            pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
+            cent_per_kWh = model[e.province].cost_cents_avg
+          }
+          console.log(`---${e.province}---
+            Sum[PV_out] ${pvoutSum * e.size_kW}
+            cost c/kWh: ${cent_per_kWh}`)
+
+          siteData.production = pvoutSum * e.size_kW
+          siteData.net = (pvoutSum * e.size_kW) - e.usage_kWh
+          siteData.cost = Math.round((e.size_kW * pvoutSum * cent_per_kWh * 100 / 100))
+          siteData.name = e.name.toLowerCase()
+
+          return siteData
+        })
+
+        const sorted = _.sortBy(data, [param])
+        asc = ['usage_kWh', 'name']
+        if (!asc.includes(param))
+          return res.json(sorted.reverse().slice(0, 10));
+
+        res.json(sorted.slice(0, 10));
+
+      })
+
+  })
+
 
   return router;
 
