@@ -110,6 +110,7 @@ module.exports = (router, dbo) => {
 
           //create session cookie
           req.session.user_id = user.id;
+          // console.log(req.session.user_id);
           res
             .status(200)
             .json({ code: 200, exist: false, user });
