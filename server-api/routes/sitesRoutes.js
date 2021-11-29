@@ -42,7 +42,7 @@ module.exports = (router, dbo) => {
     console.log("from backend", req.body)
     const site = req.body
 
-    const userId = req.session.user_id
+    const userId = req.session.user_id;
     console.log("req session user ID:", userId);
 
     site.owner = userId
@@ -54,14 +54,14 @@ module.exports = (router, dbo) => {
 
   })
 
+  router.get('/sites/:id', (req, res) => {
+    const userId = req.session.user_id;
+    console.log("req session user ID:", userId);
 
-
-  router.get('/sites/usage', (req, res) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find()
-      .sort({ usage_kWh: 1 })
+      .find({ owner: userId })
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);
