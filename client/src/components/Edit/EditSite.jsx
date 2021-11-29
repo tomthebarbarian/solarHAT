@@ -66,7 +66,7 @@ export default function EdiSite(props) {
       .catch((err) => {
         console.log('Error while getting data', err);
       });
-  }, []);
+  }, [show]);
 
   const submit = () => {
     const updatedSite = { ...currentSite };
