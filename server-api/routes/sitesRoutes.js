@@ -10,6 +10,9 @@ const { varInit,
   authenticateUser,
   getUserByEmail } = require('../lib/utils');
 const { ObjectId } = require("bson");
+const _ = require('lodash')
+
+const model = require('../db/seed/dataModel/model_seed')
 
 module.exports = (router, dbo) => {
 
@@ -101,63 +104,51 @@ module.exports = (router, dbo) => {
     res.json(site)
   });
 
-  router.get('/sites/s/usage', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .aggregate([{ $sort: { usage_kWh: 1 } }]
-        , {
-          collation: {
-            locale: "en_US",
-            numericOrdering: true
-          }
-        })
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
 
-  })
-  router.get('/sites/s/cost', (req, res) => {
+  router.get('/sites/s/:id', (req, res) => {
+    const param = req.params.id
+    console.log('---sort By----', param)
+
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .aggregate([{ $sort: { cost: 1 } }]
-        , {
-          collation: {
-            locale: "en_US",
-            numericOrdering: true
-          }
-        })
+      .find()
       .toArray(function (err, result) {
         if (err) throw err;
+
 
         const data = result.map(e => {
-          console.log(e)
+          siteData = { ...e }
+          pvoutSum = 1000000
+          cent_per_kWh = 0
 
-        })
-
-        res.json(result);
-      })
-
-  })
-  router.get('/sites/s/production', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .aggregate([{ $sort: { production: -1 } }]
-        , {
-          collation: {
-            locale: "en_US",
-            numericOrdering: true
+          if (model[e.province]) {
+            pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
+            cent_per_kWh = model[e.province].cost_cents_avg
           }
+          console.log(`---${e.province}---
+            Sum[PV_out] ${pvoutSum * e.size_kW}
+            cost c/kWh: ${cent_per_kWh}`)
+
+          siteData.production = pvoutSum * e.size_kW
+          siteData.net = (pvoutSum * e.size_kW) - e.usage_kWh
+          siteData.cost = Math.round((e.size_kW * pvoutSum * cent_per_kWh * 100 / 100))
+          siteData.name = e.name.toLowerCase()
+
+          return siteData
         })
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
+
+        const sorted = _.sortBy(data, [param])
+        asc = ['usage_kWh', 'name']
+        if (!asc.includes(param))
+          return res.json(sorted.reverse().slice(0, 10));
+
+        res.json(sorted.slice(0, 10));
+
       })
 
   })
+
 
   return router;
 
