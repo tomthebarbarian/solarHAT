@@ -114,23 +114,40 @@ const Map = (props) => {
     if (map.getRenderer) {
       console.log('.............rendering markers..................')
 
-      // Add pvoverlay
+      // // Add pvoverlay
       pvOver.addTo(map)
+
       // let dummy =   L.marker([state.marker.lat,state.marker.lng])
       //   .bindPopup('add site')
-        
       //   map.addLayer(dummy)
       //   map.removelayer(dummy)
 
+      // Adding Markers
       map.on('click', onMapClick)
-      
+      let installSites = []
       if (state.sites.length > 0) {
         for (let elem of state.sites) {
-          L.marker([elem.coord[0],elem.coord[1]],
-             { icon: myIcon }).bindPopup(elem.name)
-             .addTo(map)
+          installSites.push(
+            L.marker([elem.coord[0],elem.coord[1]],
+              { icon: myIcon }).bindPopup(elem.name)
+            )
         }
       }
+      let allSites = L.layerGroup(installSites)
+      allSites.addTo(map)
+
+
+      // Empty object for function param
+      const baseLay = {
+
+      }
+      // Map overLay layers for control
+      const overLay = {
+        'PV Output' : pvOver,
+        'Solar Sites' : allSites,
+      }
+
+      L.control.layers(baseLay, overLay,{position: 'topleft'}).addTo(map)
     }
 
   }, [map, myIcon, state])
