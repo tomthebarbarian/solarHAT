@@ -109,7 +109,9 @@ module.exports = (router, dbo) => {
 
 
           //create session cookie
-          req.session.user_id = user.id;
+          console.log("regiser user id", user._id)
+          req.session.user_id = user._id;
+          console.log("from register", req.session.user_id)
           // dbConn.collection("users").update(
           //   {email,},
           //   {$set: {_id: }}
