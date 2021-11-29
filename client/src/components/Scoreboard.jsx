@@ -36,39 +36,9 @@ export default class Scoreboard extends Component{
   
   changeHandler = (e) => {
     this.setState({option: e.target.name}, ()=> {
-      if(this.state.option === 'usage') {
-      axios.get('/api/sites/usage')
-      .then((response) => {
-        console.log(response.data)
-        this.setState({siteData: response.data })
-      })
-      .catch((err) => {
-        console.log('Error while getting data', err)
-      })
-    }
 
-    if(this.state.option === 'production') {
-      axios.get('/api/sites/production')
-      .then((response) => {
-        // console.log(response.data)
-        this.setState({siteData: response.data })
-        
-      })
-      .catch((err) => {
-        console.log('Error while getting data', err)
-      })
-    }
-    if(this.state.option === 'cost') {
-      axios.get('/api/sites/cost')
-      .then((response) => {
-        // console.log(response.data)
-        this.setState({siteData: response.data })
-        
-      })
-      .catch((err) => {
-        console.log('Error while getting data', err)
-      })
-    }
+    this.siteInformation(this.state.option);
+
     })
 
     

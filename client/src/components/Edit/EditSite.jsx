@@ -16,18 +16,45 @@ Geocode.setRegion('ca');
 
 export default function EdiSite(props){
   const {state, setState} = props
-  const [singleSite, setSingleSite] = useState({})
+  const [singleSite, setSingleSite] = useState({
+    name: '',
+    usage_kWh: null,
+    size_kW: null,
+    province: '',
+    address: '',
+    lat: null,
+    long: null,
+    coord: []
+  })
   const [site, setSite] = useState([])
   const [show, setShow] = useState(false)
   const [validated, setValidated] = useState(false);
 
-  const lat = singleSite.coord?.length >1 ? singleSite.coord[1]: undefined
-  const long =  singleSite.coord?.length >1 ? singleSite.coord[0]: undefined
+  // const lat = singleSite.coord?.length >1 ? singleSite.coord[1]: undefined
+  // const long =  singleSite.coord?.length >1 ? singleSite.coord[0]: undefined
   
   const handleShow = (editSite) => {
+    editSite.lat = editSite.coord[0]
+    editSite.long = editSite.coord[1]
+    
     setSingleSite(editSite)
     console.log("edit site",editSite)
     setShow(true)
+  }
+  const handleDelete = (deleteSite) => {
+    
+    
+    console.log(deleteSite)
+    axios.post(`/api/sites/delete/${deleteSite._id}`, deleteSite)
+          .then(() => {
+            axios.get(`/api/sites/${state.user._id}`)
+                 .then((response) => {
+                  console.log(response.data)
+                  setSite(response.data)
+
+        })
+          })
+
   }
 
   const handleClose = () => setShow(false)
@@ -57,8 +84,13 @@ export default function EdiSite(props){
 
       axios
       .post(`/api/sites/edit/${singleSite._id}`, singleSite)
-      .then((res) => {
-        
+      .then(() => {
+        axios.get(`/api/sites/${state.user._id}`)
+        .then((response) => {
+          console.log(response.data)
+          setSite(response.data)
+          
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -149,7 +181,6 @@ export default function EdiSite(props){
     
   return (
     <>
-    {console.log("SITE",site)}
     
     <table class="table">
   <thead>
@@ -173,7 +204,8 @@ export default function EdiSite(props){
         <td>{s.usage_kWh}</td>
         <td>{s.production}</td>
         <td>{s.cost}</td>
-        <td><Button variant='outline-warning' onClick={()=>handleShow(s)} >Edit</Button></td>
+        <td><Button variant='outline-warning' onClick={()=>handleShow(s)} >Edit</Button>
+        <Button variant='outline-danger' onClick={() => handleDelete(s)}>Delete</Button></td>
       </tr>
       </>)
     })}
@@ -223,7 +255,7 @@ export default function EdiSite(props){
               type='text'
               placeholder='45.5045'
               name={'lat'}
-              value={lat}
+              value={singleSite.lat}
               onChange={changeHandler}
             />
           {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
@@ -237,7 +269,7 @@ export default function EdiSite(props){
               placeholder='-75.6554'
               onChange={changeHandler}
               name={'long'}
-              value={long}
+              value={singleSite.long}
             />
           </Form.Group> 
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}

@@ -129,7 +129,7 @@ export default function App() {
               
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(EDIT)}> 
-                 <img src='./editMap.png' alt= 'logo' width='32' />Edit Site</Dropdown.Item>
+                 <img src='./editMap.png' alt= 'logo' width='32' />My Sites</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ADD)}>
                   <img src='./add.png' alt= 'logo' width='32' />Add Site</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ANALYTICS)}>
