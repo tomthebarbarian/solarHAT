@@ -109,14 +109,9 @@ module.exports = (router, dbo) => {
 
 
           //create session cookie
-<<<<<<< HEAD
-          req.session.user_id = user.id;
-          // console.log(req.session.user_id);
-=======
           req.session.user_id = user._id;
           console.log("from the register route", user.id)
           console.log("session id from register route", req.session.user_id)
->>>>>>> 0774aba (fixed session id and added callbacks to edit and delete routes)
           res
             .status(200)
             .json({ code: 200, exist: false, user });
