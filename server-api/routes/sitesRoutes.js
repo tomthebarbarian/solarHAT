@@ -71,13 +71,19 @@ module.exports = (router, dbo) => {
     console.log('--------POST: [param]:', req.params.id)
     console.log('--------POST: [site]:', site)
     delete site._id
-    // console.log('--------POST: [site]:', site)
+    site.coord = [Number(site.coord[0].toFixed(6)), Number(site.coord[1].toFixed(6))]
+    for (const key in site) {
+      if (!isNaN(site[key])) {
+        site[key] = Number(site[key])
+      }
+    }
+    console.log('--------POST: [site]:', site)
 
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
       .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false })
-    // .update(ObjectId(req.params.id), { $set: site })
+
     res.json(site)
   });
 
@@ -101,7 +107,12 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .aggregate([{ $sort: { usage_kWh: 1 } }]
-      )
+        , {
+          collation: {
+            locale: "en_US",
+            numericOrdering: true
+          }
+        })
       .toArray(function (err, result) {
         console.log("Result from server", result)
         if (err) throw err;
@@ -114,7 +125,12 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .aggregate([{ $sort: { cost: 1 } }]
-      )
+        , {
+          collation: {
+            locale: "en_US",
+            numericOrdering: true
+          }
+        })
       .toArray(function (err, result) {
         if (err) throw err;
 
@@ -133,7 +149,12 @@ module.exports = (router, dbo) => {
     dbConn
       .collection("sites")
       .aggregate([{ $sort: { production: -1 } }]
-      )
+        , {
+          collation: {
+            locale: "en_US",
+            numericOrdering: true
+          }
+        })
       .toArray(function (err, result) {
         if (err) throw err;
         res.json(result);

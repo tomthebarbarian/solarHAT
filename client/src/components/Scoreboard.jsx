@@ -89,16 +89,16 @@ export default class Scoreboard extends Component{
     {/* {console.log(this.state.siteData)} */}
     <div className='filter'>
       <div>
-        <label for='usage'>Consumption</label>
         <input type='radio' id='usage'  name='usage' onChange={this.changeHandler} checked={this.state.option === 'usage'}/>
+        <label for='usage'> <b> Consumption </b> </label>
       </div>
       <div>
-        <label for='production'>Production</label>
         <input type='radio' id='production'  name='production' onChange={this.changeHandler}  checked={this.state.option === 'production'} />
+        <label for='production'>Production</label>
       </div>
       <div>
+      <input type='radio' id='cost' name='cost'  onChange={this.changeHandler} checked={this.state.option === 'cost'} />
         <label for='cost'>Cost</label>
-        <input type='radio' id='cost' name='cost'  onChange={this.changeHandler} checked={this.state.option === 'cost'} />
       </div>
       
     </div>
