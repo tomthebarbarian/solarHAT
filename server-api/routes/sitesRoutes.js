@@ -12,7 +12,8 @@ const { varInit,
 const { ObjectId } = require("bson");
 const _ = require('lodash')
 
-const model = require('../db/seed/dataModel/model_seed')
+const model = require('../db/seed/dataModel/model_seed');
+const { response } = require('express');
 
 module.exports = (router, dbo) => {
 
@@ -56,6 +57,7 @@ module.exports = (router, dbo) => {
 
   router.get('/sites/:id', (req, res) => {
     const userId = req.session.user_id;
+    console.log(req.session.id)
     console.log("req session user ID:", userId);
 
     const dbConn = dbo.getDb();
@@ -84,9 +86,12 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false })
+      .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false }, function(err, result){
+        if (err) throw err;
+        res.send(result)
+      })
 
-    res.json(site)
+
   });
 
 
@@ -100,8 +105,10 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .deleteOne({ "_id": ObjectId(`${req.params.id}`) })
-    res.json(site)
+      .deleteOne({ "_id": ObjectId(`${req.params.id}`)},function(err, result){
+        if (err) throw err;
+        res.send(result)
+  })
   });
 
 
