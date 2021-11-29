@@ -39,16 +39,80 @@ module.exports = (router, dbo) => {
     console.log("from backend", req.body)
     const site = req.body
 
-    const userId = user._id;
+    const userId = req.session.user_id
     console.log("req session user ID:", userId);
 
-    site.owner = userId.toString()
+    site.owner = userId
 
     console.log(site)
 
     const dbConn = dbo.getDb();
     dbConn.collection("sites").insertOne(site);
 
+  })
+
+
+
+  router.get('/sites/usage', (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .sort({usage_kWh: 1})
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+  router.get('/sites/cost', (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .sort({cost: 1})
+      .toArray(function (err, result) {
+        console.log("Result from server", result)
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+  router.get('/sites/production', (req, res) => {
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find()
+      .sort({production: -1 })
+      .toArray(function (err, result) {
+        if (err) throw err;
+        res.json(result);
+      })
+  })
+
+  router.post("/sites/edit/:id", (req, res) => {
+    const dbConn = dbo.getDb();
+
+    dbConn
+      .collection("sites")
+      .update({_id: ObjectId(req.params.id)}, {$set:{
+        name: req.body.name,
+        usage_kWh: req.body.usage_kWh,
+        size_kW: req.body.size_kW,
+        province: req.body.province,
+        address: req.body.address,
+        coord: req.body.coord
+      } }, function(err, result){
+        res.send(result)
+      })
+  });
+
+  router.post("/sites/delete/:id", (req, res)=> {
+    const dbConn = dbo.getDb();
+
+    dbConn
+      .collection("sites")
+      .deleteOne({_id: ObjectId(req.params.id)},function(err, result){
+        res.send(result)
+      })
   })
 
   router.get('/sites/:id', (req, res) => {
@@ -64,49 +128,6 @@ module.exports = (router, dbo) => {
         res.json(result);
       })
   })
-
-
-  router.get('/sites/usage', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find()
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  })
-  router.get('/sites/cost', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find()
-      .sort({ cost: -1 })
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  })
-  router.get('/sites/production', (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find()
-      .sort({ production: -1 })
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  })
-
-  router.post("/sites/edit/:id", (req, res) => {
-    const dbConn = dbo.getDb();
-    const site = req.body
-    dbConn
-      .collection("sites")
-      // .update({_id: ObjectId(req.params.id)}, {$set: site})
-
-  });
 
   return router;
 
