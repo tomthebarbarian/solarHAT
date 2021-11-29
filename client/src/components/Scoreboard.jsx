@@ -60,14 +60,6 @@ export default function Scoreboard(props) {
 
   const chartContainer = useRef(null);
 
-    
-  // useEffect(() => {
-  //   if (chartContainer && chartContainer.current) {
-  //     const newChartInstance = new Chart(chartContainer.current, chartConfig);
-  //     setGraph(newChartInstance);
-  //   }
-  // }, [chartContainer, chartConfig]);
-
   useEffect(() => {
     
     const size_kW = {
@@ -96,6 +88,7 @@ export default function Scoreboard(props) {
       borderColor: ['rgba(133, 99, 255, 1)'],
       borderWidth: 1,
     };
+    
     const net = {
       type: 'bar',
       label: 'NET [kWh]',
@@ -104,8 +97,6 @@ export default function Scoreboard(props) {
       borderColor: ['rgba(255,99, 132,1'],
       borderWidth: 1,
     };
-
-
 
     const data = []
     data.push(size_kW,production,usage_kWh,net)
@@ -116,8 +107,6 @@ export default function Scoreboard(props) {
     
     if (graph.data) {
       console.log(graph.data)
-      graph.data.labels.push(axisLabel)
-      // graph.data.datasets.forEach((dataset) => dataset.data.push(data))
       graph.data.datasets.forEach((dataset) => dataset.data.push(data))
       graph.update()
     }

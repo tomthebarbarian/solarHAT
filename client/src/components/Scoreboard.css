@@ -11,3 +11,8 @@ td {
 .filter {
   justify-content: center;
 }
+
+.comparebar{
+  height: 50%;
+  width: 90%;
+}
