@@ -46,7 +46,7 @@ const SurplusProportion = (props) => {
     })
   }
 
-  chartConfig.data.datasets[0].data = props.surplusProduction
+  chartConfig.data.datasets[0].data = props.data
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
