@@ -7,7 +7,7 @@ export const fetchData = (userId) => {
   return Promise.all([
     axios.get("/api/sites"),
     axios.get("/api/model"),
-    axios.get(`/api/sites/u/${userId}`),
+    axios.get(`/api/u/sites/${userId}`),
   ])
     .then(res => {
       const data = {

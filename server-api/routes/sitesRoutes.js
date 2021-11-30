@@ -17,6 +17,52 @@ const { response } = require('express');
 
 module.exports = (router, dbo) => {
 
+
+  router.get('/u/sites/:id', (req, res) => {
+
+    const userId = req.session.user_id;
+    console.log("req session user ID:", userId);
+
+
+    const param = req.params.id
+    console.log('sort By', param)
+
+    const dbConn = dbo.getDb();
+    dbConn
+      .collection("sites")
+      .find({ owner: userId })
+      .toArray(function (err, result) {
+        if (err) throw err;
+
+        const data = result.map(e => {
+          siteData = { ...e }
+          pvoutSum = 1000000
+          cent_per_kWh = 0
+
+          if (model[e.province]) {
+            pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
+            cent_per_kWh = model[e.province].cost_cents_avg
+          }
+          console.log(`${e.province}
+              Sum[PV_out] ${pvoutSum * e.size_kW}
+              cost c/kWh: ${cent_per_kWh}`)
+
+          siteData.production = pvoutSum * e.size_kW
+          siteData.net = (pvoutSum * e.size_kW)
+          siteData.cost = Math.round((e.size_kW * pvoutSum * cent_per_kWh * 100 / 100))
+          siteData.name = e.name.toLowerCase()
+          siteData.model = model[e.province]
+          return siteData
+        })
+
+        const sorted = _.sortBy(data, ['name'])
+        console.log(sorted)
+        res.json(sorted);
+
+      })
+
+  })
+
   router.get("/sites", (req, res) => {
     const dbConn = dbo.getDb();
     dbConn
@@ -153,52 +199,6 @@ module.exports = (router, dbo) => {
         res.json(sorted.slice(0, 10));
 
       })
-
-
-    router.get('/sites/u/:id', (req, res) => {
-
-      const userId = req.session.user_id;
-      console.log("req session user ID:", userId);
-
-
-      const param = req.params.id
-      console.log('sort By', param)
-
-      const dbConn = dbo.getDb();
-      dbConn
-        .collection("sites")
-        .find({ owner: userId })
-        .toArray(function (err, result) {
-          if (err) throw err;
-
-          const data = result.map(e => {
-            siteData = { ...e }
-            pvoutSum = 1000000
-            cent_per_kWh = 0
-
-            if (model[e.province]) {
-              pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
-              cent_per_kWh = model[e.province].cost_cents_avg
-            }
-            console.log(`${e.province}
-                Sum[PV_out] ${pvoutSum * e.size_kW}
-                cost c/kWh: ${cent_per_kWh}`)
-
-            siteData.production = pvoutSum * e.size_kW
-            siteData.net = (pvoutSum * e.size_kW)
-            siteData.cost = Math.round((e.size_kW * pvoutSum * cent_per_kWh * 100 / 100))
-            siteData.name = e.name.toLowerCase()
-            siteData.model = model[e.province]
-            return siteData
-          })
-
-          const sorted = _.sortBy(data, ['name'])
-          console.log(sorted)
-          res.json(sorted);
-
-        })
-
-    })
 
   })
 
