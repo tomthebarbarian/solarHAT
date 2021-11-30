@@ -125,7 +125,7 @@ const Map = (props) => {
       // Adding Markers
       map.on('click', onMapClick)
       let installSites = []
-      if (state.sites.length > 0) {
+      if (state.sites && state.sites.length > 0) {
         for (let elem of state.sites) {
           installSites.push(
             L.marker([elem.coord[0],elem.coord[1]],
