@@ -53,34 +53,44 @@ export default function App() {
   const [nav, setNav] = useState({})
 
   const navigate = (param) => {
-    switch(param) {
+    switch (param) {
       case SHOW:
-        setNav(prev => ({...{}, showMap: true}))
+        if (!nav.showMap) {
+          setNav((prev) => ({ ...{}, showMap: true }));
+        }
         break;
-        
+  
       case EDIT:
-        setNav(prev => ({...{}, editMap: true}))
+        if (!nav.editMap) {
+          setNav((prev) => ({ ...{}, editMap: true }));
+        }
         break;
-      
+  
       case ADD:
-        setNav(prev => ({...{}, addSite: true}))
-        break;   
-      
+        if (!nav.addSite) {
+          setNav((prev) => ({ ...{}, addSite: true }));
+        }
+        break;
+  
       case ANALYTICS:
-        setNav(prev => ({...{}, analytics: true}))
+        if (!nav.analytics) {
+          setNav((prev) => ({ ...{}, analytics: true }));
+        }
         break;
-     
+  
       case DASH:
-        setNav(prev => ({...{}, leaderBoard: true}))
+        if (!nav.leaderBoard) {
+          setNav((prev) => ({ ...{}, leaderBoard: true }));
+        }
         break;
-      
+  
       default:
-          setNav(prev => ({...{}, landing: true}))
-
+        setNav((prev) => ({ ...{}, landing: true }));
     }
-
-    console.log('-----------------[nav]---------------', nav)
-  }
+  
+    console.log('-----------------[nav]---------------', nav);
+  };
+  
 
 
   const handleLogout = () => {
@@ -141,7 +151,7 @@ export default function App() {
 
           </section> 
        
-        { nav.showMap &&
+        { nav.showMap && 
           <section className='map'>
             <Map  state={state} setState={setState} />  
           </section>  
