@@ -3,17 +3,17 @@ import axios from "axios";
 const DELAY = 2000
 
 //api call to fetch data and returns a promise
-export const fetchData = () => {
+export const fetchData = (userId) => {
   return Promise.all([
     axios.get("/api/sites"),
     axios.get("/api/model"),
-    axios.get("/users"),
+    axios.get(`/api/sites/u/${userId}`),
   ])
     .then(res => {
       const data = {
         sites: res[0].data,
         model: res[1].data,
-        users: res[2].data
+        userSites: res[2].data
       }
       console.log('--------[fetch data]---------\n', data);
       return data;
