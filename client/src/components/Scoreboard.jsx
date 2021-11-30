@@ -45,6 +45,7 @@ export default function Scoreboard(props) {
         console.log('Error while getting data', err);
       });
   };
+  
 
   useEffect(() => {
     siteInfo(state.option);
@@ -61,62 +62,62 @@ export default function Scoreboard(props) {
 
   useEffect(() => {
     
-  const size_kW = {
-    type: 'bar',
-    label: 'System Size [kW]',
-    data: state.data.map((e) => e.size_kW),
-    backgroundColor: ['rgba(3, 41, 97, 0.2)'],
-    borderColor: ['rgba(3, 41, 97, 1)'],
-    borderWidth: 1,
-  };
+    const size_kW = {
+      type: 'bar',
+      label: 'System Size [kW]',
+      data: state.data.map((e) => e.size_kW),
+      backgroundColor: ['rgba(3, 41, 97, 0.2)'],
+      borderColor: ['rgba(3, 41, 97, 1)'],
+      borderWidth: 1,
+    };
 
-  const production = {
-    type:'bar',
-    label: 'Production [kWh]',
-    data: state.data.map((e) => e.production),
-    backgroundColor: ['rgba(99, 255, 120, 0.2)'],
-    borderColor: ['rgba(99, 255, 120, 1)'],
-    borderWidth: 1,
-  };
+    const production = {
+      type:'bar',
+      label: 'Production [kWh]',
+      data: state.data.map((e) => e.production),
+      backgroundColor: ['rgba(99, 255, 120, 0.2)'],
+      borderColor: ['rgba(99, 255, 120, 1)'],
+      borderWidth: 1,
+    };
 
-  const usage_kWh = {
-    type:'bar',
-    label: 'Consumption [kWh]',
-    data: state.data.map((e) => e.usage_kWh),
-    backgroundColor: ['rgba(133, 99, 255, 0.2)'],
-    borderColor: ['rgba(133, 99, 255, 1)'],
-    borderWidth: 1,
-  };
-  const net = {
-    type: 'bar',
-    label: 'NET [kWh]',
-    data: state.data.map((e) => e.net),
-    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-    borderColor: ['rgba(255,99, 132,1'],
-    borderWidth: 1,
-  };
+    const usage_kWh = {
+      type:'bar',
+      label: 'Consumption [kWh]',
+      data: state.data.map((e) => e.usage_kWh),
+      backgroundColor: ['rgba(133, 99, 255, 0.2)'],
+      borderColor: ['rgba(133, 99, 255, 1)'],
+      borderWidth: 1,
+    };
+    
+    const net = {
+      type: 'bar',
+      label: 'NET [kWh]',
+      data: state.data.map((e) => e.net),
+      backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+      borderColor: ['rgba(255,99, 132,1'],
+      borderWidth: 1,
+    };
 
+    const data = []
+    data.push(size_kW,production,usage_kWh,net)
+    
+    const axisLabel = state.data.map((e) => e.name)
+    chartConfig.data.datasets = data
+    chartConfig.data.labels= axisLabel
+    
+    if (graph.data) {
+      console.log(graph.data)
+      graph.data.datasets.forEach((dataset) => dataset.data.push(data))
+      graph.update()
+    }
+  }, [state,chartContainer,chartConfig]);
 
-
-  const data = []
-  data.push(size_kW,production,usage_kWh,net)
-  
-  const axisLabel = state.data.map((e) => e.name)
-  
-  chartConfig.data.datasets = data
-  chartConfig.data.labels= axisLabel
-  
-    // const chart = new Chart(chartContainer.current, chartConfig);
-    // return () => chart.destroy(0);
-  }, [state]);
-
-  
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const newChartInstance = new Chart(chartContainer.current, chartConfig);
-      setGraph(prev => ({...{}, newChartInstance}));
+      setGraph(newChartInstance);
     }
-  }, [chartContainer]);
+  }, [chartContainer, chartConfig]);
 
   return (
     <>

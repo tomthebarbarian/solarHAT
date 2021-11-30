@@ -16,6 +16,7 @@ export default function Analytics(props) {
   const modelx = {...state.model[0]}
 
   const siteData = state.sites[3]
+  
   const provinceModel = modelx[siteData.province]
 
   const monthData = provinceModel.pv_monthly_avg
