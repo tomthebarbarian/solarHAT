@@ -78,13 +78,13 @@ export default function useAppData(props) {
           setState(prev => ({ ...prev, logged: true, user: res.data.user[0] }))
 
 
-          fetchData()
+          fetchData(state.user._id)
             .then((data) => {
               setState((prev) => ({
                 ...prev,
                 sites: data.sites,
                 model: data.model,
-                users: data.users,
+                userSites: data.userSites,
               }))
             })
         }

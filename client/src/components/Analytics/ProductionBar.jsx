@@ -1,3 +1,4 @@
+//dynamic chart production bar
 import Chart from 'chart.js/auto'
 import "./ProductionBar.scss"
 import React, { useEffect, useState, useRef } from 'react';
@@ -5,31 +6,8 @@ import React, { useEffect, useState, useRef } from 'react';
 const chartConfig = {
   type: 'bar',
   data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
-      datasets: [{
-          label: '# kWH produced',
-          data: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-          backgroundColor: [
-              'rgba(255, 99, 132, 0.2)'
-          ],
-          borderColor: [
-              'rgba(255, 99, 132, 1)'
-          ],
-          borderWidth: 1
-      },
-      {
-        label: '# kWH produced',
-        type: 'bar',
-        data: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-        backgroundColor: [
-          'rgba(255, 99, 132, 1)'
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)'
-        ]
-      
-      }
-    ]
+      labels: [],   //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+      datasets: []
   },
   options: {
       scales: {
@@ -44,11 +22,18 @@ const chartConfig = {
 // Should generate a barchart for all avg kw production for that number of 
 // months and year
 const ProductionBar = (props) => {
+  const {dataSets, axisLable }= props
+  console.log('===-=-==-=-=-=--=-=-=-=-=-==') 
+
+  console.log(props) 
+
+  
   const chartContainer = useRef(null);
   const [state, setState] = useState(
     {
       graph: {},
     }
+
   );
 
   const setGraph = (graph) => {
@@ -57,8 +42,11 @@ const ProductionBar = (props) => {
     })
   }
 
-  chartConfig.data.datasets[0].data = props.monthProduction
-  chartConfig.data.datasets[1].data = props.monthProduction
+  console.log('--------props.dataset',props.dataSets)
+  dataSets.forEach(e => chartConfig.data.datasets.push(e)  )
+  
+
+  chartConfig.data.labels = axisLable
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
@@ -69,7 +57,7 @@ const ProductionBar = (props) => {
 
   return (
     <row className="">
-      <h2>Energy Produced</h2>
+      <h2>{props.children}</h2>
       <div className='comparebar col-md-12 row'>
         <canvas ref={chartContainer} />
       </div>
