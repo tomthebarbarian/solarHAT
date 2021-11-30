@@ -85,7 +85,8 @@ export default function App() {
         break;
   
       default:
-        setNav((prev) => ({ ...{}, landing: true }));
+        // setNav((prev) => ({ ...{}, landing: true }));
+        setNav((prev) => ({ ...{}, showMap: true }));
     }
   
     console.log('-----------------[nav]---------------', nav);
@@ -95,7 +96,7 @@ export default function App() {
 
   const handleLogout = () => {
     console.log('-----------------[Appjsx user logout]---------------', nav)
-    setNav(prev => ({...{}, landing: true}))
+    setNav(prev => ({...{}, showMap: true}))
     return apiLogout()
   }
 
@@ -126,6 +127,7 @@ export default function App() {
             </Container>
         </Navbar>
          
+      
       {state.logged && 
       
         <main className='layout'>
@@ -139,7 +141,7 @@ export default function App() {
               
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(EDIT)}> 
-                 <img src='./editMap.png' alt= 'logo' width='32' />My Sites</Dropdown.Item>
+                 <img src='./editMap.png' alt= 'logo' width='32' />Edit Sites</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ADD)}>
                   <img src='./add.png' alt= 'logo' width='32' />Add Site</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ANALYTICS)}>

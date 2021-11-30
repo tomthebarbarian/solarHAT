@@ -15,6 +15,28 @@ const _ = require('lodash')
 const model = require('../db/seed/dataModel/model_seed');
 const { response } = require('express');
 
+
+const calcModel = (e) => {
+  siteData = { ...e }
+  pvoutSum = 1000000
+  cent_per_kWh = 0
+
+  if (model[e.province]) {
+    pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
+    cent_per_kWh = model[e.province].cost_cents_avg
+  }
+  console.log(`${e.province}
+      Sum[PV_out] ${pvoutSum * e.size_kW}
+      cost c/kWh: ${cent_per_kWh}`)
+
+  siteData.production = pvoutSum * e.size_kW
+  siteData.net = (pvoutSum * e.size_kW)
+  siteData.cost = '$' + Math.round((e.usage_kWh * 1.35 * cent_per_kWh / 100) * 100) / 100
+  siteData.name = e.name.toLowerCase()
+  siteData.model = model[e.province]
+  return siteData
+}
+
 module.exports = (router, dbo) => {
 
 
@@ -35,24 +57,8 @@ module.exports = (router, dbo) => {
         if (err) throw err;
 
         const data = result.map(e => {
-          siteData = { ...e }
-          pvoutSum = 1000000
-          cent_per_kWh = 0
+          return calcModel(e)
 
-          if (model[e.province]) {
-            pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
-            cent_per_kWh = model[e.province].cost_cents_avg
-          }
-          console.log(`${e.province}
-              Sum[PV_out] ${pvoutSum * e.size_kW}
-              cost c/kWh: ${cent_per_kWh}`)
-
-          siteData.production = pvoutSum * e.size_kW
-          siteData.net = (pvoutSum * e.size_kW)
-          siteData.cost = Math.round((e.size_kW * pvoutSum * cent_per_kWh * 100 / 100))
-          siteData.name = e.name.toLowerCase()
-          siteData.model = model[e.province]
-          return siteData
         })
 
         const sorted = _.sortBy(data, ['name'])
@@ -85,7 +91,7 @@ module.exports = (router, dbo) => {
       })
   });
 
-  router.post('/sites', (req, res) => {
+  router.post('/sites/new/', (req, res) => {
     console.log("from backend", req.body)
     const site = req.body
 
@@ -99,21 +105,6 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn.collection("sites").insertOne(site);
 
-  })
-
-  router.get('/sites/:id', (req, res) => {
-    const userId = req.session.user_id;
-    console.log(req.session.id)
-    console.log("req session user ID:", userId);
-
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("sites")
-      .find({ owner: userId })
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
   })
 
   router.post("/sites/edit/:id", (req, res) => {
@@ -171,24 +162,7 @@ module.exports = (router, dbo) => {
 
 
         const data = result.map(e => {
-          siteData = { ...e }
-          pvoutSum = 1000000
-          cent_per_kWh = 0
-
-          if (model[e.province]) {
-            pvoutSum = model[e.province].pv_monthly_avg.reduce((prev, current) => prev + current)
-            cent_per_kWh = model[e.province].cost_cents_avg
-          }
-          console.log(`---${e.province}---
-            Sum[PV_out] ${pvoutSum * e.size_kW}
-            cost c/kWh: ${cent_per_kWh}`)
-
-          siteData.production = pvoutSum * e.size_kW
-          siteData.net = (pvoutSum * e.size_kW) - e.usage_kWh
-          siteData.cost = Math.round((e.size_kW * pvoutSum * cent_per_kWh * 100 / 100))
-          siteData.name = e.name.toLowerCase()
-
-          return siteData
+          return calcModel(e)
         })
 
         const sorted = _.sortBy(data, [param])

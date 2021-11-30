@@ -6,6 +6,7 @@ import { useState } from 'react';
 import '../custom.scss';
 
 import axios from 'axios';
+import {constants} from '../../helpers/constants'
 
 import Geocode from 'react-geocode';
 const DECIMALS =  6
@@ -55,7 +56,7 @@ export default function AddSite(props) {
     setState((prev) => ({ ...prev, sites: newSites }));
 
     axios
-      .post('/api/sites', newSite)
+      .post('/api/sites/new/', newSite)
       .then((res) => {
         console.log(res);
       })
@@ -91,6 +92,7 @@ const long =  position.coords.longitude
   const fetchLatLong = () => {
     console.log('-----------------------')
     console.log(site.address)
+    
     Geocode.fromAddress(site.address)
       .then((res) => {
         console.log(res.results[0]);
@@ -102,7 +104,7 @@ const long =  position.coords.longitude
         let province = ''
         for (const e of addrComp) {
 
-          if (Object.keys({...state.model[0]}).includes(e.short_name)) {
+          if (constants.prov.includes(e.short_name)) {
             province =  e.short_name
             break
           }
