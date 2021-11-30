@@ -20,7 +20,7 @@ export default function Analytics(props) {
   percentUsge, surplusData
 
 
-  if (!state.userSites.length) return 
+  if (!state.userSites || !state.userSites.length) return 
 
   const siteInfo =  state.userSites[0]
           
