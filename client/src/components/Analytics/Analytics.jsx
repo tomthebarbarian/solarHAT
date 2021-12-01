@@ -53,6 +53,11 @@ export default function Analytics(props) {
   },[state.userSites,index])
 
 
+ 
+  if (!state.userSites || !state.userSites.length) return  <Empty subtitle="No site data found!" content="Please add a site first" />
+  
+  const siteInfo =  state.userSites[index]
+  const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
   
   const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
 
@@ -70,17 +75,16 @@ export default function Analytics(props) {
           type:'bar',
           label: e.name,
           data: e.model.pv_monthly_avg.map((elm) => {
-            console.log('--------------',elm)
             const prod_kWh =   elm * e.size_kW
-            console.log(prod_kWh)
+            // console.log(prod_kWh)
             return prod_kWh
           }),
           backgroundColor: [`rgba(${R}, ${G}, ${B}, 0.2)`],
           borderColor: [`rgba(${R}, ${G}, ${B}, 1)`],
           borderWidth: 1,
         };
-        console.log(singleSite)
-        console.log('------------------\n')
+        // console.log(singleSite)
+        // console.log('------------------\n')
         return singleSite
     })
 
