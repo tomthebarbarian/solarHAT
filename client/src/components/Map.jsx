@@ -21,13 +21,8 @@ const Map = (props) => {
     setMap(
       L.map('map',
         {
-<<<<<<< HEAD
           center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
           zoom: 4 || state.marker.zoom,
-=======
-          center: [53.5 || state.marker.lat, -100.5 || state.marker.lng],
-          zoom: 5 || state.marker.zoom,
->>>>>>> f474779 (- add drop down for analytics to show site specific stats)
           layers: [
             L.tileLayer(
               'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
@@ -96,12 +91,16 @@ const Map = (props) => {
         .then(data => {
           // Use response data to update the popup's content
          console.log('------------------',data)
-         const keys = {ELE:'m' ,PVOUT_csi:'kWh/kWp'
-         , GHI:'W/m²', DNI:'W/m²' ,GTI_opta:'W/m²' ,OPTA:'°' ,TEMP:'°C'}
+         let i =0
          for (const key in data.pvout ) {
-              if (Object.keys(keys).includes(key)){  
-                tooltip = tooltip + `<br> <b> ${key} </b>: ${data.pvout[key].toFixed(2)} ${keys[key]}` 
+         
+          const keys = ['ELE' ,'PVOUT_csi', 'GHI', 'DNI' ,'GTI_opta' ,'OPTA' ,'TEMP']
+          const units = ['m', 'kWh/kWp','W/m²', 'W/m²','W/m²','°','°C']
+            if (keys.includes(key)){  
+                tooltip = tooltip + `<br> <b> ${key} </b>: ${data.pvout[key].toFixed(2)} ${units[i]}` 
+                i++
             }
+            
          }
           popup
             .setContent(
