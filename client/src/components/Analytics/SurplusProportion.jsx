@@ -9,7 +9,11 @@ const chartConfig = {
       labels: ['NET kWh', 'Consumption kWh', 'Production kWh'],
       datasets: [{
           label: 'production',
+<<<<<<< HEAD
           data: [1,1,1],
+=======
+          data: [5, 5, 10],
+>>>>>>> 5d25c8c (- add drop down for analytics to show site specific stats)
           backgroundColor: [
               'rgba(255, 255, 200, 0.2)',
               'rgba(255, 132, 99, 0.2)',
@@ -42,6 +46,17 @@ const SurplusProportion = (props) => {
 
   console.log({render})
 
+
+  console.log(data)
+  chartConfig.data.datasets.data = []
+  chartConfig.data.datasets.data.push(data)
+  
+
+  if (graph.data) {
+    console.log(graph.data)
+    // graph.data.datasets.forEach((dataset) => dataset.data.push(data))
+    graph.update()
+  }
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
