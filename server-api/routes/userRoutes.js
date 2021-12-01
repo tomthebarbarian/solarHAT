@@ -140,7 +140,7 @@ module.exports = (router, dbo) => {
   router.get("/login", (req, res) => {
     //check if we are already logged in
     const userId = req.session.user_id;
-    console.log("viewsjs router:", userId);
+    console.log("login:", userId);
 
     const dbConn = dbo.getDb();
 

@@ -52,7 +52,7 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find({ owner: userId })
+      .find({ owner: param })
       .toArray(function (err, result) {
         if (err) throw err;
 
