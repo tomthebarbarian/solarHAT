@@ -180,6 +180,17 @@ export default function App() {
             </Row>
           </Col>
           }
+
+          {nav.addSite &&
+             <Row>  
+              
+                <AddSite state={state} setState={setState}/>              
+              
+              
+                <Map state={state} setState={setState}/>          
+              
+            </Row>
+          }
          </div>
        
         {nav.mySites &&
