@@ -12,8 +12,7 @@ import "./Analytics.scss"
 import axios from 'axios'
 
 const Empty = (props) => {
-  const {register} = props
-  console.log(props)
+    console.log(props)
   return (
     <div class="text">
       <h2> {props.title} </h2>
@@ -28,10 +27,7 @@ export default function Analytics(props) {
   // Props should be named provinceModel, and sites
   const {state, setState} = props
 
- 
-  
   const [index, setIndex] = useState(0)
-  
   const [siteInfo,setSiteInfo] = useState({})
 
 
@@ -39,8 +35,6 @@ export default function Analytics(props) {
     setIndex(prev => e.target.name)
     setState(prev => ({...prev , toggle:1^index}))
     console.log(index) 
-
-
 
   }
 

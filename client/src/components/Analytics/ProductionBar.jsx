@@ -29,25 +29,11 @@ const ProductionBar = (props) => {
 
   
   const chartContainer = useRef(null);
-  const [state, setState] = useState(
-    {
-      graph: {},
-    }
-
-  );
-
-  const setGraph = (graph) => {
-    return setState(prev => {
-      return ({ ...prev, graph })
-    })
-  }
-
+  const [graph, setGraph] = useState({});
+     
+    
   console.log('--------props.dataset',props.dataSets)
-  chartConfig.data.datasets = []
-  dataSets.forEach(e => chartConfig.data.datasets.push(e)  )
   
-
-  chartConfig.data.labels = axisLable
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
@@ -55,6 +41,23 @@ const ProductionBar = (props) => {
       setGraph(newChartInstance);
     }
   }, [chartContainer]);
+
+  
+  
+
+  if (graph.data) {
+    graph.data.datasets = []
+    console.log(graph.data)
+    dataSets.forEach((dataset) => graph.data.datasets.push(dataset))
+    graph.update()
+  }
+
+  chartConfig.data.datasets = []
+  
+
+  chartConfig.data.labels = axisLable
+
+
 
   return (
     <row className="">
