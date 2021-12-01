@@ -1,7 +1,7 @@
 //sites collection
 module.exports = [
   {
-    owner: 1,
+    owner: '61a6e8c00682f300f11b8ea7',
     name: "aj",
     coord: [45.42316, -75.706787],
     province: "ON",
@@ -9,7 +9,7 @@ module.exports = [
     size_kW: 10.5,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "hamza",
     coord: [43.652463, -79.391602],
     province: "ON",
@@ -18,7 +18,7 @@ module.exports = [
 
   },
   {
-    owner: 3,
+    owner: '61a6e8c00682f300f110beef',
     name: "LHL-TO",
     coord: [45.5017, -73.5673],
     province: "ON",
@@ -26,7 +26,7 @@ module.exports = [
     size_kW: 12.6,
   },
   {
-    owner: 3,
+    owner: '61a6e8c00682f300f110beef',
     name: "LHL-MTL",
     coord: [45.5017, -73.5673],
     province: "QC",
@@ -34,7 +34,7 @@ module.exports = [
     size_kW: 12.6,
   },
   {
-    owner: 3,
+    owner: '61a6e8c00682f300f110beef',
     name: "LHL-BC",
     coord: [45.5017, -73.5673],
     province: "BC",
@@ -42,7 +42,7 @@ module.exports = [
     size_kW: 12.6,
   },
   {
-    owner: 4,
+    owner: '400000000000',
     name: "Tom",
     coord: [43.2827, -75.1207],
     province: "ON",
@@ -50,7 +50,7 @@ module.exports = [
     size_kW: 10.0,
   },
   {
-    owner: 1,
+    owner: '61a6e8c00682f300f11b8ea7',
     name: "aj-cottage",
     coord: [45.318476, -75.765152],
     province: "ON",
@@ -58,7 +58,7 @@ module.exports = [
     size_kW: 9,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "Uzumaki",
     coord: [45.1233, -75.7542],
     province: "ON",
@@ -66,7 +66,7 @@ module.exports = [
     size_kW: 10.5,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "Naruto",
     coord: [53.5461, -113.4938],
     province: "AB",
@@ -74,7 +74,7 @@ module.exports = [
     size_kW: 14,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "Phantom",
     coord: [49.8951, -97.1384],
     province: "MB",
@@ -82,7 +82,7 @@ module.exports = [
     size_kW: 14,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "danny",
     coord: [49.8951, -97.1384],
     province: "MB",
@@ -90,7 +90,7 @@ module.exports = [
     size_kW: 14,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "Crypto",
     coord: [49.8951, -97.1384],
     province: "MB",
@@ -99,7 +99,7 @@ module.exports = [
 
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "Power",
     coord: [49.8951, -97.1384],
     province: "MB",
@@ -107,7 +107,7 @@ module.exports = [
     size_kW: 14,
   },
   {
-    owner: 2,
+    owner: '61a6e8c00682f300f11b8a55',
     name: "BMF",
     coord: [49.8951, -97.1384],
     province: "MB",
