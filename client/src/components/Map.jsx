@@ -21,7 +21,7 @@ const Map = (props) => {
     setMap(
       L.map('map',
         {
-          center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
+          center: [53.5 || state.marker.lat, -100.5 || state.marker.lng],
           zoom: 5 || state.marker.zoom,
           layers: [
             L.tileLayer(
@@ -150,7 +150,7 @@ const Map = (props) => {
       L.control.layers(baseLay, overLay,{position: 'topleft'}).addTo(map)
     }
 
-  }, [map, myIcon, state])
+  }, [map, myIcon, state,pvOver])
 
   return (
     <>

@@ -59,7 +59,7 @@ const ProductionBar = (props) => {
   return (
     <row className="">
       <h2>{props.children}</h2>
-      <div className='comparebar col-md-12 row'>
+      <div className='container'>
         <canvas ref={chartContainer} />
       </div>
     </row>

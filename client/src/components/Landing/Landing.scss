@@ -60,8 +60,8 @@
   position: relative;
   top: 0;
   left: 0;
-  // height: 98vh;
   width: 100vw;
+  max-height:100vh;
   object-fit: cover;
   opacity: 0.4;
   filter:grayscale
@@ -71,9 +71,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  // min-height: 100%;
-  // min-width: 100%;
-  background-color: red;
+  min-width: 100vw;
+  max-height: 95vh;
+  background-color: rgb(12, 12, 12);
+  opacity: 0.4;
   mix-blend-mode: overlay;
 }
 

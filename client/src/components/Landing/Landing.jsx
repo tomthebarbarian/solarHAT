@@ -52,8 +52,8 @@ export default function Landing(props) {
         <Overlay />
         <Contents
           title="Solar Flares"
-          subtitle="Renewable Energy"
-          content="The Future is Now"
+          subtitle="Tracking & Monitoring Solutions"
+          content=" Canadian Edition"
           register={register}
         />
         <Footer content="Copyright 2021 - All Rights Reserved." />

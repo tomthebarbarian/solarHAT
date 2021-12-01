@@ -22,6 +22,7 @@ import classNames from 'classnames';
 import EditSite from './Edit/EditSite.jsx';
 import AddSite from './Add/AddSite';
 import Landing from './Landing/Landing';
+import { divIcon } from 'leaflet-css';
 
 const SHOW = 0
 const EDIT = 1
@@ -51,7 +52,7 @@ export default function App() {
 
    
  
-  const [nav, setNav] = useState({})
+  const [nav, setNav] = useState({showMap:true})
 
   const navigate = (param) => {
     switch (param) {
@@ -62,8 +63,8 @@ export default function App() {
         break;
   
       case EDIT:
-        if (!nav.editMap) {
-          setNav((prev) => ({ ...{}, editMap: true }));
+        if (!nav.mySites) {
+          setNav((prev) => ({ ...{}, mySites: true }));
         }
         break;
   
@@ -87,7 +88,7 @@ export default function App() {
   
       default:
         // setNav((prev) => ({ ...{}, landing: true }));
-        // setNav((prev) => ({ ...{}, showMap: true }));
+        setNav((prev) => ({ ...{}, showMap: true }));
     }
   
     console.log('-----------------[nav]---------------', nav);
@@ -105,11 +106,11 @@ export default function App() {
    //quick hack to resolve  more than one map issue
    const showMapclass = (classNames('',
     { 'map': nav.showMap },
-     { 'hide': nav.editMap }))
+     { 'hide': nav.mySites }))
 
      const editMapClass = (classNames('',
      { 'hide': nav.showMap },
-     { 'map': nav.editMap }))
+     { 'map': nav.mySites }))
 
 
   return (
@@ -118,7 +119,7 @@ export default function App() {
          
         <Navbar bg='dark' variant='dark' className={navbarClass}>
           <Container>
-            <Navbar.Brand > <b>solar<i>Flares</i></b></Navbar.Brand>
+            <Navbar.Brand ><b>solar<i>Flares</i></b></Navbar.Brand>
 
             <Navbar.Toggle />
             <Navbar.Collapse className='justify-content-end'></Navbar.Collapse>
@@ -128,7 +129,7 @@ export default function App() {
             </Container>
         </Navbar>
          
-        {!state.logged && <Landing /> }  
+        {!state.logged && <Landing register={()=>console.log('aljflasfjaljfasljfaslfdj')} /> }  
      
       
       {state.logged && 
@@ -136,15 +137,15 @@ export default function App() {
         <main className='layout'>
 
 
-          <section className='sidebar '>
+          <div className='sidebar '>
              <img className="logo--centered" src='./logo2.png' alt= 'logo' width='128'/>
-            
+            <br/>
             <ButtonGroup vertical>
               <Button variant="outline-secondary" onClick={() => navigate(SHOW)} >Solar Map</Button>
               
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(EDIT)}> 
-                 <img src='./editMap.png' alt= 'logo' width='32' />Edit Sites</Dropdown.Item>
+                 <img src='./editMap.png' alt= 'logo' width='32' />My Sites</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ADD)}>
                   <img src='./add.png' alt= 'logo' width='32' />Add Site</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ANALYTICS)}>
@@ -154,48 +155,45 @@ export default function App() {
                <Button variant="outline-secondary" onClick={() => navigate(DASH)}>Leader Board</Button>
              </ButtonGroup>
 
-          </section> 
+          </div> 
        
-        { nav.showMap && 
-          <section className='map'>
-            <Map  state={state} setState={setState} />  
-          </section>  
+         { nav.showMap && 
+          <div >
+            <Map className='map' state={state} setState={setState} />  
+          </div>  
           }  
           
-        <Container >
-          {nav.analytics &&  
-          
-              // { (state.site > 0 ) && 
-                  < Analytics state={state} setState={setState} />
-              
-              // }
+        <div>
+          {(nav.analytics &&  state.userSites.length >=0 ) && 
+            < Analytics  className='container' state={state} setState={setState} />
+            
           }
-         
-          {nav.leaderBoard &&  <Scoreboard/>}
-      
-          {nav.editMap &&
-            <Row>
-              <Col xs={6}>
-                  <EditSite state={state} setState={setState}/>
-              </Col>
-              <Col xs={6}>
-                  <Map state={state} setState={setState}/>          
-              </Col>
-            </Row>
-          }
+         </div>
+       
+          {nav.mySites &&
+              <div >  
+               <EditSite className="container" state={state} setState={setState}/>              
+                   <p/>
+              <div className='half-map'>
+                <Map  state={state} setState={setState}/>          
+               </div>
+              </div>
+        }
 
           {nav.addSite &&
-             <Row>  
-              <Col xs={6}>
-                <AddSite state={state} setState={setState}/>              
-              </Col>
-              <Col xs={6}>
-                <Map state={state} setState={setState}/>          
-              </Col>
-            </Row>
+             <div >  
+                <AddSite className="" state={state} setState={setState}/>              
+                  <p/>
+               <div className='half-map'>
+                <Map  state={state} setState={setState}/>          
+               </div>
+                 
+           </div>
           }
-          </Container>
-
+          
+          <div className="container">
+           {nav.leaderBoard && <Scoreboard className="" />}
+          </div>
         </main>
         
       }

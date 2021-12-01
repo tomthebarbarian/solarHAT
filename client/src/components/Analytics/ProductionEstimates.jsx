@@ -2,21 +2,29 @@ import React from "react";
 import './ProductionEstimates.scss'
 
 const ProductionEstimates = (props) => {
-  const {totalproduction, surplus, utilization, netCost} = props
+  const {size , prod, usage, net, utilization, netCost} = props
+
   return(
     <ul className='col-md-6 text-center'>
       <h2>Production Estimates</h2>
       <li>
-        {`Annual production (kWh): ${totalproduction}`}
+        {`System Size (kW): ${size}`}
       </li>
       <li>
-        {`Surplus(kWh): ${surplus}`}
+        {`Annual Consumption (kWh): ${usage}`}
+      </li>
+       
+      <li>
+        {`Annual production (kWh): ${prod}`}
       </li>
       <li>
-        {`Utilization (%): ${Math.round(utilization * 100)/100}`}
+        {`NET (kWh): ${net}`}
       </li>
       <li>
-        {`Energy Costs ($): ${netCost/100}`}
+        {`Utilization (%): ${Math.round(utilization * 10000)/100}`}
+      </li>
+      <li>
+        {`Energy Costs ($): ${netCost}`}
       </li>
     </ul>
 
