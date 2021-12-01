@@ -90,16 +90,12 @@ const Map = (props) => {
         .then(data => {
           // Use response data to update the popup's content
          console.log('------------------',data)
-         let i =0
+         const keys = {ELE:'m' ,PVOUT_csi:'kWh/kWp'
+         , GHI:'W/m²', DNI:'W/m²' ,GTI_opta:'W/m²' ,OPTA:'°' ,TEMP:'°C'}
          for (const key in data.pvout ) {
-         
-          const keys = ['ELE' ,'PVOUT_csi', 'GHI', 'DNI' ,'GTI_opta' ,'OPTA' ,'TEMP']
-          const units = ['m', 'kWh/kWp','W/m²', 'W/m²','W/m²','°','°C']
-            if (keys.includes(key)){  
-                tooltip = tooltip + `<br> <b> ${key} </b>: ${data.pvout[key].toFixed(2)} ${units[i]}` 
-                i++
+              if (Object.keys(keys).includes(key)){  
+                tooltip = tooltip + `<br> <b> ${key} </b>: ${data.pvout[key].toFixed(2)} ${keys[key]}` 
             }
-            
          }
           popup
             .setContent(
