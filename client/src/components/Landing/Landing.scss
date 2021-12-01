@@ -61,7 +61,11 @@
   top: 0;
   left: 0;
   width: 100vw;
+<<<<<<< HEAD
   max-height:95vh;
+=======
+  max-height:100vh;
+>>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
   object-fit: cover;
   opacity: 0.4;
   // filter:grayscale
@@ -78,7 +82,10 @@
   max-height: 95vh;
   background-color: rgb(12, 12, 12);
   opacity: 0.4;
+<<<<<<< HEAD
   background-color: rgba(0,0,0,0.4);
+=======
+>>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
   mix-blend-mode: overlay;
 }
 

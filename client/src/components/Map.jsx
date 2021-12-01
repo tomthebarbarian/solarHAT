@@ -21,8 +21,13 @@ const Map = (props) => {
     setMap(
       L.map('map',
         {
+<<<<<<< HEAD
           center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
           zoom: 4 || state.marker.zoom,
+=======
+          center: [53.5 || state.marker.lat, -100.5 || state.marker.lng],
+          zoom: 5 || state.marker.zoom,
+>>>>>>> f474779 (- add drop down for analytics to show site specific stats)
           layers: [
             L.tileLayer(
               'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
