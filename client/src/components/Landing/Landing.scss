@@ -10,7 +10,7 @@
   position: relative;
   right: 0;
   max-width: 100vw;
-  max-height: 100vh;
+  max-height: 95vh;
   // padding: 10px;
   display: flex;
   flex-direction: column;
@@ -61,10 +61,13 @@
   top: 0;
   left: 0;
   width: 100vw;
-  max-height:100vh;
+  max-height:95vh;
   object-fit: cover;
   opacity: 0.4;
-  filter:grayscale
+  // filter:grayscale
+  background-color: rgba(0,0,0,0.4)
+
+  
   }
 
 .overlay {
@@ -75,6 +78,7 @@
   max-height: 95vh;
   background-color: rgb(12, 12, 12);
   opacity: 0.4;
+  background-color: rgba(0,0,0,0.4);
   mix-blend-mode: overlay;
 }
 
