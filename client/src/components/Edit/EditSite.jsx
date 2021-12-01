@@ -1,5 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
+import {constants} from '../../helpers/constants'
+
 import className from 'classnames';
 import '../Scoreboard.css';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
@@ -42,6 +44,8 @@ export default function EdiSite(props) {
       .catch((error) => {
         console.log(error);
       });
+      setShow(prev => prev = false) 
+      setState(prev => ({...prev, count: prev.count--})) 
   };
 
   const delHandle = (targetSite) => {
@@ -52,13 +56,13 @@ export default function EdiSite(props) {
     
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setShow(prev=> prev = false);
 
   useEffect(() => {
     console.log(state);
     console.log('state user id', state.user._id);
     axios
-      .get(`/api/sites/${state.user._id}`)
+      .get(`/api/u/sites/${state.user._id}`)
       .then((response) => {
         console.log(response.data);
         setUserSites(response.data);
@@ -123,7 +127,7 @@ export default function EdiSite(props) {
         const addrComp = res.results[0].address_components     
         let province = ''
         for (const e of addrComp) {
-          if (Object.keys({...state.model[0]}).includes(e.short_name)) {
+          if (constants.prov.includes(e.short_name)) {
             province =  e.short_name
             break
           }

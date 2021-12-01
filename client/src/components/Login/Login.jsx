@@ -8,9 +8,9 @@ const initState = {
     user: null,
     map: null,
     marker: null,
-    users: null,
     sites: null,
-    model: null,
+    userSites:null,
+    count:0,
   };
 
 export default function Login(props) {

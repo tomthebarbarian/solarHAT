@@ -16,25 +16,9 @@ export default function useAppData(props) {
     user: null,
     map: {},
     marker: { lat: 45, lng: -100 },
-    sites: [
-      {
-        _id: 'ObjectId(619d5d325e08dcf685043d24)',
-        name: 'aj-cottage',
-        coord: [45.318476, -75.765152],
-        province: 'ON',
-        usage_kWh: 4.5,
-        size_kW: 10.5,
-      },
-    ],
-    model: [
-      {
-        _id: 'ObjectId(619d5d325e07cef685043d20)',
-        NL: {
-          pv_monthly_avg: [51, 75, 95, 96, 98, 100, 103, 99, 85, 63, 44, 38],
-          cost_cents_avg: 13.8,
-        },
-      },
-    ],
+    sites: [],
+    userSites: [],
+    count: 0
   });
 
   const [loading, setLoading] = useState(false);
@@ -83,7 +67,6 @@ export default function useAppData(props) {
               setState((prev) => ({
                 ...prev,
                 sites: data.sites,
-                model: data.model,
                 userSites: data.userSites,
               }))
             })
@@ -94,7 +77,7 @@ export default function useAppData(props) {
 
 
     return cleanup();
-  }, [state.logged]);
+  }, [state.logged, state.count]);
 
 
 

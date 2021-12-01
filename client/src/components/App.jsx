@@ -21,6 +21,7 @@ import Register from './Register/Register';
 import classNames from 'classnames';
 import EditSite from './Edit/EditSite.jsx';
 import AddSite from './Add/AddSite';
+import Landing from './Landing/Landing';
 
 const SHOW = 0
 const EDIT = 1
@@ -49,7 +50,7 @@ export default function App() {
   const navbarClass = classNames('customNav');
 
    
-
+ 
   const [nav, setNav] = useState({})
 
   const navigate = (param) => {
@@ -85,7 +86,8 @@ export default function App() {
         break;
   
       default:
-        setNav((prev) => ({ ...{}, landing: true }));
+        // setNav((prev) => ({ ...{}, landing: true }));
+        // setNav((prev) => ({ ...{}, showMap: true }));
     }
   
     console.log('-----------------[nav]---------------', nav);
@@ -95,7 +97,7 @@ export default function App() {
 
   const handleLogout = () => {
     console.log('-----------------[Appjsx user logout]---------------', nav)
-    setNav(prev => ({...{}, landing: true}))
+    setNav(prev => ({...{}, showMap: true}))
     return apiLogout()
   }
 
@@ -126,6 +128,9 @@ export default function App() {
             </Container>
         </Navbar>
          
+        {!state.logged && <Landing /> }  
+     
+      
       {state.logged && 
       
         <main className='layout'>
@@ -139,7 +144,7 @@ export default function App() {
               
               <DropdownButton variant="outline-secondary" as={ButtonGroup} title="mySolar" id="bg-vertical-dropdown-1">
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(EDIT)}> 
-                 <img src='./editMap.png' alt= 'logo' width='32' />My Sites</Dropdown.Item>
+                 <img src='./editMap.png' alt= 'logo' width='32' />Edit Sites</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ADD)}>
                   <img src='./add.png' alt= 'logo' width='32' />Add Site</Dropdown.Item>
               <Dropdown.Item variant="outline-secondary" eventKey="2" onClick={() => navigate(ANALYTICS)}>

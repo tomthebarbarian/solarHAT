@@ -6,14 +6,12 @@ const DELAY = 2000
 export const fetchData = (userId) => {
   return Promise.all([
     axios.get("/api/sites"),
-    axios.get("/api/model"),
-    axios.get(`/api/sites/u/${userId}`),
+    axios.get(`/api/u/sites/${userId}`),
   ])
     .then(res => {
       const data = {
         sites: res[0].data,
-        model: res[1].data,
-        userSites: res[2].data
+        userSites: res[1].data
       }
       console.log('--------[fetch data]---------\n', data);
       return data;
