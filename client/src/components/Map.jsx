@@ -21,8 +21,18 @@ const Map = (props) => {
     setMap(
       L.map('map',
         {
+<<<<<<< HEAD
           center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
           zoom: 4 || state.marker.zoom,
+=======
+<<<<<<< HEAD
+          center: [53.5 || state.marker.lat, -100.5 || state.marker.lng],
+          zoom: 5 || state.marker.zoom,
+=======
+          center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
+          zoom: 4 || state.marker.zoom,
+>>>>>>> 9aa54d7 (horizontal map view)
+>>>>>>> f2ebe2a (horizontal map view)
           layers: [
             L.tileLayer(
               'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',

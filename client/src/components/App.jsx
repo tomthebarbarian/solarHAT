@@ -161,12 +161,24 @@ export default function App() {
           <div >
             <Map className='map' state={state} setState={setState} />  
           </div>  
-          }  
-          
+          }
+
         <div>
-          {(nav.analytics &&  state.userSites.length >=0 ) && 
+      {          (nav.analytics &&  state.userSites.length >=0 ) && 
             < Analytics  className='container' state={state} setState={setState} />
             
+            {nav.leaderBoard &&  <Scoreboard/>}
+
+      
+          {nav.editMap &&
+            <Col>
+            <Row xs={6}>
+                <EditSite state={state} setState={setState}/>
+            </Row>
+            <Row xs={6}>
+                <Map state={state} setState={setState}/>          
+            </Row>
+          </Col>
           }
          </div>
        
@@ -177,8 +189,9 @@ export default function App() {
               <div className='half-map'>
                 <Map  state={state} setState={setState}/>          
                </div>
-              </div>
-        }
+          }
+        
+        </div>
 
           {nav.addSite &&
              <div >  
@@ -191,9 +204,6 @@ export default function App() {
            </div>
           }
           
-          <div className="container">
-           {nav.leaderBoard && <Scoreboard className="" />}
-          </div>
         </main>
         
       }
