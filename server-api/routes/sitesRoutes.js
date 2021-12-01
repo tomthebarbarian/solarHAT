@@ -30,7 +30,7 @@ const calcModel = (e) => {
       cost c/kWh: ${cent_per_kWh}`)
 
   siteData.production = pvoutSum * e.size_kW
-  siteData.net = (pvoutSum * e.size_kW)
+  siteData.net = (pvoutSum * e.size_kW - e.usage_kWh)
   siteData.cost = '$' + Math.round((e.usage_kWh * 1.35 * cent_per_kWh / 100) * 100) / 100
   siteData.name = e.name.toLowerCase()
   siteData.model = model[e.province]
@@ -123,7 +123,7 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false }, function (err, result) {
+      .updateOne({ "_id": ObjectId(req.params.id) }, { $set: { ...site } }, { upsert: false }, function (err, result) {
         if (err) throw err;
         res.send(result)
       })
@@ -142,7 +142,7 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .deleteOne({ "_id": ObjectId(`${req.params.id}`) }, function (err, result) {
+      .deleteOne({ "_id": ObjectId(req.params.id) }, function (err, result) {
         if (err) throw err;
         res.send(result)
       })
