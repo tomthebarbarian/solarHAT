@@ -31,50 +31,73 @@ export default function Analytics(props) {
  
   
   const [index, setIndex] = useState(0)
+  
+  const [siteInfo,setSiteInfo] = useState({})
+
+
   const changeHandler =(e) => {
     setIndex(prev => e.target.name)
     setState(prev => ({...prev , toggle:1^index}))
     console.log(index) 
+
+
+
   }
 
  
-  if (!state.userSites || !state.userSites.length) return  <Empty subtitle="No site data found!" content="Please add a site first" />
+  useEffect(()=>{
+
+    if (!state.userSites || !state.userSites.length) return  <Empty subtitle="No site data found!" content="Please add a site first" />
   
-  const siteInfo =  state.userSites[index]
+  },[])
+  
+  
+
+  useEffect (()=>{
+
+    setSiteInfo (prev =>( {...state.userSites[index]}))
+  },[state.userSites,index])
+
+
+  
   const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
+
+  console.log('-----on load --------->:',state.userSites)
   
-    console.log('-----on load --------->:',state.userSites)
+  const axisLable = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+
+  const dataSets = state.userSites.map(e => {
+    const   R = Math.floor(Math.random()*255)
+    const   G = Math.floor(Math.random()*255)
+    const   B = Math.floor(Math.random()*255)
     
-    const axisLable = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-
-    const dataSets = state.userSites.map(e => {
-      const   R = Math.floor(Math.random()*255)
-      const   G = Math.floor(Math.random()*255)
-      const   B = Math.floor(Math.random()*255)
-      
-      const singleSite =
-        {
-          type:'bar',
-          label: e.name,
-          data: e.model.pv_monthly_avg.map((elm) => {
-            const prod_kWh =   elm * e.size_kW
-            // console.log(prod_kWh)
-            return prod_kWh
-          }),
-          backgroundColor: [`rgba(${R}, ${G}, ${B}, 0.2)`],
-          borderColor: [`rgba(${R}, ${G}, ${B}, 1)`],
-          borderWidth: 1,
-        };
-        // console.log(singleSite)
-        // console.log('------------------\n')
-        return singleSite
-    })
-    
-    console.log(dataSets)
-    console.log('***********dataSets*************\n',dataSets)
-    console.log('***********axisLable*************\n',axisLable)
+    const singleSite =
+      {
+        type:'bar',
+        label: e.name,
+        data: e.model.pv_monthly_avg.map((elm) => {
+          const prod_kWh =   elm * e.size_kW
+          // console.log(prod_kWh)
+          return prod_kWh
+        }),
+        backgroundColor: [`rgba(${R}, ${G}, ${B}, 0.2)`],
+        borderColor: [`rgba(${R}, ${G}, ${B}, 1)`],
+        borderWidth: 1,
+      };
+      // console.log(singleSite)
+      // console.log('------------------\n')
+      return singleSite
+  })
+  
+  console.log(dataSets)
+  console.log('***********dataSets*************\n',dataSets)
+  console.log('***********axisLable*************\n',axisLable)
+  
 
 
+  
+
+ 
   return (
 
 
