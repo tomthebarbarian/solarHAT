@@ -34,11 +34,14 @@ const ProductionBar = (props) => {
     
   console.log('--------props.dataset',props.dataSets)
   
+  chartConfig.data.labels = axisLable
+
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const newChartInstance = new Chart(chartContainer.current, chartConfig);
       setGraph(newChartInstance);
+      
     }
   }, [chartContainer]);
 
@@ -52,10 +55,7 @@ const ProductionBar = (props) => {
     graph.update()
   }
 
-  chartConfig.data.datasets = []
   
-
-  chartConfig.data.labels = axisLable
 
 
 
