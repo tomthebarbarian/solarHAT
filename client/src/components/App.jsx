@@ -174,24 +174,24 @@ export default function App() {
           {nav.leaderBoard &&  <Scoreboard/>}
       
           {nav.editMap &&
-            <Row>
-              <Col xs={6}>
-                  <EditSite state={state} setState={setState}/>
-              </Col>
-              <Col xs={6}>
-                  <Map state={state} setState={setState}/>          
-              </Col>
+            <Col>
+            <Row xs={6}>
+                <EditSite state={state} setState={setState}/>
             </Row>
+            <Row xs={6}>
+                <Map state={state} setState={setState}/>          
+            </Row>
+          </Col>
           }
 
           {nav.addSite &&
              <Row>  
-              <Col xs={6}>
+              
                 <AddSite state={state} setState={setState}/>              
-              </Col>
-              <Col xs={6}>
+              
+              
                 <Map state={state} setState={setState}/>          
-              </Col>
+              
             </Row>
           }
           </Container>

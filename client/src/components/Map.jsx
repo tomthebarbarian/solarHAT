@@ -22,7 +22,7 @@ const Map = (props) => {
       L.map('map',
         {
           center: [50.5 || state.marker.lat, -100.5 || state.marker.lng],
-          zoom: 5 || state.marker.zoom,
+          zoom: 4 || state.marker.zoom,
           layers: [
             L.tileLayer(
               'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
@@ -75,6 +75,7 @@ const Map = (props) => {
       const pvUrl = `/pv_data`
 
       let tooltip = ''
+      
       Promise.all([
         axios.get(tempUrl),
         axios.post(pvUrl, {...ll})
