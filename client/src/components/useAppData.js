@@ -17,7 +17,8 @@ export default function useAppData(props) {
     map: {},
     marker: { lat: 45, lng: -100 },
     sites: [],
-    userSites: []
+    userSites: [],
+    count: 0
   });
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +77,7 @@ export default function useAppData(props) {
 
 
     return cleanup();
-  }, [state.logged]);
+  }, [state.logged, state.count]);
 
 
 

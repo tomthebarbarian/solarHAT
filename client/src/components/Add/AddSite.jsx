@@ -64,6 +64,7 @@ export default function AddSite(props) {
         console.log(error);
       });
 
+      setState(prev => ({...prev, count: state.count++}))
     clear();
   };
 

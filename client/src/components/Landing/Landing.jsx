@@ -2,19 +2,7 @@
 import './Landing.scss'
 
 import {useState} from 'react'
-const Header = (props) => {
-  return (
-    <header>
-      <h2 className="logo">{props.brand}</h2>
-      <div
-        onClick={() => {
-          props.setActiveClass(!props.activeClass);
-        }}
-        className={props.activeClass ? "toggle active" : "toggle"}
-      ></div>
-    </header>
-  );
-};
+
 
 const Contents = (props) => {
   const {register} = props
@@ -34,8 +22,7 @@ const Contents = (props) => {
 };
 
 const Image = () => {
-  // return <img src="https://i.ytimg.com/vi/-MKapbz0GIo/maxresdefault.jpg" />;
-  return <img src="./landing.jpg" />;
+  return <img src="./landing_2.png" />;
   
 };
 
@@ -51,25 +38,7 @@ const Footer = (props) => {
       <p>{props.content} </p>{" "}
     </div>
   );
-};
-const Menu = () => {
-  return (
-    <div className="menu">
-      <ul>
-        <li>
-          <a href="#"> Home </a>
-        </li>
-        <li>
-          <a href="#"> Login </a>
-        </li>
-        <li>
-          <a href="#"> Signup </a>
-        </li>
-      </ul>
-    </div>
-  );
-};
-
+}; 
 
 export default function Landing(props) {
   const [activeClass, setActiveClass] = useState(false);
@@ -77,11 +46,7 @@ export default function Landing(props) {
   return (
     <div className = "layout">
       <section className={activeClass ? "active containerx" : "containerx"}>
-        {/* <Header
-          setActiveClass={setActiveClass}
-          activeClass={activeClass}
-          brand="solarFlares"
-        /> */}
+     
         <Image />
       
         <Overlay />
@@ -95,7 +60,6 @@ export default function Landing(props) {
       </section>
 
 
-      <Menu />
     </div>
   );
 };

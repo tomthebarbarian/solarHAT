@@ -21,6 +21,7 @@ import Register from './Register/Register';
 import classNames from 'classnames';
 import EditSite from './Edit/EditSite.jsx';
 import AddSite from './Add/AddSite';
+import Landing from './Landing/Landing';
 
 const SHOW = 0
 const EDIT = 1
@@ -49,7 +50,7 @@ export default function App() {
   const navbarClass = classNames('customNav');
 
    
-
+ 
   const [nav, setNav] = useState({})
 
   const navigate = (param) => {
@@ -86,7 +87,7 @@ export default function App() {
   
       default:
         // setNav((prev) => ({ ...{}, landing: true }));
-        setNav((prev) => ({ ...{}, showMap: true }));
+        // setNav((prev) => ({ ...{}, showMap: true }));
     }
   
     console.log('-----------------[nav]---------------', nav);
@@ -127,6 +128,8 @@ export default function App() {
             </Container>
         </Navbar>
          
+        {!state.logged && <Landing /> }  
+     
       
       {state.logged && 
       

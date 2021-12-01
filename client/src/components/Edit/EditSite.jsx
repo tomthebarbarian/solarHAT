@@ -44,7 +44,8 @@ export default function EdiSite(props) {
       .catch((error) => {
         console.log(error);
       });
-      setShow(prev => prev = false)  
+      setShow(prev => prev = false) 
+      setState(prev => ({...prev, count: prev.count--})) 
   };
 
   const delHandle = (targetSite) => {
