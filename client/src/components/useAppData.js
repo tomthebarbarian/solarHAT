@@ -61,7 +61,7 @@ export default function useAppData(props) {
         if (res.data.code === 200) {
           setState(prev => ({ ...prev, logged: true, user: res.data.user[0] }))
 
-
+          console.log('login check', state.user._id)
           fetchData(state.user._id)
             .then((data) => {
               setState((prev) => ({

@@ -43,6 +43,7 @@ const ProductionBar = (props) => {
   }
 
   console.log('--------props.dataset',props.dataSets)
+  chartConfig.data.datasets = []
   dataSets.forEach(e => chartConfig.data.datasets.push(e)  )
   
 
