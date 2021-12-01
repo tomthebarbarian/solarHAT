@@ -11,7 +11,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f11b8a55',
     name: "hamza",
-    coord: [43.652463, -79.391602],
+    coord: [50.0551, -103.8867],
     province: "ON",
     usage_kWh: 7500,
     size_kW: 8.5,
@@ -20,7 +20,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f110beef',
     name: "LHL-TO",
-    coord: [45.5017, -73.5673],
+    coord: [45.5017, -72.5673],
     province: "ON",
     usage_kWh: 8500,
     size_kW: 12.6,
@@ -28,7 +28,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f110beef',
     name: "LHL-MTL",
-    coord: [45.5017, -73.5673],
+    coord: [44.5017, -78.5673],
     province: "QC",
     usage_kWh: 8500,
     size_kW: 12.6,
@@ -36,7 +36,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f110beef',
     name: "LHL-BC",
-    coord: [45.5017, -73.5673],
+    coord: [52.1025, -126.8701],
     province: "BC",
     usage_kWh: 8500,
     size_kW: 12.6,
@@ -44,7 +44,7 @@ module.exports = [
   {
     owner: '400000000000',
     name: "Tom",
-    coord: [43.2827, -75.1207],
+    coord: [43.6359, -79.4476],
     province: "ON",
     usage_kWh: 7750,
     size_kW: 10.0,
@@ -52,7 +52,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f11b8ea7',
     name: "aj-cottage",
-    coord: [45.318476, -75.765152],
+    coord: [45.318476, -77.765152],
     province: "ON",
     usage_kWh: 4200,
     size_kW: 9,
@@ -60,7 +60,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f11b8a55',
     name: "Uzumaki",
-    coord: [45.1233, -75.7542],
+    coord: [45.1233, -72.7542],
     province: "ON",
     usage_kWh: 4500,
     size_kW: 10.5,
@@ -101,7 +101,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f11b8a55',
     name: "Power",
-    coord: [49.8951, -97.1384],
+    coord: [50.8951, -97.1384],
     province: "MB",
     usage_kWh: 2000,
     size_kW: 14,
@@ -109,7 +109,7 @@ module.exports = [
   {
     owner: '61a6e8c00682f300f11b8a55',
     name: "BMF",
-    coord: [49.8951, -97.1384],
+    coord: [51.8951, -97.1384],
     province: "MB",
     usage_kWh: 5000,
     size_kW: 20,

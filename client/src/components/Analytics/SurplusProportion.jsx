@@ -1,3 +1,4 @@
+//piechart
 import Chart from 'chart.js/auto'
 import "./SurplusProportion.scss"
 import React, { useEffect, useState, useRef } from 'react';
@@ -5,10 +6,10 @@ import React, { useEffect, useState, useRef } from 'react';
 const chartConfig = {
   type: 'doughnut',
   data: {
-      labels: ['Surplus kWh', 'Deficit kWh', 'Covered kWh'],
+      labels: ['NET kWh', 'Consumption kWh', 'Production kWh'],
       datasets: [{
-          label: 'surplus production',
-          data: [4, 5, 20],
+          label: 'production',
+          data: [5, 5, 10],
           backgroundColor: [
               'rgba(255, 255, 200, 0.2)',
               'rgba(255, 132, 99, 0.2)',
@@ -33,20 +34,27 @@ const chartConfig = {
 // Should generate a barchart for all avg kw production for that number of 
 // months and year
 const SurplusProportion = (props) => {
+  const {render, data} = props
   const chartContainer = useRef(null);
-  const [state, setState] = useState(
-    {
-      graph: {},
-    }
-  );
+ 
 
-  const setGraph = (graph) => {
-    return setState(prev => {
-      return ({ ...prev, graph })
-    })
+  const [graph, setGraph] = useState({
+    graph: {},
+  });
+
+  console.log({render})
+
+
+  console.log(data)
+  chartConfig.data.datasets.data = []
+  chartConfig.data.datasets.data.push(data)
+  
+
+  if (graph.data) {
+    console.log(graph.data)
+    // graph.data.datasets.forEach((dataset) => dataset.data.push(data))
+    graph.update()
   }
-
-  chartConfig.data.datasets[0].data = props.data
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {

@@ -4,7 +4,7 @@ import {constants} from '../../helpers/constants'
 
 import className from 'classnames';
 import '../Scoreboard.css';
-import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
+import { Button, Modal, Form, Row, Col, Container } from 'react-bootstrap';
 import Geocode from 'react-geocode';
 const DECIMALS = 6;
 Geocode.setApiKey('AIzaSyCcKsKVOs-uzI8Ri0xtVmP-Mi9NNsFkj_c');
@@ -163,14 +163,18 @@ export default function EdiSite(props) {
   
   return (
     <>
-       <table class='table'>
+    <div className = 'half container'>
+       <h1> My Sites</h1>         
+      <table class='table'>
         <thead>
           <tr>
             <th scope='col'>#</th>
-            <th scope='col'>Name</th>
-            <th scope='col'>Consumption</th>
-            <th scope='col'>Production</th>
-            <th scope='col'>Cost</th>
+            <th scope='col'>Name <br/></th>
+            <th scope='col'>System Size <br/> [kW]</th>
+            <th scope='col'>Production<br/>  [kWh]</th>
+            <th scope='col'>Consumption<br/> [kWh]</th>
+            <th scope='col'>NET<br/>  [kWh]</th>
+            <th scope='col'>Annual Energy<br/> Costs [$]</th>
           </tr>
         </thead>
         <tbody>
@@ -181,9 +185,11 @@ export default function EdiSite(props) {
                 <tr>
                   <th scope='row'>{}</th>
                   <td>{s.name}</td>
-                  <td>{s.usage_kWh}</td>
-                  <td>{s.production}</td>
-                  <td>{s.cost}</td>
+                  <td>{s.size}</td>
+                  <td>{s.prod}</td>
+                  <td>{s.usage}</td>
+                  <td>{s.nett}</td>
+                  <td>{s.cost}</td> 
                   <td>
                     <Button
                       variant='outline-primary'
@@ -205,12 +211,11 @@ export default function EdiSite(props) {
         </tbody>
       </table>
 
-      <Modal show={show===EDIT} onHide={handleClose}>
+      <Modal className='modalx' show={show===EDIT} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Site</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h1> Add Site</h1>         
           <Form
             noValidate
             validated={validated}
@@ -224,8 +229,8 @@ export default function EdiSite(props) {
                 <Form.Control
                   required
                   type='text'
-                  placeholder='Example Site'
-                  name={'name'}
+                  placeholder=''
+                  name='name'
                   value={name}
                   onChange={changeHandler}
                 />
@@ -247,8 +252,8 @@ export default function EdiSite(props) {
                 <Form.Control
                   required
                   type='text'
-                  placeholder='45.5045'
-                  name={'lat'}
+                  placeholder=''
+                  name='lat'
                   value={lat}
                   onChange={changeHandler}
                 />
@@ -258,9 +263,9 @@ export default function EdiSite(props) {
                 <Form.Control
                   required
                   type='text'
-                  placeholder='-75.6554'
+                  placeholder=''
                   onChange={changeHandler}
-                  name={'long'}
+                  name='long'
                   value={long}
                 />
               </Form.Group> 
@@ -273,18 +278,18 @@ export default function EdiSite(props) {
                   required
                   type='text'
                   placeholder=''
-                  name={'usage_kWh'}
+                  name='usage_kWh'
                   value={usage_kWh}
                   onChange={changeHandler}
                 />
               </Form.Group>
-              <Form.Group as={Col} md='4' controlId='validationCustom02'>
+              <Form.Group as={Col} md='5' controlId='validationCustom02'>
                 <Form.Label>PV System Size [ kW ]</Form.Label>
                 <Form.Control
                   required
                   type='text'
                   placeholder=''
-                  name={'size_kW'}
+                  name='size_kW'
                   value={size_kW}
                   onChange={changeHandler}
                 />
@@ -304,8 +309,8 @@ export default function EdiSite(props) {
                 <Form.Control
                   required
                   type='text'
-                  placeholder='Ottawa'
-                  name={'address'}
+                  placeholder=''
+                  name='address'
                   value={address}
                   onChange={changeHandler}
                 />
@@ -319,7 +324,7 @@ export default function EdiSite(props) {
                   required
                   type='text'
                   placeholder='ON'
-                  name={'province'}
+                  name='province'
                   value={province}
                   onChange={changeHandler}
                 />
@@ -337,29 +342,31 @@ export default function EdiSite(props) {
         </Modal.Body>
       </Modal>
 
-      <Modal show={show===DELETE} onHide={handleClose}>
+    <div className='container'>
+
+      <Modal className='modalx' show={show===DELETE} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Site</Modal.Title>
         </Modal.Header>
         <Modal.Body>     
-          <Form>
-          <Form.Label>Are you sure you want to delete <b> {currentSite.name} </b>?</Form.Label>
+          <Form >
 
-          <Row className='mb-2'>
-              <Form.Group as={Row} md='12' controlId='validationCustom01'>
+          <Form.Label>Are you sure you want to delete <b> {currentSite.name} </b>?</Form.Label>
+              <Form.Group as={Row} md='8' controlId='validationCustom01'>
                 <Button type='button' variant='outline-danger' onClick={()=> delConfirm()} >
                   Confirm
                 </Button>
-                <pre> </pre>
+                <p/>
                 <Button type='button' variant='outline-success' onClick={()=>handleClose()}>
                   Cancel
                 </Button>
               </Form.Group>         
-            </Row>
            </Form>  
         </Modal.Body>
       </Modal>
-      
+    </div>
+             </div>
+   
     </>
   );
 }

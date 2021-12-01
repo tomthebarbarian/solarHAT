@@ -30,10 +30,18 @@ const calcModel = (e) => {
       cost c/kWh: ${cent_per_kWh}`)
 
   siteData.production = pvoutSum * e.size_kW
-  siteData.net = (pvoutSum * e.size_kW - e.usage_kWh)
-  siteData.cost = '$' + Math.round((e.usage_kWh * 1.35 * cent_per_kWh / 100) * 100) / 100
+  siteData.net = pvoutSum * e.size_kW - e.usage_kWh
+  const costSavings = Math.round((siteData.net * -1.35 * cent_per_kWh / 100))
+  siteData.eCosts = costSavings
   siteData.name = e.name.toLowerCase()
   siteData.model = model[e.province]
+
+  siteData.prod = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 }).format(pvoutSum * e.size_kW);
+  siteData.nett = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 }).format(pvoutSum * e.size_kW - e.usage_kWh);
+  siteData.usage = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 }).format(e.usage_kWh);
+  siteData.size = new Intl.NumberFormat('en-CA', { minimumFractionDigits: 1 }).format(e.size_kW);
+  siteData.cost = Intl.NumberFormat('bn', { style: 'currency', currency: 'USD', currencySign: 'accounting' }).format(costSavings)
+
   return siteData
 }
 
@@ -73,17 +81,6 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find()
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  });
-
-  router.get("/model", (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("dataModel")
       .find()
       .toArray(function (err, result) {
         if (err) throw err;

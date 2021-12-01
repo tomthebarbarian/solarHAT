@@ -12,7 +12,7 @@ module.exports = [
     id: ObjectId('61a6e8c00682f300f110beef'),
     name: "Lighthouse Labs",
     email: "lhl@lhl.com",
-    hash: "$2a$10$sRVqZJfZlBDGKag3sSyLXeBfrhaldUd9.ZXuNdzFebtO6Rohm2AR.",
+    hash: "$2a$10$N3BCEpGlU3ImsPgNPdaw7OkTN7IADKJ48K.GBbn5jV.PkfUkzeEqe"
 
   },
   {
@@ -25,6 +25,6 @@ module.exports = [
     id: ObjectId('61a6e8c00682f300f11b8ea7'),
     name: "aj",
     email: "aj@smartnvm.com",
-    hash: "$2a$10$sRVqZJfZlBDGKag3sSyLXeBfrhaldUd9.ZXuNdzFebtO6Rohm2AR.",
+    hash: "$2a$10$N3BCEpGlU3ImsPgNPdaw7OkTN7IADKJ48K.GBbn5jV.PkfUkzeEqe"
   },
 ];

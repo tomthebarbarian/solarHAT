@@ -14,18 +14,20 @@ const chartConfig = {
     datasets: []
   },
   options: {
+    indexAxis: 'y',
     scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
+      x: {
+        type: 'logarithmic',
+        position: 'left', // `axis` is determined by the position as `'y'`
+      }
+    }
+  }
 };
 
 export default function Scoreboard(props) {
   const [state, setState] = useState({
     data: [],
-    option: 'name',
+    option: 'net',
 
   });
 
@@ -49,7 +51,7 @@ export default function Scoreboard(props) {
 
   useEffect(() => {
     siteInfo(state.option);
-  }, [state.option]);
+  }, []);
 
   const changeHandler = (e) => {
     console.log('-------e.target.name--------', e.target.name);
@@ -60,7 +62,7 @@ export default function Scoreboard(props) {
 
   const chartContainer = useRef(null);
 
-  useEffect(() => {
+  // useEffect(() => {
     
     const size_kW = {
       type: 'bar',
@@ -75,7 +77,7 @@ export default function Scoreboard(props) {
       type:'bar',
       label: 'Production [kWh]',
       data: state.data.map((e) => e.production),
-      backgroundColor: ['rgba(99, 255, 120, 0.2)'],
+      backgroundColor: ['rgba(0, 232, 109, 0.2)'],
       borderColor: ['rgba(99, 255, 120, 1)'],
       borderWidth: 1,
     };
@@ -84,8 +86,8 @@ export default function Scoreboard(props) {
       type:'bar',
       label: 'Consumption [kWh]',
       data: state.data.map((e) => e.usage_kWh),
-      backgroundColor: ['rgba(133, 99, 255, 0.2)'],
-      borderColor: ['rgba(133, 99, 255, 1)'],
+      backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+      borderColor: ['rgba(255,99, 132,1'],
       borderWidth: 1,
     };
     
@@ -93,8 +95,8 @@ export default function Scoreboard(props) {
       type: 'bar',
       label: 'NET [kWh]',
       data: state.data.map((e) => e.net),
-      backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-      borderColor: ['rgba(255,99, 132,1'],
+      backgroundColor: ['rgba(133, 99, 255, 0.2)'],
+      borderColor: ['rgba(133, 99, 255, 1)'],
       borderWidth: 1,
     };
 
@@ -110,22 +112,20 @@ export default function Scoreboard(props) {
       graph.data.datasets.forEach((dataset) => dataset.data.push(data))
       graph.update()
     }
-  }, [state,chartContainer,chartConfig]);
+  // }, [state,chartContainer,chartConfig]);
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const newChartInstance = new Chart(chartContainer.current, chartConfig);
       setGraph(newChartInstance);
     }
-  }, [chartContainer, chartConfig]);
+  }, []);
 
   return (
     <>
     {/* {console.log(state.data)} */}
-    <div className='container text-center'>
-    <h4> Leader Board <br/> Top 10 Solar Sites </h4>
-      
-    </div>
+    <div className='map text-center'>
+    <h1> Leader Board <br/> Top 10 Solar Sites </h1>
     <table class="table">
   <thead>
     <tr>
@@ -150,27 +150,28 @@ export default function Scoreboard(props) {
     
   </thead>
   <tbody>
+    
     {state.data.map((site,index) => {
       return(
         <>
       <tr>
       
-        <th scope='row'>{index+1}</th>
+        <th>{index+1}</th>
         <td>{site.name}</td>
-        <td>{site.size_kW}</td>
-        <td>{site.production}</td>
-        <td>{site.usage_kWh}</td>
-        <td>{site.net}</td>
+        <td>{site.size}</td>
+        <td>{site.prod}</td>
+        <td>{site.usage}</td>
+        <td>{site.nett}</td>
       </tr>
       </>)
     })}
     </tbody>
     </table>
 
-      <div className='comparebar col-md-12 row'>
+      <div className=''>
         <canvas ref={chartContainer} />
       </div>
-    
+  </div>   
     </>
   )
 }

@@ -2,42 +2,76 @@
 $body-bg: rgb(243, 243, 243);
 $body-color: rgb(68, 68, 68);
 
-
-// .customNav {
-//     position: relative;
-//     display: flex;
-//     flex-wrap: wrap;
-//     align-items: center;
-//     justify-content: space-between;
-//     padding-top: 0;
-//     padding-bottom: 0;
-//     margin:0;
-//   }
-/* import bootstrap to set changes */
-.carousel {
-  max-height: calc(100vh - 30px);
-  overflow: hidden
-}
-
-.carousel-caption {
-  /* font-weight: 900; */
-  /* width: 150%; */
-  position: sticky;
-  bottom: 65%;
-  z-index: 10;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  color: #fff;
-  /* text-align: center; */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* margin-left: -35%;*/
-}
-
-
-
 .half-black {
   background: rgba(0, 0, 0, 0.7);
 }
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
+
+
+.customNav {
+  max-height: 5vh;
+
+}
+
+.navbar-dark .navbar-brand {
+  color: #ffffff;
+  font-size: 32px;
+}
+
+
+
+.half {
+  display: flex;
+ //  height: 500px;
+  flex-direction: column;
+  justify-content: flex-start;
+  // margin: 2rem 0;
+  // padding: 0 $spacing;
+  width: 100%;
+  min-height: 40vh;
+  max-height: 56vh;
+  margin:2vh 2vw 2vh 2vw;
+  overflow-x: hidden;
+ }
+
+
+
+
+.half-map {
+  display: flex;
+ //  height: 500px;
+  flex-direction: column;
+  justify-content: flex-start;
+  // overflow: hidden;
+  max-height: 51vh;
+
+ }
+
+
+.map {
+  display: flex;
+ //  height: 500px;
+  flex-direction: column;
+  justify-content: flex-start;
+  // margin: 2rem 0;
+  // padding: 0 $spacing;
+  width: 100%;
+  max-height: 95vh;
+ }
+ 
+
+ .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+  width: 80vw;
+  // align-self: center;
+  /* padding-right: var(--bs-gutter-x, 0.75rem); */
+  /* padding-left: var(--bs-gutter-x, 0.75rem); */
+}
+
+.modalx {
+  margin: 10% 0% 0% 0%; 
+  // border: red 2px solid;
+  // border-radius: 4px;
+  // width: 300px;
+  
+  }
