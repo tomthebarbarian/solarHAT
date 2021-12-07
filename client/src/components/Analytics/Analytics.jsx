@@ -56,11 +56,8 @@ export default function Analytics(props) {
  
   if (!state.userSites || !state.userSites.length) return  <Empty subtitle="No site data found!" content="Please add a site first" />
   
-  const siteInfo =  state.userSites[index]
   const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
   
-  const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
-
      console.log('-----on load --------->:',state.userSites)
     
     const axisLable = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']

@@ -9,11 +9,7 @@ const chartConfig = {
       labels: ['NET kWh', 'Consumption kWh', 'Production kWh'],
       datasets: [{
           label: 'production',
-<<<<<<< HEAD
-          data: [1,1,1],
-=======
           data: [5, 5, 10],
->>>>>>> 5d25c8c (- add drop down for analytics to show site specific stats)
           backgroundColor: [
               'rgba(255, 255, 200, 0.2)',
               'rgba(255, 132, 99, 0.2)',
