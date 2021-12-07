@@ -35,7 +35,6 @@ const SurplusProportion = (props) => {
   const {render, data} = props
   const chartContainer = useRef(null);
  
-<<<<<<< HEAD
 
   const [graph, setGraph] = useState({
     graph: {},
@@ -44,16 +43,6 @@ const SurplusProportion = (props) => {
   console.log({render})
 
 
-=======
-
-  const [graph, setGraph] = useState({
-    graph: {},
-  });
-
-  console.log({render})
-
-
->>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
   console.log(data)
   chartConfig.data.datasets.data = []
   chartConfig.data.datasets.data.push(data)
