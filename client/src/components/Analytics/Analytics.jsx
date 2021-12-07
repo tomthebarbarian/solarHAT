@@ -100,7 +100,7 @@ export default function Analytics(props) {
             size={siteInfo.size}
             prod={siteInfo.prod}
             usage={siteInfo.usage }
-            net={siteInfo.nett}
+            net={siteInfo.net}
             utilization={siteInfo.production / siteInfo.usage_kWh }
             netCost={ siteInfo.cost}
         /> 
