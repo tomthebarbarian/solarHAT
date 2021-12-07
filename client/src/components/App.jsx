@@ -161,14 +161,14 @@ export default function App() {
           <div >
             <Map className='map' state={state} setState={setState} />  
           </div>  
-          }
+          } 
         <div>
           {
           (nav.analytics &&  state.userSites.length >=0 ) && 
           < Analytics  className='container' state={state} setState={setState} />
           }
             
-          <Container />
+          {/* <Container />
             {nav.analytics &&  
             
                 // { (state.site > 0 ) && 
@@ -176,8 +176,7 @@ export default function App() {
                 
                 // }
             }
-         
-          {nav.leaderBoard &&  <Scoreboard/>}
+          // */}
       
           {nav.editMap &&
             <Col>
