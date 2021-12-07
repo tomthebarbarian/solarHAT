@@ -58,7 +58,7 @@ export default function Analytics(props) {
   
   const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
   
-     console.log('-----on load --------->:',state.userSites)
+    console.log('-----on load --------->:',state.userSites)
     
     const axisLable = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
