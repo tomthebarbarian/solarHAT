@@ -1,31 +1,30 @@
+const { ObjectId } = require("bson");
+
 //users collection
 module.exports = [
   {
+    id: ObjectId('61a6e8c00682f300f11b8a55'),
     name: "hamza",
     email: "hamza@hamza.com",
     hash: "$2a$10$sRVqZJfZlBDGKag3sSyLXeBfrhaldUd9.ZXuNdzFebtO6Rohm2AR.",
-
-    sites: [4],
   },
   {
-    name: "francis",
-    email: "francis@francis.com",
-    hash: "$2a$10$sRVqZJfZlBDGKag3sSyLXeBfrhaldUd9.ZXuNdzFebtO6Rohm2AR.",
+    id: ObjectId('61a6e8c00682f300f110beef'),
+    name: "Lighthouse Labs",
+    email: "lhl@lhl.com",
+    hash: "$2a$10$N3BCEpGlU3ImsPgNPdaw7OkTN7IADKJ48K.GBbn5jV.PkfUkzeEqe"
 
-    sites: [3],
   },
   {
+    id: ObjectId('61a6e8c00682f300f110eead'),
     name: "tom",
     email: "tom@tom.com",
     hash: "$2a$10$sRVqZJfZlBDGKag3sSyLXeBfrhaldUd9.ZXuNdzFebtO6Rohm2AR.",
-
-    sites: [2],
   },
   {
+    id: ObjectId('61a6e8c00682f300f11b8ea7'),
     name: "aj",
     email: "aj@smartnvm.com",
-    hash: "$2a$10$sRVqZJfZlBDGKag3sSyLXeBfrhaldUd9.ZXuNdzFebtO6Rohm2AR.",
-
-    sites: [1],
+    hash: "$2a$10$N3BCEpGlU3ImsPgNPdaw7OkTN7IADKJ48K.GBbn5jV.PkfUkzeEqe"
   },
 ];

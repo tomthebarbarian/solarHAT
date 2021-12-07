@@ -170,7 +170,7 @@ const long =  position.coords.longitude
   const { name, lat, long, usage_kWh, size_kW, address, province} = site;
 
   return (
-    <main className='cols'>
+    <main className='half container'>
       <h1> Add Site</h1>         
       <Form
         noValidate
@@ -179,79 +179,80 @@ const long =  position.coords.longitude
         className=''
       >
         <Row className='mb-3'>
-          <Form.Group as={Col} md='6' controlId='validationCustom01'>
+          <Form.Group as={Col} md='5' controlId='validationCustom01'>
             <Form.Label>Site Name</Form.Label>  
             
             <Form.Control
               required
               type='text'
-              placeholder='Example Site'
-              name={'name'}
+              placeholder=''
+              name='name'
               value={name}
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
           </Form.Group>
 
-          <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
-            <div id = "demo" >
-            <button > 
-              <img src='./geoicon.png' alt='logo' height='32' onClick={() => getLocation()} title="Get current location [Lat, Long]"/>
-             </button>
-            </div> 
-          
-            </Form.Group>
-        
+         
         </Row>
         <Row className='mb-3'>
-          <Form.Group as={Col} md='4' controlId='validationCustom02'>
+          <Form.Group as={Col} md='2' controlId='validationCustom02'>
             <Form.Label>Latitude</Form.Label>
             <Form.Control
               required
               type='text'
-              placeholder='45.5045'
-              name={'lat'}
+              placeholder=''
+              name='lat'
               value={lat}
               onChange={changeHandler}
             />
           {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
 
           </Form.Group>
-            <Form.Group as={Col} md='4' controlId='validationCustom02'>
+            <Form.Group as={Col} md='2' controlId='validationCustom02'>
             <Form.Label>Longitude</Form.Label>
             <Form.Control
               required
               type='text'
-              placeholder='-75.6554'
+              placeholder=''
               onChange={changeHandler}
-              name={'long'}
+              name='long'
               value={long}
             />
           </Form.Group> 
+          <Form.Group as={Col} md='1' className='icon' controlId='validationCustom02'>
+            <div id = "demo" >
+            <button > 
+              <img src='./geoicon.png' alt='logo' height='32' onClick={() => getLocation()} title="Geolocation [Lat, Long]"/>
+             </button>
+            </div> 
+          
+            </Form.Group>
+        
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
            
         </Row>
 
         <Row className='mb-3'>
-          <Form.Group as={Col} md='6' controlId='validationCustom01'>
+          <Form.Group as={Col} md='3' controlId='validationCustom01'>
             <Form.Label>Avg. Consumption [ kWh / Yr ]</Form.Label>
             <Form.Control
               required
               type='text'
               placeholder=''
-              name={'usage_kWh'}
+              name='usage_kWh'
               value={usage_kWh}
               onChange={changeHandler}
             />
             {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
           </Form.Group>
-          <Form.Group as={Col} md='4' controlId='validationCustom02'>
+          <Form.Group as={Col} md='3' controlId='validationCustom02'>
             <Form.Label>PV System Size [ kW ]</Form.Label>
             <Form.Control
               required
               type='text'
               placeholder=''
-              name={'size_kW'}
+              name='size_kW'
               value={size_kW}
               onChange={changeHandler}
             />
@@ -260,21 +261,13 @@ const long =  position.coords.longitude
         </Row>
         <Row className='mb-3'>
        
-        <Form.Group as={Col} md='1' controlId='validationCustom03'>
-        <Form.Label>Get</Form.Label>
-
-           <button > 
-              <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}/>
-          </button>
-          </Form.Group>
-      
-          <Form.Group as={Col} md='6' controlId='validationCustom03'>
+         <Form.Group as={Col} md='3' controlId='validationCustom03'>
             <Form.Label>address</Form.Label>
             <Form.Control
               required
               type='text'
-              placeholder='Ottawa'
-              name={'address'}
+              placeholder=''
+              name='address'
               value={address}
               onChange={changeHandler}
             />
@@ -282,35 +275,36 @@ const long =  position.coords.longitude
               Please provide a valid address.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md='3' controlId='validationCustom04'>
+          <Form.Group as={Col} md='2' controlId='validationCustom04'>
             <Form.Label>Province</Form.Label>
             <Form.Control
               required
               type='text'
-              placeholder='ON'
-              name={'province'}
+              placeholder=''
+              name='province'
               value={province}
               onChange={changeHandler}
             />
+
+        
              
             <Form.Control.Feedback type='invalid'>
               Please provide a valid state.
             </Form.Control.Feedback>
+            
           </Form.Group>
-          {/* <Form.Group as={Col} md='3' controlId='validationCustom05'>
-            <Form.Label>Zip</Form.Label>
-            <Form.Control
-              required
-              type='text'
-              placeholder='A0A 0Z0'
-              name={'zip'}
-              value={zip}
-              onChange={changeHandler}
-            />
-            <Form.Control.Feedback type='invalid'>
-              Please provide a valid zip.
-            </Form.Control.Feedback>
-          </Form.Group> */}
+          <Form.Group as={Col} md='3' controlId='validationCustom05'>
+           
+            <Form.Group as={Col} md='1' controlId='validationCustom03'>
+              <Form.Label >Get</Form.Label>
+
+                <button > 
+                    <img src='./geo.png' alt='logo' height='32' onClick={fetchLatLong}  title="Get address coordinates [Lat, Long]"/>
+                </button>
+            </Form.Group>
+       
+          
+           </Form.Group>
         </Row>
         <Button type='submit' variant='outline-success'>
           Submit

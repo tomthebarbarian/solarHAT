@@ -151,7 +151,7 @@ const Map = (props) => {
       L.control.layers(baseLay, overLay,{position: 'topleft'}).addTo(map)
     }
 
-  }, [map, myIcon, state])
+  }, [map, myIcon, state,pvOver])
 
   return (
     <>

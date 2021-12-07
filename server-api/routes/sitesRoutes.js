@@ -30,10 +30,18 @@ const calcModel = (e) => {
       cost c/kWh: ${cent_per_kWh}`)
 
   siteData.production = pvoutSum * e.size_kW
-  siteData.net = (pvoutSum * e.size_kW)
-  siteData.cost = '$' + Math.round((e.usage_kWh * 1.35 * cent_per_kWh / 100) * 100) / 100
+  siteData.net = pvoutSum * e.size_kW - e.usage_kWh
+  const costSavings = Math.round((siteData.net * -1.35 * cent_per_kWh / 100))
+  siteData.eCosts = costSavings
   siteData.name = e.name.toLowerCase()
   siteData.model = model[e.province]
+
+  siteData.prod = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 }).format(pvoutSum * e.size_kW);
+  siteData.nett = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 }).format(pvoutSum * e.size_kW - e.usage_kWh);
+  siteData.usage = new Intl.NumberFormat('en-CA', { maximumFractionDigits: 0 }).format(e.usage_kWh);
+  siteData.size = new Intl.NumberFormat('en-CA', { minimumFractionDigits: 1 }).format(e.size_kW);
+  siteData.cost = Intl.NumberFormat('bn', { style: 'currency', currency: 'USD', currencySign: 'accounting' }).format(costSavings)
+
   return siteData
 }
 
@@ -52,7 +60,7 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find({ owner: userId })
+      .find({ owner: param })
       .toArray(function (err, result) {
         if (err) throw err;
 
@@ -73,17 +81,6 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .find()
-      .toArray(function (err, result) {
-        if (err) throw err;
-        res.json(result);
-      })
-  });
-
-  router.get("/model", (req, res) => {
-    const dbConn = dbo.getDb();
-    dbConn
-      .collection("dataModel")
       .find()
       .toArray(function (err, result) {
         if (err) throw err;
@@ -123,7 +120,7 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .updateOne({ "_id": ObjectId(`${req.params.id}`) }, { $set: { ...site } }, { upsert: false }, function (err, result) {
+      .updateOne({ "_id": ObjectId(req.params.id) }, { $set: { ...site } }, { upsert: false }, function (err, result) {
         if (err) throw err;
         res.send(result)
       })
@@ -142,7 +139,7 @@ module.exports = (router, dbo) => {
     const dbConn = dbo.getDb();
     dbConn
       .collection("sites")
-      .deleteOne({ "_id": ObjectId(`${req.params.id}`) }, function (err, result) {
+      .deleteOne({ "_id": ObjectId(req.params.id) }, function (err, result) {
         if (err) throw err;
         res.send(result)
       })
@@ -180,180 +177,3 @@ module.exports = (router, dbo) => {
   return router;
 
 }
-  // module.exports = (router, dbo) => {
-
-  //   router.get("/api/sites", (req, res) => {
-
-  //     let db_connect = dbo.getDb("solar_flares");
-  //     db_connect
-  //       .collection("sites")
-  //       .find()
-  //       .sort({'consumption_kWh': -1})
-  //       .toArray(function (err, result) {
-  //         if (err) throw err;
-  //         res.json(result);
-  //       });
-  //   });
-  //   return router
-  // }
-
-
-// module.exports = (router, db) => {
-
-//   router.get("/m", (req, res) => {
-
-//     const id = 1;
-//     let query = `SELECT id, name from categories;`;
-
-//     console.log(query);
-
-
-//     db.query(query)
-//       .then(data => {
-//         const categories = data.rows;
-//         //res.send({categories})
-//         const strquery = `SELECT items.name  as title,
-//          items.description as description,
-//         items.price, items.url, items.id,
-//           categories.name as category ,
-//           categories.id as catId FROM items
-//            join categories on categories.id = category_id
-//             where category_id = 1`;
-
-//         return db.query(strquery)
-//           .then(foodItem => {
-//             const obj = Object.assign({}, { categories }, { foodItem: foodItem.rows })
-//             //res.send(obj)
-//             return obj;
-//           });
-//       })
-//       .then(data => {
-//         const templateVars = varInit(false, 200, 'customer', data);
-//         // res.send(data);
-//         res.json(templateVars);
-//       }
-
-
-//       )
-//       .catch(err => {
-//         res
-//           .status(500)
-//           .json({ error: err.message });
-//       });
-//   });
-
-//   router.get("/m/:id", (req, res) => {
-
-//     const id = req.params.id;
-//     console.log('=================================', id)
-//     let query = `SELECT id, name from categories;`;
-
-//     console.log(query);
-
-
-//     db.query(query)
-//       .then(data => {
-//         const categories = data.rows;
-//         //res.send({categories})
-//         const strquery = `SELECT items.name as title,
-//         items.description as description,
-//         items.price, items.url, items.id,
-//           categories.name as category ,
-//           categories.id as catId FROM items
-//            join categories on categories.id = category_id
-//             where category_id = $1`;
-
-//         return db.query(strquery, [id])
-//           .then(foodItem => {
-//             const obj = Object.assign({}, { categories }, { foodItem: foodItem.rows })
-//             return obj;
-//           });
-//       })
-//       .then(data => {
-//         const templateVars = varInit(false, 200, 'customer', data);
-//         //res.send(data);
-//         res.json(templateVars);
-//       }
-
-
-//       )
-//       .catch(err => {
-//         res
-//           .status(500)
-//           .json({ error: err.message });
-//       });
-//   });
-
-//   const getCategoryItems = function (id) {
-//     const strQuery = `SELECT * FROM items
-//     JOIN categories ON categories.id = category_id
-//     WHERE category_id = $1`;
-
-//     return db
-//       .query(strQuery, [id])
-//       .then((dBres) => dBres.row)
-//       .catch((err) => {
-//         console.log(err.message);
-//       });
-//   };
-//   exports.getCategoryItems = getCategoryItems;
-
-//   router.get("/items", (req, res) => {
-//     let query = `SELECT * FROM items`;
-//     console.log(query);
-//     db.query(query)
-//       .then(data => {
-//         const items = data.rows;
-//         res.json({ items });
-//       })
-//       .catch(err => {
-//         res
-//           .status(500)
-//           .json({ error: err.message });
-//       });
-//   });
-
-
-//   router.get("/test", (req, res) => {
-
-//     const id = 1;
-//     let query = `SELECT id, name from categories;`;
-
-//     console.log(query);
-
-
-//     db.query(query)
-//       .then(data => {
-//         const categories = data.rows;
-//         //res.send({categories})
-//         const strquery = `SELECT items.name as title,
-//          items.description as description,
-//         items.price, items.url, items.id,
-//           categories.name as category ,
-//           categories.id as catId FROM items
-//            join categories on categories.id = category_id
-//             where category_id = 1`;
-
-//         return db.query(strquery)
-//           .then(foodItem => {
-//             const obj = Object.assign({}, { categories }, { foodItem: foodItem.rows })
-//             //res.send(obj)
-//             return obj;
-//           });
-//       })
-//       .then(data => {
-//         const templateVars = varInit(false, 200, 'customer', data);
-//         res.json(templateVars);
-//       }
-
-
-//       )
-//       .catch(err => {
-//         res
-//           .status(500)
-//           .json({ error: err.message });
-//       });
-//   });
-
-//   return router;
-// };

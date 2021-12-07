@@ -15,7 +15,7 @@ export default function useAppData(props) {
     logged: false,
     user: null,
     map: {},
-    marker: { lat: 45, lng: -100 },
+    markers: [],
     sites: [],
     userSites: [],
     count: 0
@@ -43,15 +43,6 @@ export default function useAppData(props) {
 
   }
 
-  function resetdB() {
-    apiCall('reset', setLoading, setState);
-  }
-  function fetchDays() {
-    apiCall('days', setLoading, setState);
-  }
-  function fetchAppts() {
-    apiCall('appts', setLoading, setState);
-  }
 
   useEffect(() => {
     //fetch data with API call
@@ -61,7 +52,7 @@ export default function useAppData(props) {
         if (res.data.code === 200) {
           setState(prev => ({ ...prev, logged: true, user: res.data.user[0] }))
 
-
+          console.log('login check', state.user._id)
           fetchData(state.user._id)
             .then((data) => {
               setState((prev) => ({
@@ -88,9 +79,5 @@ export default function useAppData(props) {
     apiLogin,
     apiLogout,
     apiRegister,
-    apiCall,
-    resetdB,
-    fetchDays,
-    fetchAppts,
   };
 }
