@@ -168,16 +168,8 @@ export default function App() {
           < Analytics  className='container' state={state} setState={setState} />
           }
             
-          {/* <Container />
-            {nav.analytics &&  
-            
-                // { (state.site > 0 ) && 
-                    < Analytics state={state} setState={setState} />
-                
-                // }
-            }
-          // */}
-      
+          {nav.leaderBoard &&  <Scoreboard/>}
+
           {nav.editMap &&
             <Col>
             <Row xs={6}>
