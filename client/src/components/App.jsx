@@ -162,13 +162,22 @@ export default function App() {
             <Map className='map' state={state} setState={setState} />  
           </div>  
           }
-
         <div>
-      {          (nav.analytics &&  state.userSites.length >=0 ) && 
-            < Analytics  className='container' state={state} setState={setState} />
+          {
+          (nav.analytics &&  state.userSites.length >=0 ) && 
+          < Analytics  className='container' state={state} setState={setState} />
+          }
             
-            {nav.leaderBoard &&  <Scoreboard/>}
-
+          <Container />
+            {nav.analytics &&  
+            
+                // { (state.site > 0 ) && 
+                    < Analytics state={state} setState={setState} />
+                
+                // }
+            }
+         
+          {nav.leaderBoard &&  <Scoreboard/>}
       
           {nav.editMap &&
             <Col>
