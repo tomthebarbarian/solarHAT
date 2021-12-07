@@ -190,18 +190,19 @@ export default function App() {
           }
          </div>
        
-          {nav.mySites &&
-              <div >  
-               <EditSite className="container" state={state} setState={setState}/>              
-                   <p/>
-              <div className='half-map'>
-                <Map  state={state} setState={setState}/>          
-               </div>
-          }
-        
+        {nav.mySites &&
+          <div >  
+            <EditSite className="container" state={state} setState={setState}/>              
+                <p/>
+            <div className='half-map'>
+              <Map  state={state} setState={setState}/>          
+            </div>
         </div>
+        }
+        
 
-          {nav.addSite &&
+          {
+            nav.addSite &&
              <div >  
                 <AddSite className="" state={state} setState={setState}/>              
                   <p/>
