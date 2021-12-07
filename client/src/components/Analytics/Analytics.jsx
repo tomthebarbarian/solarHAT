@@ -12,12 +12,7 @@ import "./Analytics.scss"
 import axios from 'axios'
 
 const Empty = (props) => {
-<<<<<<< HEAD
     console.log(props)
-=======
-  const {register} = props
-  console.log(props)
->>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
   return (
     <div class="text">
       <h2> {props.title} </h2>
@@ -32,7 +27,6 @@ export default function Analytics(props) {
   // Props should be named provinceModel, and sites
   const {state, setState} = props
 
-<<<<<<< HEAD
   const [index, setIndex] = useState(0)
   const [siteInfo,setSiteInfo] = useState({})
 
@@ -58,24 +52,10 @@ export default function Analytics(props) {
     setSiteInfo (prev =>( {...state.userSites[index]}))
   },[state.userSites,index])
 
-=======
- 
-  
-  const [index, setIndex] = useState(0)
-  const changeHandler =(e) => {
-    setIndex(prev => e.target.name)
-    setState(prev => ({...prev , toggle:1^index}))
-    console.log(index) 
-  }
->>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
 
  
   if (!state.userSites || !state.userSites.length) return  <Empty subtitle="No site data found!" content="Please add a site first" />
   
-<<<<<<< HEAD
-=======
-  const siteInfo =  state.userSites[index]
->>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
   const chartData = [siteInfo.net, siteInfo.usage_kWh, siteInfo.production]
   
     console.log('-----on load --------->:',state.userSites)
@@ -105,13 +85,9 @@ export default function Analytics(props) {
         return singleSite
     })
 
-<<<<<<< HEAD
   
 
  
-=======
-
->>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
   return (
 
 
@@ -121,11 +97,7 @@ export default function Analytics(props) {
             size={siteInfo.size}
             prod={siteInfo.prod}
             usage={siteInfo.usage }
-<<<<<<< HEAD
             net={siteInfo.net}
-=======
-            net={siteInfo.nett}
->>>>>>> ddde9e2 (- add drop down for analytics to show site specific stats)
             utilization={siteInfo.production / siteInfo.usage_kWh }
             netCost={ siteInfo.cost}
         /> 
