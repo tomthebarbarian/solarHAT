@@ -97,9 +97,9 @@ export default function Analytics(props) {
             size={siteInfo.size}
             prod={siteInfo.prod}
             usage={siteInfo.usage }
-            net={siteInfo.net}
+            net={siteInfo.nett} // Not a typo, it's the formatted net
             utilization={siteInfo.production / siteInfo.usage_kWh }
-            netCost={ siteInfo.cost}
+            netCost={ siteInfo.eCosts}
         /> 
         <SurplusProportion data={chartData} render={index}/>
 
